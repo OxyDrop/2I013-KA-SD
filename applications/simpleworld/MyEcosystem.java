@@ -10,7 +10,7 @@ public class MyEcosystem {
     
 	public static void main(String[] args) {
 
-		WorldOfTrees myWorld = new WorldOfTrees();
+		WorldOfTrees_1 myWorld = new WorldOfTrees_1();
 		
 		// parametres:
 		// 1: le "monde" (ou sont definis vos automates cellulaires et agents
