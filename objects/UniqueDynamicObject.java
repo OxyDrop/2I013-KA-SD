@@ -13,11 +13,11 @@ abstract public class UniqueDynamicObject // UniqueObject are object defined wit
 	protected int x,y;
 	protected World world;
 	
-	public UniqueDynamicObject(int __x, int __y, World __world) 
+	public UniqueDynamicObject(int x, int y, World world) 
 	{
-		this.x = __x;
-		this.y = __y;
-		this.world = __world;
+		this.x = x;
+		this.y = y;
+		this.world = world;
 	}
 	
 	abstract public void step();

@@ -5,6 +5,7 @@
 package applications.simpleworld;
 
 import javax.media.opengl.GL2;
+import java.util.ArrayList;
 
 import objects.UniqueDynamicObject;
 
@@ -12,9 +13,33 @@ import worlds.World;
 
 public class Agent extends UniqueDynamicObject{
 	
-	public Agent ( int __x , int __y, World __world )
+	ArrayList<Agent> wagent = world.getAgentListe(); //A REMPLACER PAR UNE AGENT LISTE
+	
+	public Agent ( int x , int y, World world )
 	{
-		super(__x,__y,__world);
+		super(x,y,world);
+	}
+	
+	 public static double distanceTo(Agent a, Agent b)
+	{ 
+		return Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2));
+	}
+	public boolean reproduction(Agent a)
+	{
+		return (a.getClass()==this.getClass() && a!=this && distanceTo(a,this)==0);
+	}
+	
+	public void reproduceAll()
+	{
+		ArrayList<Agent> cpy = new ArrayList<Agent>();
+		
+		for (UniqueDynamicObject i1 : wagent)
+				if (i1 instanceof Agent && this.reproduction((Agent)i1)) 
+					cpy.add(new Agent(x,y,world)); 
+		
+		for(Agent p : cpy) {
+			wagent.add(p);
+		}
 	}
 	
 	public void step() 

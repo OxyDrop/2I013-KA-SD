@@ -6,7 +6,7 @@ package worlds;
 
 import java.util.ArrayList;
 import javax.media.opengl.GL2;
-
+import applications.simpleworld.*;
 import cellularautomata.*;
 
 import objects.*;
@@ -17,6 +17,8 @@ public abstract class World {
 
 	protected ArrayList<UniqueObject> uniqueObjects = new ArrayList<UniqueObject>();
 	protected ArrayList<UniqueDynamicObject> uniqueDynamicObjects = new ArrayList<UniqueDynamicObject>();
+	
+	protected ArrayList<Agent> agent = new ArrayList<>();
     
 	protected int dxCA;
 	protected int dyCA;
@@ -37,7 +39,9 @@ public abstract class World {
     {
     	// ... cf. init() for initialization
     }
-    
+	
+   
+	
     public void init( int __dxCA, int __dyCA, double[][] landscape )
     {
     	dxCA = __dxCA;
@@ -130,7 +134,14 @@ public abstract class World {
         
         return color;
     }
-
+	
+	public ArrayList<UniqueDynamicObject> getUniqueDynamicListe(){
+		return uniqueDynamicObjects;
+	}
+	public ArrayList<Agent> getAgentListe(){
+		return agent;
+	}
+	
 	abstract public void displayObjectAt(World _myWorld, GL2 gl, int cellState, int x,
 			int y, double height, float offset,
 			float stepX, float stepY, float lenX, float lenY,
