@@ -13,8 +13,6 @@ import worlds.World;
 
 public class Agent extends UniqueDynamicObject{
 	
-	ArrayList<Agent> wagent = world.getAgentListe(); //A REMPLACER PAR UNE AGENT LISTE
-	
 	public Agent ( int x , int y, World world )
 	{
 		super(x,y,world);
@@ -54,6 +52,7 @@ public class Agent extends UniqueDynamicObject{
 	public void reproduceAll()
 	{
 		ArrayList<Agent> cpy = new ArrayList<Agent>();
+		ArrayList<Agent> wagent = this.world.getAgentListe();
 		
 		for (Agent i1 : wagent)
 				if (this.reproduction((Agent)i1)) 
@@ -80,7 +79,7 @@ public class Agent extends UniqueDynamicObject{
 					else
 						this.y = ( this.y - 1 +  this.world.getHeight() ) % this.world.getHeight() ;
 		
-		for(Agent ag : wagent)
+		for(Agent ag : this.world.getAgentListe())
 			ag.reproduceAll();
 		}
 	}
