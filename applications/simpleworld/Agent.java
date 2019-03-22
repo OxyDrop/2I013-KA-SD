@@ -18,9 +18,7 @@ public class Agent extends UniqueDynamicObject{
 		super(x,y,world);
 	}
 	
-	public boolean equals(Object o) {
-		if (this == o) 
-			return true;
+	public boolean equals(Object o) { //verifie l'egalité des arguments
 		
 		if (o == null) 
 			return false;
@@ -36,34 +34,33 @@ public class Agent extends UniqueDynamicObject{
 	}
 	
 	@Override
-	public Agent clone()
+	public Agent clone() //clone un agent
 	{
 		return new Agent(x,y,world);
 	}
-	 public static double distanceTo(Agent a, Agent b)
+	 public static double distanceTo(Agent a, Agent b) //verifie la distance relative entre deux agents
 	{ 
 		return Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2));
 	}
-	public boolean reproduction(Agent a)
+	public boolean reproduction(Agent a) //retourne vrai si deux agents verifient les conditions de reproduction
 	{
 		return (a.getClass()==this.getClass() && a!=this && distanceTo(a,this)==0);
 	}
 	
-	public void reproduceAll()
+	public void reproduceAll() //reproduit tous les agents selon les conditions de reproduction
 	{
 		ArrayList<Agent> cpy = new ArrayList<Agent>();
 		ArrayList<Agent> wagent = this.world.getAgentListe();
 		
-		for (Agent i1 : wagent)
-				if (this.reproduction((Agent)i1)) 
-					cpy.add(new Agent(x,y,world)); 
+		for (Agent a : wagent)
+				if (this.reproduction((Agent)a)) 
+					cpy.add(new Agent(1,1,world)); 
 		
-		for(Agent p : cpy) {
+		for(Agent p : cpy) 
 			wagent.add(p);
-		}
 	}
 	
-	public void step() 
+	public void step()  //pas d'un agent, deplacement et reproduction
 	{
 		if ( world.getIteration() % 20 == 0 )
 		{
@@ -78,9 +75,6 @@ public class Agent extends UniqueDynamicObject{
 						this.y = ( this.y + 1 ) % this.world.getHeight() ;
 					else
 						this.y = ( this.y - 1 +  this.world.getHeight() ) % this.world.getHeight() ;
-		
-		for(Agent ag : this.world.getAgentListe())
-			ag.reproduceAll();
 		}
 	}
 

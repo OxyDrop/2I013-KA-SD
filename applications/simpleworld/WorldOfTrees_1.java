@@ -89,12 +89,14 @@ public class WorldOfTrees_1 extends World {
     	cellularAutomata.init();
     }
     
+	@Override
     protected void stepCellularAutomata()
     {
     	if ( iteration%10 == 0 )
     		cellularAutomata.step();
     }
     
+	@Override
     protected void stepAgents()
     {
     	// nothing to do.
@@ -102,6 +104,7 @@ public class WorldOfTrees_1 extends World {
     	{
     		this.agent.get(i).step();
     	}
+		System.out.println("Nombre agent = "+agent.size());
     }
 
     public int getCellValue(int x, int y) // used by the visualization code to call specific object display.
@@ -129,7 +132,6 @@ public class WorldOfTrees_1 extends World {
 			// nothing to display at this location.
 		}
 	}
-
 	//public void displayObject(World _myWorld, GL2 gl, float offset,float stepX, float stepY, float lenX, float lenY, float heightFactor, double heightBooster) { ... } 
     
    
