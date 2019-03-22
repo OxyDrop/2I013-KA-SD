@@ -20,6 +20,28 @@ public class Agent extends UniqueDynamicObject{
 		super(x,y,world);
 	}
 	
+	public boolean equals(Object o) {
+		if (this == o) 
+			return true;
+		
+		if (o == null) 
+			return false;
+		
+		if (getClass() != o.getClass()) 
+			return false;
+		
+		Agent other = (Agent) o;
+		if (x != other.x && y != other.y--) 
+			return false;
+		
+		return true;
+	}
+	
+	@Override
+	public Agent clone()
+	{
+		return new Agent(x,y,world);
+	}
 	 public static double distanceTo(Agent a, Agent b)
 	{ 
 		return Math.sqrt(Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2));
@@ -33,8 +55,8 @@ public class Agent extends UniqueDynamicObject{
 	{
 		ArrayList<Agent> cpy = new ArrayList<Agent>();
 		
-		for (UniqueDynamicObject i1 : wagent)
-				if (i1 instanceof Agent && this.reproduction((Agent)i1)) 
+		for (Agent i1 : wagent)
+				if (this.reproduction((Agent)i1)) 
 					cpy.add(new Agent(x,y,world)); 
 		
 		for(Agent p : cpy) {
@@ -57,9 +79,13 @@ public class Agent extends UniqueDynamicObject{
 						this.y = ( this.y + 1 ) % this.world.getHeight() ;
 					else
 						this.y = ( this.y - 1 +  this.world.getHeight() ) % this.world.getHeight() ;
+		
+		for(Agent ag : wagent)
+			ag.reproduceAll();
 		}
 	}
 
+	@Override
     public void displayUniqueObject(World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight)
     {
 

@@ -13,11 +13,11 @@ abstract public class UniqueObject // UniqueObject are object defined with parti
 	protected int x,y;
 	protected World world;
 	
-	public UniqueObject(int __x, int __y, World __world) 
+	public UniqueObject(int x, int y, World world) 
 	{
-		this.world = __world;
-		this.x = __x;
-		this.y = __y;
+		this.world = world;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public int[] getCoordinate()

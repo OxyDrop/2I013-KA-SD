@@ -29,7 +29,18 @@ abstract public class UniqueDynamicObject // UniqueObject are object defined wit
 		coordinate[1] = this.y;
 		return coordinate;
 	}
+	public int getX()
+	{
+		return x;
+	}
+	public int getY()
+	{
+		return y;
+	}
 	
+	abstract public UniqueDynamicObject clone();
+	@Override
+	abstract public boolean equals(Object o);
 	abstract public void displayUniqueObject(World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight );
 
 }

@@ -135,10 +135,12 @@ public abstract class World {
         return color;
     }
 	
-	public ArrayList<UniqueDynamicObject> getUniqueDynamicListe(){
+	public ArrayList<UniqueDynamicObject> getUniqueDynamicListe()
+	{
 		return uniqueDynamicObjects;
 	}
-	public ArrayList<Agent> getAgentListe(){
+	public ArrayList<Agent> getAgentListe()
+	{
 		return agent;
 	}
 	

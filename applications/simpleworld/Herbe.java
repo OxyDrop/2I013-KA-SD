@@ -1,7 +1,7 @@
 package applications.simpleworld;
 
 
-import interfaces.*;
+import Interfaces.*;
 
 import javax.media.opengl.GL2;
 
@@ -11,11 +11,10 @@ import worlds.World;
 
 public class Herbe extends Agent implements Eliminable
 {
-	
 	int health;
-	public Herbe ( int __x , int __y , World __world )
+	public Herbe ( int x , int y , World world )
 	{
-		super(__x, __y, __world);
+		super(x, y, world);
 		health = 4048;
 	}
 	

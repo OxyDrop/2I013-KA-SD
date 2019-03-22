@@ -1,7 +1,7 @@
 package applications.simpleworld;
 
 
-import interfaces.*;
+import Interfaces.*;
 
 import javax.media.opengl.GL2;
 

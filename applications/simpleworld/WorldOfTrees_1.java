@@ -12,73 +12,75 @@ import worlds.World;
 public class WorldOfTrees_1 extends World {
 
     protected ForestCA cellularAutomata;
+	/*
+	protected int iteration = 0;
 
-    public void init ( int __dxCA, int __dyCA, double[][] landscape )
+	protected ArrayList<UniqueObject> uniqueObjects = new ArrayList<UniqueObject>();
+	protected ArrayList<UniqueDynamicObject> uniqueDynamicObjects = new ArrayList<UniqueDynamicObject>();
+	
+	protected ArrayList<Agent> agent = new ArrayList<>();
+    
+	protected int dxCA;
+	protected int dyCA;
+
+	protected int indexCA;
+
+	//protected CellularAutomataInteger cellularAutomata; // TO BE DEFINED IN CHILDREN CLASSES
+    
+	protected CellularAutomataDouble cellsHeightValuesCA;
+	protected CellularAutomataDouble cellsHeightAmplitudeCA;
+	*/
+	
+    public void init ( int dxCA, int dyCA, double[][] landscape )
     {
-    	super.init(__dxCA, __dyCA, landscape);
+    	super.init(dxCA, dyCA, landscape);
     	int cellState;
-    	// add colors
-    	
-    	for ( int x = 0 ; x < __dxCA ; x++ )
-    		for ( int y = 0 ; y < __dyCA ; y++ )
+    	/*-----------------COULEURS-----------------------------*/
+    	for ( int x = 0 ; x < dxCA ; x++ )
+    		for ( int y = 0 ; y < dyCA ; y++ )
     		{
 	        	float color[] = new float[3];
 
 	        	float height = (float) this.getCellHeight(x, y);
 		    	
 		        if ( height >= 0 )
-		        {
-		        	// snowy mountains
-		        	/**/
+				{	// snowy mountain
 		        	color[0] = height / (float)this.getMaxEverHeight();
 					color[1] = height / (float)this.getMaxEverHeight();
 					color[2] = height / (float)this.getMaxEverHeight();
-					/**/
-		        	
 					// green mountains
 		        	/*
 		        	color[0] = height / ( (float)this.getMaxEverHeight() );
 					color[1] = 0.9f + 0.1f * height / ( (float)this.getMaxEverHeight() );
 					color[2] = height / ( (float)this.getMaxEverHeight() );
-					/**/
+					*/
 		        }
 		        else
-		        {
-		        	// water
+		        {	// water
 					color[0] = 0.1f;
 					color[1] = 0.1f;
 					color[2] = 0.5f;
 		        }
 		        this.cellsColorValues.setCellState(x, y, color);
-		        
-		        
     		}
-    	
-    	// add some objects
+    	/*-----------------AJOUT OBJETS--------------------*/
     	for ( int i = 0 ; i < 11 ; i++ )
     	{
     		if ( i%10 == 0 )
     			uniqueObjects.add(new Monolith(110,110+i,this)); // Colonnes de l arc
-    		
     		else
     			uniqueObjects.add(new BridgeBlock(110,110+i,this)); // Pont de l arc
-    			
-    	}
-    	
-    	uniqueDynamicObjects.add(new Agent(64,64,this));
-    	uniqueDynamicObjects.add(new GrandArbre(65,65,this));
-
-    	//uniqueDynamicObjects.add(new TreeAgent(65,65,this));
-    	
+		}
+		
     	// populate with trees
-    	for (int i = 0 ; i < __dxCA ; i++)
+    	for (int i = 0 ; i < dxCA ; i++)
     	{
-    		for (int j = 0 ; j < __dyCA ; j++)
+    		for (int j = 0 ; j < dyCA ; j++)
     		{
     			cellState = this.getCellValue(i, j);
     			if (cellState == 1)
     			{
-    				if (Math.random() < 0.005)
+    				if (Math.random() < 0.009)
     				{
     					uniqueDynamicObjects.add(new GrandArbre(i,j,this));
     				}
@@ -106,9 +108,9 @@ public class WorldOfTrees_1 extends World {
     protected void stepAgents()
     {
     	// nothing to do.
-    	for ( int i = 0 ; i < this.uniqueDynamicObjects.size() ; i++ )
+    	for ( int i = 0 ; i < this.agent.size() ; i++ )
     	{
-    		this.uniqueDynamicObjects.get(i).step();
+    		this.agent.get(i).step();
     	}
     }
 
