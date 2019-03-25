@@ -76,7 +76,7 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
 		 * 
 		 * Bonnes pratiques:
 		 * - gl.Begin() ... gl.glEnd(); : faire un minimum d'appel, idealement un par it�ration. (gain de 50% a 100% ici)
-		 * - gl.glCullFace(GL.GL_FRONT); ... gl.glEnable(GL.GL_CULL_FACE); : si la scene le permet, r�duit le nb de polyg a afficher.
+		 * - gl.glCullFace(GL.GL_FRONT); ... gl.glEnable(GL.GL_CULL_FACE); : si la scene le permet, reduit le nb de polyg a afficher.
 		 * - TRIANGLE SPLIT permet de r�duire le nombre d'appels a OpenGL (gl.begin et end)
 		 * - each call to gl.glColor3f costs a lot (speed is down by two if no call!)
 		 */

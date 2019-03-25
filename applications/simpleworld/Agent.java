@@ -54,7 +54,7 @@ public class Agent extends UniqueDynamicObject{
 		
 		for (Agent a : wagent)
 				if (this.reproduction((Agent)a)) 
-					cpy.add(new Agent(1,1,world)); 
+					cpy.add(new Agent(x,y,world)); 
 		
 		for(Agent p : cpy) 
 			wagent.add(p);
