@@ -20,15 +20,15 @@ public abstract class World {
 	
 	protected ArrayList<Agent> agent = new ArrayList<>();
     
-	protected int dxCA;
-	protected int dyCA;
+	protected int dx;
+	protected int dy;
 
 	protected int indexCA;
 
 	//protected CellularAutomataInteger cellularAutomata; // TO BE DEFINED IN CHILDREN CLASSES
     
-	protected CellularAutomataDouble cellsHeightValuesCA;
-	protected CellularAutomataDouble cellsHeightAmplitudeCA;
+	protected CellularAutomataDouble cellsHeightValuesCA; //valeur altitude
+	protected CellularAutomataDouble cellsHeightAmplitudeCA; //valeur amplitude
 	
 	public CellularAutomataColor cellsColorValues;
 
@@ -42,23 +42,24 @@ public abstract class World {
 	
    
 	
-    public void init( int __dxCA, int __dyCA, double[][] landscape )
+    public void init( int dx, int dy, double[][] landscape )
     {
-    	dxCA = __dxCA;
-    	dyCA = __dyCA;
+    	this.dx = dx;
+    	this.dy = dy;
     	
     	iteration = 0;
 
-    	this.cellsHeightValuesCA = new CellularAutomataDouble (__dxCA,__dyCA,false);
-    	this.cellsHeightAmplitudeCA = new CellularAutomataDouble (__dxCA,__dyCA,false);
+    	this.cellsHeightValuesCA = new CellularAutomataDouble (dx,dy,false);
+    	this.cellsHeightAmplitudeCA = new CellularAutomataDouble (dx,dy,false);
     	
-    	this.cellsColorValues = new CellularAutomataColor(__dxCA,__dyCA,false);
+    	this.cellsColorValues = new CellularAutomataColor(dx,dy,false);
     	
     	// init altitude and color related information
-    	for ( int x = 0 ; x != dxCA ; x++ )
-    		for ( int y = 0 ; y != dyCA ; y++ )
+    	for ( int x = 0 ; x != dx ; x++ )
+    		for ( int y = 0 ; y != dy ; y++ )
     		{
     			// compute height values (and amplitude) from the landscape for this CA cell 
+                        // Minimum entre (le minimum entre centre-droite et le minimum entrebas-basgauche)
     			double minHeightValue = Math.min(Math.min(landscape[x][y],landscape[x+1][y]),Math.min(landscape[x][y+1],landscape[x+1][y+1]));
     			double maxHeightValue = Math.max(Math.max(landscape[x][y],landscape[x+1][y]),Math.max(landscape[x][y+1],landscape[x+1][y+1])); 
     			
@@ -86,7 +87,7 @@ public abstract class World {
     	        */
     		}
     	
-    	initCellularAutomata(__dxCA,__dyCA,landscape);
+    	initCellularAutomata(dx,dy,landscape);
 
     }
     
@@ -121,14 +122,14 @@ public abstract class World {
     
     public double getCellHeight(int x, int y) // used by the visualization code to set correct height values
     {
-    	return cellsHeightValuesCA.getCellState(x%dxCA,y%dyCA);
+    	return cellsHeightValuesCA.getCellState(x%dx,y%dy);
     }
     
     // ---- 
     
     public float[] getCellColorValue(int x, int y) // used to display cell color
     {
-    	float[] cellColor = this.cellsColorValues.getCellState( x%this.dxCA , y%this.dyCA );
+    	float[] cellColor = this.cellsColorValues.getCellState(x%this.dx , y%this.dy );
 
     	float[] color  = {cellColor[0],cellColor[1],cellColor[2],1.0f};
         
@@ -160,8 +161,8 @@ public abstract class World {
     		agent.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
 	}
     
-	public int getWidth() { return dxCA; }
-	public int getHeight() { return dxCA; }
+	public int getWidth() { return dx; }
+	public int getHeight() { return dx; }
 
 	public double getMaxEverHeight() { return this.maxEverHeightValue; }
 	public double getMinEverHeight() { return this.minEverHeightValue; }

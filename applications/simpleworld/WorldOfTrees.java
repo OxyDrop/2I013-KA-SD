@@ -13,14 +13,14 @@ public class WorldOfTrees extends World {
 
     protected ForestCA cellularAutomata;
 
-    public void init ( int __dxCA, int __dyCA, double[][] landscape )
+    public void init ( int dx, int dy, double[][] landscape )
     {
-    	super.init(__dxCA, __dyCA, landscape);
+    	super.init(dx, dy, landscape);
     	
     	// add colors
     	
-    	for ( int x = 0 ; x < __dxCA ; x++ )
-    		for ( int y = 0 ; y < __dyCA ; y++ )
+    	for ( int x = 0 ; x < dx ; x++ )
+    		for ( int y = 0 ; y < dy ; y++ )
     		{
 	        	float color[] = new float[3];
 
@@ -88,12 +88,12 @@ public class WorldOfTrees extends World {
 
     public int getCellValue(int x, int y) // used by the visualization code to call specific object display.
     {
-    	return cellularAutomata.getCellState(x%dxCA,y%dyCA);
+    	return cellularAutomata.getCellState(x%dx,y%dy);
     }
 
     public void setCellValue(int x, int y, int state)
     {
-    	cellularAutomata.setCellState( x%dxCA, y%dyCA, state);
+    	cellularAutomata.setCellState( x%dx, y%dy, state);
     }
     
 	public void displayObjectAt(World _myWorld, GL2 gl, int cellState, int x,

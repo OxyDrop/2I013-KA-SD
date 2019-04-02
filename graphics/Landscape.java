@@ -51,7 +51,7 @@ import landscapegenerator.PerlinNoiseLandscapeGenerator;
  */
 public class Landscape implements GLEventListener, KeyListener, MouseListener{
 	
-		private World _myWorld; 
+		private World myWorld; 
 	
 		private static GLCapabilities caps;  // GO FAST ???
 	
@@ -127,11 +127,11 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
         /**
          * 
          */
-        public Landscape (World __myWorld, int __dx, int __dy, double scaling, double landscapeAltitudeRatio)
+        public Landscape (World myWorld, int dx, int dy, double scaling, double landscapeAltitudeRatio)
         {
-    		_myWorld = __myWorld;
+    		this.myWorld = myWorld;
 
-    		landscape = PerlinNoiseLandscapeGenerator.generatePerlinNoiseLandscape(__dx,__dy,scaling,landscapeAltitudeRatio,10); // 11
+    		landscape = PerlinNoiseLandscapeGenerator.generatePerlinNoiseLandscape(dx,dy,scaling,landscapeAltitudeRatio,10); // 11
     		
     		initLandscape();
         }
@@ -139,11 +139,11 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
         /**
          * 
          */
-        public Landscape (World __myWorld, String __filename, double scaling, double landscapeAltitudeRatio)
+        public Landscape (World myWorld, String filename, double scaling, double landscapeAltitudeRatio)
         {
-    		_myWorld = __myWorld;
+    		this.myWorld = myWorld;
 
-    		landscape = LoadFromFileLandscape.load(__filename,scaling,landscapeAltitudeRatio);
+    		landscape = LoadFromFileLandscape.load(filename,scaling,landscapeAltitudeRatio);
 
     		initLandscape();
         }
@@ -158,7 +158,7 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
 
     		System.out.println("Landscape contains " + dxView*dyView + " tiles. (" + dxView + "x" + dyView +")");
         	
-    		_myWorld.init(dxView-1,dyView-1,landscape);
+    		myWorld.init(dxView-1,dyView-1,landscape);
     		
     		heightFactor = 32.0f; //64.0f; // was: 32.0f;
             heightBooster = 6.0; // default: 2.0 // 6.0 makes nice high mountains.
@@ -372,7 +372,7 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
                 
         		// ** update Cellular Automata
             	
-            	_myWorld.step();
+            	myWorld.step();
 
         		// ** draw everything
 
@@ -385,9 +385,9 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
                 	for ( int y = 0 ; y < dyView-1 ; y++ )
                 	{
            			 	
-		                double height = _myWorld.getCellHeight(x+movingX,y+movingY);
-           			 	int cellState = _myWorld.getCellValue(x+movingX,y+movingY);	
-           			 	float[] color = _myWorld.getCellColorValue(x+movingX,y+movingY);
+		                double height = myWorld.getCellHeight(x+movingX,y+movingY);
+           			 	int cellState = myWorld.getCellValue(x+movingX,y+movingY);	
+           			 	float[] color = myWorld.getCellColorValue(x+movingX,y+movingY);
 
 	                	// compute CA-based coloring
 
@@ -464,7 +464,7 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
                         if ( DISPLAY_OBJECTS == true) // calls my world with the enough info to display anything at this location.
                         {
                         	float normalizeHeight = ( smoothFactor[0] + smoothFactor[1] + smoothFactor[2] + smoothFactor[3] ) / 4.f * (float)heightBooster * heightFactor;
-                        	_myWorld.displayObjectAt(_myWorld,gl,cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+                        	myWorld.displayObjectAt(myWorld,gl,cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
                         }
                 	}
 	            
@@ -475,7 +475,7 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
 	            if ( DISPLAY_OBJECTS == true) // calls my world with enough info to display anything anywhere
                 { 
 	            	float normalizeHeight = (float)heightBooster * heightFactor;
-	            	_myWorld.displayUniqueObjects(_myWorld,gl,movingX,movingY,offset,stepX,stepY,lenX,lenY,normalizeHeight); 
+	            	myWorld.displayUniqueObjects(myWorld,gl,movingX,movingY,offset,stepX,stepY,lenX,lenY,normalizeHeight); 
 	            }
 
 	            gl.glEnd();      		

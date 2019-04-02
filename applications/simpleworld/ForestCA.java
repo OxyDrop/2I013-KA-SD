@@ -8,29 +8,30 @@ import cellularautomata.CellularAutomataDouble;
 import cellularautomata.CellularAutomataInteger;
 import worlds.World;
 
+//-1 = WATER ; 0 = NULL ; 1 = TREE ; 2 = BURNING ; 3 = BURNT
 public class ForestCA extends CellularAutomataInteger {
-
-	CellularAutomataDouble _cellsHeightValuesCA;
+            
+	CellularAutomataDouble cellsHeightValuesCA;
 	
 	World world;
 	
-	public ForestCA ( World __world, int __dx , int __dy, CellularAutomataDouble cellsHeightValuesCA )
+	public ForestCA ( World world, int dx , int dy, CellularAutomataDouble cellsHeightValuesCA )
 	{
-		super(__dx,__dy,true ); // buffering must be true.
+		super(dx,dy,true); // buffering must be true.
 		
-		_cellsHeightValuesCA = cellsHeightValuesCA;
+		this.cellsHeightValuesCA = cellsHeightValuesCA;
 		
-		this.world = __world;
+		this.world = world;
 	}
 	
 	public void init()
 	{
-		for ( int x = 0 ; x != _dx ; x++ )
-    		for ( int y = 0 ; y != _dy ; y++ )
+		for ( int x = 0 ; x != dx ; x++ )
+    		for ( int y = 0 ; y != dy ; y++ )
     		{
-    			if ( _cellsHeightValuesCA.getCellState(x,y) >= 0 )
+    			if ( cellsHeightValuesCA.getCellState(x,y) >= 0 )
     			{
-    				if ( Math.random() < 0.53 ) // was: 0.71
+    				if ( Math.random() < 0.0 ) // was: 0.71
     					this.setCellState(x, y, 1); // tree
     				else
     					this.setCellState(x, y, 0); // empty
@@ -43,47 +44,40 @@ public class ForestCA extends CellularAutomataInteger {
     	this.swapBuffer();
 
 	}
-
+        
+        /* Incendie et màj couleurs */
 	public void step()
 	{
-    	for ( int i = 0 ; i != _dx ; i++ )
-    		for ( int j = 0 ; j != _dy ; j++ )
+    	for ( int i = 0 ; i != dx ; i++ )
+    		for ( int j = 0 ; j != dy ; j++ )
     		{
     			if ( this.getCellState(i, j) == 1 || this.getCellState(i, j) == 2 || this.getCellState(i, j) == 3 )
     			{
 	    			if ( this.getCellState(i,j) == 1 ) // tree?
 	    			{
-	    				// check if neighbors are burning
+	    				// check if neighbors(von neumann) are burning
 	    				if ( 
-	    						this.getCellState( (i+_dx-1)%(_dx) , j ) == 2 ||
-	    						this.getCellState( (i+_dx+1)%(_dx) , j ) == 2 ||
-	    						this.getCellState( i , (j+_dy+1)%(_dy) ) == 2 ||
-	    						this.getCellState( i , (j+_dy-1)%(_dy) ) == 2
-	    					)
+	    					this.getCellState( (i+dx-1)%(dx) , j ) == 2 ||
+	    					this.getCellState( (i+dx+1)%(dx) , j ) == 2 ||
+	    					this.getCellState( i , (j+dy+1)%(dy) ) == 2 ||
+	    					this.getCellState( i , (j+dy-1)%(dy) ) == 2
+                                            )
 	    				{
 	    					this.setCellState(i,j,2);
 	
 	    				}
 	    				else
 	    					if ( Math.random() < 0.00001 ) // spontaneously take fire ?
-	    					{
 	    						this.setCellState(i,j,2);
-	    					}
 	    					else
-	    					{
 	    						this.setCellState(i,j,1); // copied unchanged
-	    					}
 	    			}
 	    			else
 	    			{
 	        				if ( this.getCellState( i , j ) == 2 ) // burning?
-	        				{
 	        					this.setCellState(i,j,3); // burnt
-	        				}
 	        				else
-	        				{
 	        					this.setCellState(i,j, this.getCellState(i,j) ); // copied unchanged
-	        				}
 	    			}
 	    			
 	    			float color[] = new float[3];
@@ -92,24 +86,24 @@ public class ForestCA extends CellularAutomataInteger {
 	    				case 0:
 	    					break;
 	    				case 1:
-	    					color[0] = 0.f;
-	    					color[1] = 0.3f;
-	    					color[2] = 0.f;
+	    					color[0] = 0.f; //0
+	    					color[1] = 0.3f; //76
+	    					color[2] = 0.f; //0
 	    					break;
 	    				case 2: // burning tree
-	    					color[0] = 1.f;
-	    					color[1] = 0.f;
-	    					color[2] = 0.f;
+	    					color[0] = 1.f; //25
+	    					color[1] = 0.f; //0
+	    					color[2] = 0.f; //0
 	    					break;
 	    				case 3: // burnt tree
-	    					color[0] = 0.f;
-	    					color[1] = 0.f;
-	    					color[2] = 0.f;
+	    					color[0] = 0.f; //0
+	    					color[1] = 0.f; //0
+	    					color[2] = 0.f; //0
 	    					break;
 	    				default:
-	    					color[0] = 0.5f;
-	    					color[1] = 0.5f;
-	    					color[2] = 0.5f;
+	    					color[0] = 0.5f; //127
+	    					color[1] = 0.5f; //127
+	    					color[2] = 0.5f; //127
 	    					System.out.print("cannot interpret CA state: " + this.getCellState(i, j));
 	    					System.out.println(" (at: " + i + "," + j + " -- height: " + this.world.getCellHeight(i,j) + " )");
 	    			}	   

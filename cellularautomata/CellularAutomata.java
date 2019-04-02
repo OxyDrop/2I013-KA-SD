@@ -6,40 +6,40 @@ package cellularautomata;
 
 public abstract class CellularAutomata {
 
-	protected int _dx;
-	protected int _dy;
+	protected int dx;
+	protected int dy;
 
 	boolean buffering;
 	
 	int activeIndex;
 	
-	public CellularAutomata(int __dx, int __dy, boolean __buffering ) 
+	public CellularAutomata(int dx, int dy, boolean buffering ) 
 	{
-		_dx = __dx;
-		_dy = __dy;
+		this.dx = dx;
+		this.dy = dy;
 
-		buffering = __buffering;
+		this.buffering = buffering;
 		
 		activeIndex = 0;
 	}
 
-	public void checkBounds( int __x , int __y )
+	public void checkBounds( int x, int y )
 	{
-		if ( __x < 0 || __x > _dx || __y < 0 || __y > _dy )
+		if ( x < 0 || x > dx || y < 0 || y > dy )
 		{
-			System.err.println("[error] out of bounds ("+__x+","+__y+")");
+			System.err.println("[error] out of bounds ("+x+","+y+")");
 			System.exit(-1);
 		}
 	}
 	
 	public int getWidth()
 	{
-		return _dx;
+		return dx;
 	}
 	
 	public int getHeight()
 	{
-		return _dy;
+		return dy;
 	}
 
 	public void init()
@@ -55,7 +55,7 @@ public abstract class CellularAutomata {
 	
 	public void swapBuffer() // should be used carefully (except for initial step)
 	{
-		activeIndex = ( activeIndex+1 ) % 2;
+		activeIndex = ( activeIndex+1 ) % 2; //activeIndex = 0 ou 1
 	}
 	
 }

@@ -8,65 +8,54 @@ public class CellularAutomataDouble extends CellularAutomata {
 
 	protected double Buffer0[][];
 	protected double Buffer1[][];
-	
-	public CellularAutomataDouble ( int __dx , int __dy, boolean __buffering )
+	//initialise toutes les cases des deux buffers à 0
+	public CellularAutomataDouble ( int dx , int dy, boolean buffering )
 	{
-		super(__dx,__dy,__buffering);
+		super(dx,dy,buffering);
 
-		Buffer0 = new double[_dx][_dy];
-		Buffer1 = new double[_dx][_dy];
+		Buffer0 = new double[dx][dy];
+		Buffer1 = new double[dx][dy];
 		
-	    for ( int x = 0 ; x != _dx ; x++ )
-	    	for ( int y = 0 ; y != _dy ; y++ )
+	    for ( int x = 0 ; x != dx ; x++ )
+	    	for ( int y = 0 ; y != dy ; y++ )
 	    	{
     			Buffer0[x][y]=0;
     			Buffer1[x][y]=0;
 	    	}
 	}
-	
-	public double getCellState ( int __x, int __y )
+        //retourne la case, choisis entre les deux buffers selon buffering et activeIndex
+	public double getCellState ( int x, int y )
 	{
-		checkBounds (__x,__y);
+		checkBounds (x,y);
 		
 		double value;
 
 		if ( buffering == false )
-		{
-			value = Buffer0[__x][__y];
-		}
+	
+			value = Buffer0[x][y];
 		else
 		{
 			if ( activeIndex == 1 ) // read old buffer
-			{
-				value = Buffer0[__x][__y];
-			}
+				value = Buffer0[x][y];
 			else
-			{
-				value = Buffer1[__x][__y];
-			}
+				value = Buffer1[x][y];
 		}
 		
 		return value;
 	}
 	
-	public void setCellState ( int __x, int __y, double __value )
+	public void setCellState ( int x, int y, double value )
 	{
-		checkBounds (__x,__y);
+		checkBounds (x,y);
 		
 		if ( buffering == false )
-		{
-			Buffer0[__x][__y] = __value;
-		}
+			Buffer0[x][y] = value;
 		else
 		{
 			if ( activeIndex == 0 ) // write new buffer
-			{
-				Buffer0[__x][__y] = __value;
-			}
+				Buffer0[x][y] = value;
 			else
-			{
-				Buffer1[__x][__y] = __value;
-			}
+				Buffer1[x][y] = value;
 		}
 	}
 	

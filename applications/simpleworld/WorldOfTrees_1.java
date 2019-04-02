@@ -11,15 +11,10 @@ import worlds.World;
 
 public class WorldOfTrees_1 extends World {
 	
-	private static final int POPINI=50;
+	private static final int POPINI=800;
     protected ForestCA cellularAutomata;
 	/*
 	protected int iteration = 0;
-	ArrayList<UniqueObject> uniqueObjects
-	ArrayList<UniqueDynamicObject> uniqueDynamicObjects
-	ArrayList<Agent> agent 
-	 dxCA;
-	 dyCA;
 	indexCA;
 	protected CellularAutomataInteger cellularAutomata; // TO BE DEFINED IN CHILDREN CLASSES
 	protected CellularAutomataDouble cellsHeightValuesCA;
@@ -109,12 +104,12 @@ public class WorldOfTrees_1 extends World {
 
     public int getCellValue(int x, int y) // used by the visualization code to call specific object display.
     {
-    	return cellularAutomata.getCellState(x%dxCA,y%dyCA);
+    	return cellularAutomata.getCellState(x%dx,y%dy);
     }
 
     public void setCellValue(int x, int y, int state)
     {
-    	cellularAutomata.setCellState( x%dxCA, y%dyCA, state);
+    	cellularAutomata.setCellState( x%dx, y%dy, state);
     }
     
 	public void displayObjectAt(World _myWorld, GL2 gl, int cellState, int x,int y, double height, float offset,
