@@ -2,12 +2,12 @@
 // created by nicolas.bredeche(at)upmc.fr
 // date of creation: 2013-1-12
 
-package applications.simpleworld;
+package worlds;
 
+import DynamicObject.Agent;
+import cellularautomata.ForestCA;
 import javax.media.opengl.GL2;
-
 import objects.*;
-import worlds.World;
 
 public class WorldOfTrees_1 extends World {
 	

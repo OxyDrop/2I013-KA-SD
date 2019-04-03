@@ -16,11 +16,7 @@ public class PerlinNoiseLandscapeGenerator {
     		for ( int y = 0 ; y < dyView ; y++ )
     			landscape[x][y] = Math.random();
     	
-    	// ...
-    	// cf. http://freespace.virgin.net/hugo.elias/models/m_perlin.htm pour une explication
-
-
-    	// scaling and polishing
+ 
     	landscape = LandscapeToolbox.scaleAndCenter(landscape, scaling, landscapeAltitudeRatio);
     	landscape = LandscapeToolbox.smoothLandscape(landscape);
     	

@@ -4,11 +4,11 @@
 
 package worlds;
 
+import DynamicObject.Agent;
+import DynamicObject.UniqueDynamicObject;
+import cellularautomata.*;
 import java.util.ArrayList;
 import javax.media.opengl.GL2;
-import applications.simpleworld.*;
-import cellularautomata.*;
-
 import objects.*;
 
 public abstract class World {

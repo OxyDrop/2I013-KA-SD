@@ -11,12 +11,12 @@ import javax.imageio.ImageIO;
 
 public class LoadFromFileLandscape {
 
-	public static double[][] load ( String __filename, double __scaling, double __landscapeAltitudeRatio )
+	public static double[][] load ( String file, double scaling, double altitudeRatio )
     {
 		double landscape[][] = null;
 				
     	try {
-    		BufferedImage bi = ImageIO.read(new File(__filename));
+    		BufferedImage bi = ImageIO.read(new File(file));
     		
     		landscape = new double[bi.getWidth()][bi.getHeight()];
     		
@@ -33,11 +33,11 @@ public class LoadFromFileLandscape {
     	}
     	catch ( IOException e )
     	{
-    		System.err.println("[error] image \""+__filename+"\" could not be loaded.");
+    		System.err.println("[error] image \""+file+"\" could not be loaded.");
     		System.exit(-1);
     	}
     	
-    	landscape = LandscapeToolbox.scaleAndCenter(landscape, __scaling, __landscapeAltitudeRatio);
+    	landscape = LandscapeToolbox.scaleAndCenter(landscape, scaling, altitudeRatio);
     	
     	landscape = LandscapeToolbox.smoothLandscape(landscape);
     	

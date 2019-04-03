@@ -2,7 +2,7 @@ package landscapegenerator;
 
 public class LandscapeToolbox {
 
-	public static double[][] scaleAndCenter(double[][] landscape, double __scaling, double landscapeAltitudeRatio) 
+	public static double[][] scaleAndCenter(double[][] landscape, double scaling, double landscapeAltitudeRatio) 
 	{
 		double[][] myLandscape = landscape.clone();
 		
@@ -29,7 +29,7 @@ public class LandscapeToolbox {
 				landscape[x][y] = landscape[x][y] - minValue;
 				landscape[x][y] *= normalizeFactor; // [0;1]
 				landscape[x][y] = landscape[x][y] - landscapeAltitudeRatio;
-				landscape[x][y] *= __scaling;
+				landscape[x][y] *= scaling;
 			}
     	
     	return myLandscape;

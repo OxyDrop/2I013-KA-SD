@@ -5,7 +5,6 @@
 package objects;
 
 import javax.media.opengl.GL2;
-
 import worlds.World;
 
 abstract public class UniqueObject // UniqueObject are object defined with particular, unique, properties (ex.: particular location)

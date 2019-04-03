@@ -5,7 +5,6 @@
 package objects;
 
 import javax.media.opengl.GL2;
-
 import worlds.World;
 
 public class Tree extends CommonObject {

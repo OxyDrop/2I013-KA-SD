@@ -1,9 +1,5 @@
 package input;
 
-/**
- *
- * @author Serero
- */
-public class PlayerInput {
+public class PlayerInput { //Ajouter les actions de landscape ici
 	
 }

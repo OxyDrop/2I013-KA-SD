@@ -4,42 +4,16 @@
 
 package graphics;
 
-import worlds.*;
-
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.media.opengl.*;
-import javax.media.opengl.awt.GLCanvas;
-import javax.media.opengl.fixedfunc.*;
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
-
-import javax.media.opengl.GL;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.GLEventListener;
-
-import objects.CommonObject;
-import objects.Monolith;
-
+import java.awt.*;
+import java.awt.event.*;
+import javax.media.opengl.*;
+import javax.media.opengl.fixedfunc.*;
 import landscapegenerator.LoadFromFileLandscape;
 import landscapegenerator.PerlinNoiseLandscapeGenerator;
-
-/*
- * TODO
- * - clean code
- * - add objects + CA_objects
- * - add agents
- * - add my-agent + move + modify heights
- * - water flowing ; snow (same, with evaporation)
- *
- * technical issues:
- * - antialias
- * - go fast -- cf. "GO FAST" COMMENTS TO CHECK DOUBLE BUFFERING TRICK
- * 
- * 
-*/
+import worlds.*;
+import javax.media.opengl.awt.GLJPanel;
 
 
 
@@ -180,20 +154,20 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
         /**
          * 
          */
-        public static Landscape run(Landscape __landscape)
+        public static Landscape run(Landscape landscape)
         {
     		caps = new GLCapabilities(null); //!n
     		caps.setDoubleBuffered(true);  //!n
     		
-    		final GLCanvas canvas = new GLCanvas(caps); // original
+    		final GLJPanel panel = new GLJPanel(caps); // original
     		
             final Frame frame = new Frame("World Of Cells");
-            animator = new Animator(canvas);
+            animator = new Animator(panel);
             //Landscape myLandscape = new Landscape(dx,dy,myWorld);
-            canvas.addGLEventListener(__landscape);
-            canvas.addMouseListener(__landscape);// register mouse callback functions
-            canvas.addKeyListener(__landscape);// register keyboard callback functions
-            frame.add(canvas);
+            panel.addGLEventListener(landscape);
+            panel.addMouseListener(landscape);// register mouse callback functions
+            panel.addKeyListener(landscape);// register keyboard callback functions
+            frame.add(panel);
             frame.setSize(1024, 768);
             //frame.setSize(1280, 960);
             frame.setResizable(false);
@@ -207,9 +181,9 @@ public class Landscape implements GLEventListener, KeyListener, MouseListener{
             frame.setVisible(true);
             //animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
             animator.start();
-            canvas.requestFocus();
+            panel.requestFocus();
             
-            return __landscape;
+            return landscape;
         }
         
         

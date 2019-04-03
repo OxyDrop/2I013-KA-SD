@@ -2,13 +2,10 @@
 // created by nicolas.bredeche(at)upmc.fr
 // date of creation: 2013-1-12
 
-package applications.simpleworld;
+package DynamicObject;
 
-import javax.media.opengl.GL2;
 import java.util.ArrayList;
-
-import objects.UniqueDynamicObject;
-
+import javax.media.opengl.GL2;
 import worlds.World;
 
 public class Agent extends UniqueDynamicObject{

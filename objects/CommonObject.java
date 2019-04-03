@@ -5,7 +5,6 @@
 package objects;
 
 import javax.media.opengl.GL2;
-
 import worlds.World;
 
 abstract public class CommonObject  // CommonObject are standard object with no particular properties (ie. no internal state)

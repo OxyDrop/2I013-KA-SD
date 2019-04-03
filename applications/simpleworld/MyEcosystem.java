@@ -5,6 +5,7 @@
 package applications.simpleworld;
 
 import graphics.Landscape;
+import worlds.WorldOfTrees_1;
 
 public class MyEcosystem {
     

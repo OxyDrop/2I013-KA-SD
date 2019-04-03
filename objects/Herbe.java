@@ -1,12 +1,9 @@
-package applications.simpleworld;
+package objects;
 
 
+import DynamicObject.Agent;
 import Interfaces.*;
-
 import javax.media.opengl.GL2;
-
-import objects.UniqueDynamicObject;
-
 import worlds.World;
 
 public class Herbe extends Agent implements Eliminable

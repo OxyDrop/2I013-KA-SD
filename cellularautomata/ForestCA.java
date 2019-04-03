@@ -2,10 +2,8 @@
 // created by nicolas.bredeche(at)upmc.fr
 // date of creation: 2013-1-12
 
-package applications.simpleworld;
+package cellularautomata;
 
-import cellularautomata.CellularAutomataDouble;
-import cellularautomata.CellularAutomataInteger;
 import worlds.World;
 
 //-1 = WATER ; 0 = NULL ; 1 = TREE ; 2 = BURNING ; 3 = BURNT
