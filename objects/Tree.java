@@ -9,20 +9,22 @@ import worlds.World;
 
 public class Tree extends CommonObject {
 
-    public static void displayObjectAt(World myWorld, GL2 gl, int cellState, float x, float y, double height, float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight )
+    public static void displayObjectAt(World myWorld, GL2 gl, int cellState, float x, float y, 
+										double height, float offset,float stepX, float stepY, 
+										float lenX, float lenY, float normalizeHeight )
     {
         //float smoothFactorAvg = ( smoothFactor[0] + smoothFactor[1] + smoothFactor[2] + smoothFactor[3] ) / 4.f;
         
         switch ( cellState )
         {
         	case 1:
-        		gl.glColor3f(0.f,0.6f-(float)(0.2*Math.random()),0.f);
+        		gl.glColor3f(0.f,0.6f-(float)(0.2*Math.random()),0.f); //green
         		break;
         	case 2:
-        		gl.glColor3f(1.f-(float)(0.2*Math.random()),0.f,0.f);
+        		gl.glColor3f(1.f-(float)(0.2*Math.random()),0.f,0.f); //red
         		break;
         	case 3:
-        		gl.glColor3f(0.f+(float)(0.2*Math.random()),0.f+(float)(0.2*Math.random()),0.f+(float)(0.2*Math.random()));
+        		gl.glColor3f(0.f+(float)(0.2*Math.random()),0.f+(float)(0.2*Math.random()),0.f+(float)(0.2*Math.random())); //black
         		break;
         }
         

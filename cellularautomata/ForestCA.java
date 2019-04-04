@@ -7,17 +7,19 @@ package cellularautomata;
 import worlds.World;
 
 //-1 = WATER ; 0 = NULL ; 1 = TREE ; 2 = BURNING ; 3 = BURNT
+//
 public class ForestCA extends CellularAutomataInteger {
             
-	CellularAutomataDouble cellsHeightValuesCA;
+	CellularAutomataDouble HeightVal;
 	
 	World world;
+	private final static double DENSITY_TREES = 0.8;
 	
-	public ForestCA ( World world, int dx , int dy, CellularAutomataDouble cellsHeightValuesCA )
+	public ForestCA ( World world, int dx , int dy, CellularAutomataDouble HeightVal )
 	{
 		super(dx,dy,true); // buffering must be true.
 		
-		this.cellsHeightValuesCA = cellsHeightValuesCA;
+		this.HeightVal = HeightVal;
 		
 		this.world = world;
 	}
@@ -27,9 +29,9 @@ public class ForestCA extends CellularAutomataInteger {
 		for ( int x = 0 ; x != dx ; x++ )
     		for ( int y = 0 ; y != dy ; y++ )
     		{
-    			if ( cellsHeightValuesCA.getCellState(x,y) >= 0 )
+    			if ( HeightVal.getCellState(x,y) >= 0 )
     			{
-    				if ( Math.random() < 0.0 ) // was: 0.71
+    				if ( Math.random() < DENSITY_TREES ) // was: 0.71
     					this.setCellState(x, y, 1); // tree
     				else
     					this.setCellState(x, y, 0); // empty

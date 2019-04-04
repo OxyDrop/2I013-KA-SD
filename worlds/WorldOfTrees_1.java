@@ -100,7 +100,8 @@ public class WorldOfTrees_1 extends World {
     	{
     		this.agent.get(i).step();
     	}
-		System.out.println("Nombre agent = "+agent.size());
+		if(iteration%30==0)
+			System.out.println("Nombre agent = "+agent.size());
     }
 
     public int getCellValue(int x, int y) // used by the visualization code to call specific object display.
@@ -119,8 +120,12 @@ public class WorldOfTrees_1 extends World {
 	{
 		switch ( cellState )
 		{
-		case 1: // trees: green, fire, burnt
+		case 1: 
+			Tree.displayObjectAt(_myWorld,gl,cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			break;
 		case 2:
+			Tree.displayObjectAt(_myWorld,gl,cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			break;
 		case 3:
 			Tree.displayObjectAt(_myWorld,gl,cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
 			break;
@@ -128,7 +133,13 @@ public class WorldOfTrees_1 extends World {
 			// nothing to display at this location.
 		}
 	}
-	//public void displayObject(World _myWorld, GL2 gl, float offset,float stepX, float stepY, float lenX, float lenY, float heightFactor, double heightBooster) { ... } 
+	public void displayObject(World _myWorld, GL2 gl, float offset,
+							float stepX, float stepY, float lenX, float lenY, 
+							float heightFactor, double heightBooster
+							)
+	{
+		
+	} 
     
 
 }

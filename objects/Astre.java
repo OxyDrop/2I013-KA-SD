@@ -5,6 +5,7 @@ import javax.media.opengl.glu.*;
 import com.jogamp.opengl.util.texture.*;
 import java.awt.*;
 import java.io.*;
+import worlds.World;
 
 /**
  *
@@ -22,9 +23,8 @@ public class Astre implements GLEventListener
    private int textureCode;
    private Texture texture;
 
-	@Override
-	public void init(GLAutoDrawable drawable) {
-		final GL2 gl = drawable.getGL().getGL2();
+     public void displayUniqueObject(World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight )
+    {
 
 		float SHINE_ALL_DIRECTIONS = 1;
         float[] lightPos = {-30, 0, 0, SHINE_ALL_DIRECTIONS};
@@ -55,26 +55,13 @@ public class Astre implements GLEventListener
 
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		try {
-			texture = TextureIO.newTexture(getClass().getResource("earthmap1K.jpg"), false, "jpg");
+			texture = TextureIO.newTexture(getClass().getResource("MoonCarre.png"), false, "png");
 			textureCode = texture.getTextureObject(gl);
 			texture.enable(gl);
 			texture.bind(gl);
 		}catch (IOException e){
 			e.printStackTrace();
 		}
-		
-	}
-
-	@Override
-	public void dispose(GLAutoDrawable drawable) {
-	}
-
-	@Override
-	public void display(GLAutoDrawable drawable)
-	{
-		final GL2 gl = drawable.getGL().getGL2();
-		
-		
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity(); // Reset The View
 	
@@ -92,9 +79,8 @@ public class Astre implements GLEventListener
 		
 		//change the speeds here
 		xrot += .5f;
-
+		
 	}
-
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) 
 	{
