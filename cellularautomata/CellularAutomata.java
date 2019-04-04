@@ -18,9 +18,9 @@ public abstract class CellularAutomata {
 		this.dx = dx;
 		this.dy = dy;
 
-		this.buffering = buffering;
+		this.buffering = buffering; //false = 0 ; true = 1;
 		
-		activeIndex = 0;
+		activeIndex = 0; //0: write old buffer ; 1: read old buffer
 	}
 
 	public void checkBounds( int x, int y )

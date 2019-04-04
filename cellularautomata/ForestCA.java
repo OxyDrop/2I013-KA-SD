@@ -59,7 +59,7 @@ public class ForestCA extends CellularAutomataInteger {
 	    					this.getCellState( (i+dx+1)%(dx) , j ) == 2 ||
 	    					this.getCellState( i , (j+dy+1)%(dy) ) == 2 ||
 	    					this.getCellState( i , (j+dy-1)%(dy) ) == 2
-                                            )
+                            )
 	    				{
 	    					this.setCellState(i,j,2);
 	
@@ -105,7 +105,7 @@ public class ForestCA extends CellularAutomataInteger {
 	    					System.out.print("cannot interpret CA state: " + this.getCellState(i, j));
 	    					System.out.println(" (at: " + i + "," + j + " -- height: " + this.world.getCellHeight(i,j) + " )");
 	    			}	   
-	    			this.world.cellsColorValues.setCellState(i, j, color);
+	    			this.world.ColorVal.setCellState(i, j, color);
     			}
     		}
     	this.swapBuffer();

@@ -60,7 +60,7 @@ public class CellularAutomataColor extends CellularAutomata {
 		return color;
 	}
 	
-	public void setCellState ( int x, int y, float r, float g, float b )
+	public void setCellState ( int x, int y, float r, float g, float b ) //modifie couleur case
 	{
 		checkBounds (x,y);
 		//RGB 0-255 to 0.0-0.1f >> x/255f
@@ -95,7 +95,7 @@ public class CellularAutomataColor extends CellularAutomata {
 		}
 	}
 	
-	public void setCellState ( int x, int y, float color[] )
+	public void setCellState ( int x, int y, float color[] ) //modifie couleur case
 	{
 		checkBounds (x,y);
 			

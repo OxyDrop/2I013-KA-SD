@@ -15,8 +15,8 @@ public abstract class World {
 	
 	protected int iteration = 0;
 
-	protected ArrayList<UniqueObject> uniqueObjects = new ArrayList<UniqueObject>();
-	protected ArrayList<UniqueDynamicObject> uniqueDynamicObjects = new ArrayList<UniqueDynamicObject>();
+	protected ArrayList<UniqueObject> LObjects = new ArrayList<>();
+	protected ArrayList<UniqueDynamicObject> LDynamicObjects = new ArrayList<>();
 	
 	protected ArrayList<Agent> agent = new ArrayList<>();
     
@@ -27,13 +27,13 @@ public abstract class World {
 
 	//protected CellularAutomataInteger cellularAutomata; // TO BE DEFINED IN CHILDREN CLASSES
     
-	protected CellularAutomataDouble cellsHeightValuesCA; //valeur altitude
-	protected CellularAutomataDouble cellsHeightAmplitudeCA; //valeur amplitude
+	protected CellularAutomataDouble HeightVal; //valeur altitude
+	protected CellularAutomataDouble HeightAmpli; //valeur amplitude
 	
-	public CellularAutomataColor cellsColorValues;
+	public CellularAutomataColor ColorVal;
 
-	private double maxEverHeightValue = Double.NEGATIVE_INFINITY;
-	private double minEverHeightValue = Double.POSITIVE_INFINITY;
+	private double maxEver = Double.NEGATIVE_INFINITY;
+	private double minEver = Double.POSITIVE_INFINITY;
 
     public World( )
     {
@@ -41,50 +41,54 @@ public abstract class World {
     }
 	
    
-	
+	//Initialise le monde à partir des dimensions et d'une matrice de double
     public void init( int dx, int dy, double[][] landscape )
-    {
+    { 
     	this.dx = dx;
     	this.dy = dy;
     	
     	iteration = 0;
 
-    	this.cellsHeightValuesCA = new CellularAutomataDouble (dx,dy,false);
-    	this.cellsHeightAmplitudeCA = new CellularAutomataDouble (dx,dy,false);
+    	this.HeightVal = new CellularAutomataDouble (dx,dy,false);
+    	this.HeightAmpli = new CellularAutomataDouble (dx,dy,false);
     	
-    	this.cellsColorValues = new CellularAutomataColor(dx,dy,false);
+    	this.ColorVal = new CellularAutomataColor(dx,dy,false);
     	
     	// init altitude and color related information
     	for ( int x = 0 ; x != dx ; x++ )
     		for ( int y = 0 ; y != dy ; y++ )
     		{
-    			// compute height values (and amplitude) from the landscape for this CA cell 
-                        // Minimum entre (le minimum entre centre-droite et le minimum entrebas-basgauche)
+						/*	xo
+							oo		*/
+				// compute height values (and amplitude) from the landscape for this CA cell 
+				 // Minimum entre (le minimum entre centre-droite et le minimum entre bas-basdroite)
     			double minHeightValue = Math.min(Math.min(landscape[x][y],landscape[x+1][y]),Math.min(landscape[x][y+1],landscape[x+1][y+1]));
     			double maxHeightValue = Math.max(Math.max(landscape[x][y],landscape[x+1][y]),Math.max(landscape[x][y+1],landscape[x+1][y+1])); 
+						//Maximum entre (le maximum entre centre-droite et le maximum entre bas-basdroite)
     			
-    			if ( this.maxEverHeightValue < maxHeightValue )
-    				this.maxEverHeightValue = maxHeightValue;
-    			if ( this.minEverHeightValue > minHeightValue )
-    				this.minEverHeightValue = minHeightValue;
+    			if ( this.maxEver < maxHeightValue )
+    				this.maxEver = maxHeightValue; //nouveau maximum
+    			if ( this.minEver > minHeightValue )
+    				this.minEver = minHeightValue; //nouveau minimum
     			
-    			cellsHeightAmplitudeCA.setCellState(x,y,maxHeightValue-minHeightValue);
-    			cellsHeightValuesCA.setCellState(x,y,(minHeightValue+maxHeightValue)/2.0);
+    			HeightAmpli.setCellState(x,y,maxHeightValue-minHeightValue); //Initialisation Amplitude
+    			HeightVal.setCellState(x,y,(minHeightValue+maxHeightValue)/2.0); //Initialisation Valeur altitude
 
-    			/* TODO! Default coloring
+    			// TODO! Default coloring
     	    	// init color information
-    	        if ( this.cellsHeightAmplitudeCA.getCellState(x,y) >= 0.0 )
+				float val = (float)HeightAmpli.getCellState(x, y);
+    	        if ( val >= 0.0 )
     	        {
-    				float color[] = { (float)height*4.0f, 1.0f-(float)height*0.3f, (float)height*2.0f };
-    				this.cellsColorValues.setCellState(x,y,color);
+    				float color[] = { val*4f, 1f-val*0.3f, val*2f };
+    				this.ColorVal.setCellState(x,y,color);
     	        }
     	        else
     	        {
     	        	// water
-    				float color[] = { (float)(-height), 1.0f-(float)(-height)*0.3f, (float)1.0f };
-    				this.cellsColorValues.setCellState(x,y,color);
+    				float color[] = { val , 1f-val*0.3f, 1f };
+    				this.ColorVal.setCellState(x,y,color);
     	        }
-    	        */
+    	        
     		}
     	
     	initCellularAutomata(dx,dy,landscape);
@@ -122,14 +126,14 @@ public abstract class World {
     
     public double getCellHeight(int x, int y) // used by the visualization code to set correct height values
     {
-    	return cellsHeightValuesCA.getCellState(x%dx,y%dy);
+    	return HeightVal.getCellState(x%dx,y%dy);
     }
     
     // ---- 
     
     public float[] getCellColorValue(int x, int y) // used to display cell color
     {
-    	float[] cellColor = this.cellsColorValues.getCellState(x%this.dx , y%this.dy );
+    	float[] cellColor = this.ColorVal.getCellState(x%this.dx , y%this.dy );
 
     	float[] color  = {cellColor[0],cellColor[1],cellColor[2],1.0f};
         
@@ -138,7 +142,7 @@ public abstract class World {
 	
 	public ArrayList<UniqueDynamicObject> getUniqueDynamicListe()
 	{
-		return uniqueDynamicObjects;
+		return LDynamicObjects;
 	}
 	public ArrayList<Agent> getAgentListe()
 	{
@@ -153,11 +157,11 @@ public abstract class World {
 	public void displayUniqueObjects(World _myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, float offset,
 			float stepX, float stepY, float lenX, float lenY, float normalizeHeight) 
 	{
-    	for ( int i = 0 ; i < uniqueObjects.size(); i++ )
-    		uniqueObjects.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+    	for ( int i = 0 ; i < LObjects.size(); i++ )
+    		LObjects.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
 		
-    	for ( int i = 0 ; i < uniqueDynamicObjects.size(); i++ )
-    		uniqueDynamicObjects.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+    	for ( int i = 0 ; i < LDynamicObjects.size(); i++ )
+    		LDynamicObjects.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
 		
 		for ( int i = 0 ; i < agent.size(); i++ )
     		agent.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
@@ -166,8 +170,8 @@ public abstract class World {
 	public int getWidth() { return dx; }
 	public int getHeight() { return dx; }
 
-	public double getMaxEverHeight() { return this.maxEverHeightValue; }
-	public double getMinEverHeight() { return this.minEverHeightValue; }
+	public double getMaxEverHeight() { return this.maxEver; }
+	public double getMinEverHeight() { return this.minEver; }
 	
 
 }

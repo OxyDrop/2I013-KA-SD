@@ -81,7 +81,7 @@ public class Agent extends UniqueDynamicObject{
 
         // display a monolith
         
-        //gl.glColor3f(0.f+(float)(0.5*Math.random()),0.f+(float)(0.5*Math.random()),0.f+(float)(0.5*Math.random()));
+        gl.glColor3f(0.f+(float)(0.5*Math.random()),0.f+(float)(0.5*Math.random()),0.f+(float)(0.5*Math.random()));
         
     	int x2 = (x-(offsetCA_x%myWorld.getWidth()));
     	if ( x2 < 0) x2+=myWorld.getWidth();

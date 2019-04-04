@@ -49,25 +49,25 @@ public class WorldOfTrees extends World {
 					color[1] = -height;
 					color[2] = 1.f;
 		        }
-		        this.cellsColorValues.setCellState(x, y, color);
+		        this.ColorVal.setCellState(x, y, color);
     		}
     	
     	// add some objects
     	for ( int i = 0 ; i < 11 ; i++ )
     	{
     		if ( i%10 == 0 )
-    			uniqueObjects.add(new Monolith(110,110+i,this));
+    			LObjects.add(new Monolith(110,110+i,this));
     		else
-    			uniqueObjects.add(new BridgeBlock(110,110+i,this));
+    			LObjects.add(new BridgeBlock(110,110+i,this));
     	}
     	
-    	uniqueDynamicObjects.add(new Agent(64,64,this));
+    	LDynamicObjects.add(new Agent(64,64,this));
     	
     }
     
     protected void initCellularAutomata(int __dxCA, int __dyCA, double[][] landscape)
     {
-    	cellularAutomata = new ForestCA(this,__dxCA,__dyCA,cellsHeightValuesCA);
+    	cellularAutomata = new ForestCA(this,__dxCA,__dyCA,HeightVal);
     	cellularAutomata.init();
     }
     
@@ -80,9 +80,9 @@ public class WorldOfTrees extends World {
     protected void stepAgents()
     {
     	// nothing to do.
-    	for ( int i = 0 ; i < this.uniqueDynamicObjects.size() ; i++ )
+    	for ( int i = 0 ; i < this.LDynamicObjects.size() ; i++ )
     	{
-    		this.uniqueDynamicObjects.get(i).step();
+    		this.LDynamicObjects.get(i).step();
     	}
     }
 

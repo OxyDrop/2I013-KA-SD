@@ -8,6 +8,7 @@ import DynamicObject.Agent;
 import cellularautomata.ForestCA;
 import javax.media.opengl.GL2;
 import objects.*;
+import javax.swing.JDialog;
 
 public class WorldOfTrees_1 extends World {
 	
@@ -51,15 +52,15 @@ public class WorldOfTrees_1 extends World {
 					color[1] = 0.1f;
 					color[2] = 0.5f;
 		        }
-		        this.cellsColorValues.setCellState(x, y, color);
+		        this.ColorVal.setCellState(x, y, color);
     		}
 		/*-------------------FIN COULEUR--------------------*/
     	/*-----------------AJOUT OBJETS--------------------*/
     	for ( int i = 0 ; i < 11 ; i++ )
     		if ( i%10 == 0 )
-    			uniqueObjects.add(new Monolith(110,110+i,this)); // Colonnes de l arc
+    			LObjects.add(new Monolith(110,110+i,this)); // Colonnes de l arc
     		else
-    			uniqueObjects.add(new BridgeBlock(110,110+i,this)); // Pont de l arc
+    			LObjects.add(new BridgeBlock(110,110+i,this)); // Pont de l arc
 		
 		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
 				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
@@ -71,16 +72,16 @@ public class WorldOfTrees_1 extends World {
     			cellState = this.getCellValue(i, j);
     			if (cellState == 1)
     				if (Math.random() < 0.009)
-    					uniqueDynamicObjects.add(new GrandArbre(i,j,this));
+    					LDynamicObjects.add(new GrandArbre(i,j,this));
     				else
-						uniqueDynamicObjects.add(new Herbe(i,j,this)); // Creation de l'herbe	
+						LDynamicObjects.add(new Herbe(i,j,this)); // Creation de l'herbe	
     		}
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }
     
-    protected void initCellularAutomata(int __dxCA, int __dyCA, double[][] landscape)
+    protected void initCellularAutomata(int dx, int dy, double[][] landscape)
     {
-    	cellularAutomata = new ForestCA(this,__dxCA,__dyCA,cellsHeightValuesCA);
+    	cellularAutomata = new ForestCA(this,dx,dy,HeightVal);
     	cellularAutomata.init();
     }
     
@@ -129,5 +130,5 @@ public class WorldOfTrees_1 extends World {
 	}
 	//public void displayObject(World _myWorld, GL2 gl, float offset,float stepX, float stepY, float lenX, float lenY, float heightFactor, double heightBooster) { ... } 
     
-   
+
 }

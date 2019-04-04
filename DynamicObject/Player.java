@@ -15,6 +15,7 @@ import worlds.World;
 /**
  *
  * @author Serero
+ * Agent deplaçable par l'utilisateur
  */
 public class Player extends Agent implements GLEventListener {
 	private static GLU glu = new GLU();

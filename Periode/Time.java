@@ -4,6 +4,7 @@ package Periode;
  *
  * @author Serero
  */
-public class Time {
+public class Time 
+{
 	
 }
