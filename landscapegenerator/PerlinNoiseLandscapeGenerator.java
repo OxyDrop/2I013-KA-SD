@@ -6,8 +6,6 @@ package landscapegenerator;
 
 public class PerlinNoiseLandscapeGenerator {
 	
-		
-		
 		public static final int ENVIRONMENT_WATER	= 1;
 		public static final int ENVIRONMENT_SAND	= 1;
 		public static final int ENVIRONMENT_FOREST	= 1;

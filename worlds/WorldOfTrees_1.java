@@ -36,9 +36,9 @@ public class WorldOfTrees_1 extends World {
 		    	
 		        if ( height >= 0 )
 				{	// snowy mountain
-		        	color[0] = height / (float)this.getMaxEverHeight();
-					color[1] = height / (float)this.getMaxEverHeight();
-					color[2] = height / (float)this.getMaxEverHeight();
+		        	color[0] = 1f;//height / (float)this.getMaxEverHeight();
+					color[1] = 1f;//height / (float)this.getMaxEverHeight();
+					color[2] = 1f;//height / (float)this.getMaxEverHeight();
 					// green mountains
 		        	/*
 		        	color[0] = height / ( (float)this.getMaxEverHeight() );
@@ -56,11 +56,12 @@ public class WorldOfTrees_1 extends World {
     		}
 		/*-------------------FIN COULEUR--------------------*/
     	/*-----------------AJOUT OBJETS--------------------*/
-    	for ( int i = 0 ; i < 11 ; i++ )
-    		if ( i%10 == 0 )
-    			LObjects.add(new Monolith(110,110+i,this)); // Colonnes de l arc
-    		else
-    			LObjects.add(new BridgeBlock(110,110+i,this)); // Pont de l arc
+    	for ( int i = 0 ; i < 110 ; i++ )
+    		if ( i%10 == 0 ){
+    			LObjects.add(new Monolith(i*10,110+i,this)); // Colonnes de l arc
+			}else{
+    			LObjects.add(new BridgeBlock(i*10,110+i,this)); // Pont de l arc
+			}
 		
 		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
 				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));

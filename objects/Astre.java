@@ -11,94 +11,53 @@ import worlds.World;
  *
  * @author Serero
  */
-public class Astre implements GLEventListener
+public class Astre extends UniqueObject
 {
 
 	private static GLU glu = new GLU();
 	private static GLUT glut = new GLUT();
-	private float angle = 0.0f;
+	private static float angle = 0.0f;
 	public static DisplayMode dm, dm_old;
- 
-   private float xrot,yrot,zrot;
-   private int textureCode;
-   private Texture texture;
-
-     public void displayUniqueObject(World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight )
-    {
-
-		float SHINE_ALL_DIRECTIONS = 1;
-        float[] lightPos = {-30, 0, 0, SHINE_ALL_DIRECTIONS};
-        float[] lightColorAmbient = {0.2f, 0.2f, 0.2f, 1f};
-        float[] lightColorSpecular = {0.8f, 0.8f, 0.8f, 1f};
-
-        // Set light parameters.
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_POSITION, lightPos, 0);
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_AMBIENT, lightColorAmbient, 0);
-        gl.glLightfv(GL2.GL_LIGHT1, GL2.GL_SPECULAR, lightColorSpecular, 0);
-
-        // Enable lighting in GL.
-        gl.glEnable(GL2.GL_LIGHT1);
-        gl.glEnable(GL2.GL_LIGHTING);
-
-        // Set material properties.
-        float[] rgba = {1f, 1f, 1f};
-        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, rgba, 0);
-        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, rgba, 0);
-        gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 0.5f);
-		
-		gl.glShadeModel(GL2.GL_SMOOTH);
-		gl.glClearColor(0f, 0f, 0f, 0f);
-		gl.glClearDepth(1.0f);
-		gl.glEnable(GL2.GL_DEPTH_TEST);
-		gl.glDepthFunc(GL2.GL_LEQUAL);
-		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-
-		gl.glEnable(GL2.GL_TEXTURE_2D);
-		try {
-			texture = TextureIO.newTexture(getClass().getResource("MoonCarre.png"), false, "png");
-			textureCode = texture.getTextureObject(gl);
-			texture.enable(gl);
-			texture.bind(gl);
-		}catch (IOException e){
-			e.printStackTrace();
-		}
-		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-		gl.glLoadIdentity(); // Reset The View
 	
-		gl.glTranslatef(0f, 0f, -5.0f);
-		gl.glRotatef(xrot, 0f, 1.0f, 0f);
+	GLUquadric astre;
+   private Texture texture;
+   
+   public Astre(int x, int y, World world)
+   {
+	   super(x,y,world);
+	  
+   }
+     public void displayUniqueObject(World myWorld, GL2 gl, int offsetX, int offsetY, float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight )
+    {
+		GLU glu = new GLU();
+		astre = glu.gluNewQuadric();
 		
-		//gl.glBindTexture(GL2.GL_TEXTURE_2D, textureCode);
-		GLUquadric earth = glu.gluNewQuadric();
-		glu.gluQuadricTexture(earth, true);
-        glu.gluQuadricDrawStyle(earth, GLU.GLU_FILL);
-        glu.gluQuadricNormals(earth, GLU.GLU_FLAT);
-        glu.gluQuadricOrientation(earth, GLU.GLU_OUTSIDE);
-		glu.gluSphere(earth,0.6f, 20, 20);
-		glu.gluDeleteQuadric(earth);
+		int x2 = (x-(offsetX%myWorld.getWidth()));
+    	if ( x2 < 0) x2+=myWorld.getWidth();
+		
+    	int y2 = (y-(offsetY%myWorld.getHeight()));
+    	if ( y2 < 0) y2+=myWorld.getHeight();
+		
+		float arcx=0.1f;
+		float arcy=0.1f;
+		
+		gl.glLoadIdentity(); // Reset The View
+		arcx+=0.5f;
+		arcy+=0.5f;
+		
+		gl.glTranslatef(arcx, arcy, -5f);
+		gl.glRotatef(angle, 0f, 1.0f, 0f);
+		
+		gl.glColor3f(1f, 1f, 0f);
+        glu.gluQuadricDrawStyle(astre, GLU.GLU_FILL);
+        glu.gluQuadricNormals(astre, GLU.GLU_FLAT);
+        glu.gluQuadricOrientation(astre, GLU.GLU_OUTSIDE);
+		glu.gluSphere(astre,0.1f, 16, 16);
+		glu.gluDeleteQuadric(astre);
 		
 		//change the speeds here
-		xrot += .5f;
+		angle += .5f;
 		
-	}
-	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) 
-	{
-		GL2 gl = drawable.getGL().getGL2();
-		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
-		if(height<=0)
-			height = 1;
-		final float h = (float) width / (float) height;
-		
-		gl.glViewport(0, 0, width, height);
-		gl.glMatrixMode(GL2.GL_PROJECTION);
-		gl.glLoadIdentity();
-		gl.glPushMatrix();
-		
-		glu.gluPerspective(45.0f, h, 1.0, 20.0);
-		gl.glMatrixMode(GL2.GL_MODELVIEW);
-		gl.glLoadIdentity();
-		gl.glPopMatrix();
 	}
 	
 }
