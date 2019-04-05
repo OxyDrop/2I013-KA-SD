@@ -4,6 +4,6 @@ package objects;
  *
  * @author Serero
  */
-public class Teleporteur {
+public class Sable {
 	
 }

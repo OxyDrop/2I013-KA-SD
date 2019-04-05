@@ -13,7 +13,7 @@ public class ForestCA extends CellularAutomataInteger {
 	CellularAutomataDouble HeightVal;
 	
 	World world;
-	private final static double DENSITY_TREES = 0.8;
+	private final static double DENSITY_TREES = 0.7;
 	
 	public ForestCA ( World world, int dx , int dy, CellularAutomataDouble HeightVal )
 	{

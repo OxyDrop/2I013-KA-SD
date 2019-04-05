@@ -61,7 +61,7 @@ public class Landscape implements GLEventListener {
 
 	private float rotateX = 0.0f;
 
-	private float rotationVelocity = 0.6f; // 0.2f
+	private float rotationVelocity = 0f; // 0.2f
 
 	int it = 0;
 	int movingIt = 0;
@@ -95,12 +95,12 @@ public class Landscape implements GLEventListener {
 	int movingY = 0;
 
 	/**
-	 *
+	 * Initialise landscap
 	 */
 	public Landscape(World myWorld, int dx, int dy, double scaling, double altitudeRatio) {
 		this.myWorld = myWorld;
 
-		landscape = PerlinNoiseLandscapeGenerator.generatePerlinNoiseLandscape(dx, dy, scaling, altitudeRatio, 10); // 11
+		landscape = PerlinNoiseLandscapeGenerator.generatePerlinNoiseLandscape(dx, dy, scaling, altitudeRatio, 100); // 11
 		initLandscape();
 	}
 

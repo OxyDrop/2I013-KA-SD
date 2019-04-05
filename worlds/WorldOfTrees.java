@@ -4,6 +4,8 @@
 
 package worlds;
 
+import objects.Architect.BridgeBlock;
+import objects.Architect.Monolith;
 import DynamicObject.Agent;
 import cellularautomata.ForestCA;
 import javax.media.opengl.GL2;

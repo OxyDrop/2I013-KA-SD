@@ -4,6 +4,9 @@
 
 package worlds;
 
+import objects.Architect.BridgeBlock;
+import objects.Architect.Monolith;
+import objects.Consommables.Herbe;
 import DynamicObject.Agent;
 import cellularautomata.ForestCA;
 import javax.media.opengl.GL2;
@@ -12,7 +15,7 @@ import javax.swing.JDialog;
 
 public class WorldOfTrees_1 extends World {
 	
-	private static final int POPINI=300;
+	private static final int POPINI=400;
     protected ForestCA cellularAutomata;
 	/*
 	protected int iteration = 0;

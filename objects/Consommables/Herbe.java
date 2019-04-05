@@ -1,4 +1,4 @@
-package objects;
+package objects.Consommables;
 
 
 import DynamicObject.Agent;
@@ -6,13 +6,15 @@ import Interfaces.*;
 import javax.media.opengl.GL2;
 import worlds.World;
 
-public class Herbe extends Agent implements Eliminable
+public class Herbe extends Agent implements Eliminable, Consommable
 {
 	int health;
+	boolean isConsommable;
 	public Herbe ( int x , int y , World world )
 	{
 		super(x, y, world);
 		health = 5000;
+		isConsommable=true;
 	}
 	
 	public void step()
@@ -22,6 +24,9 @@ public class Herbe extends Agent implements Eliminable
 	public boolean die()
 	{
 		return health <= 0;
+	}
+	public boolean isConsommable(){
+		return isConsommable;
 	}
 
 	public void displayUniqueObject( World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, 
