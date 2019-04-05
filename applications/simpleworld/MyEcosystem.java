@@ -6,7 +6,6 @@ package applications.simpleworld;
 
 import graphics.Landscape;
 import worlds.*;
-import javax.swing.*;
 
 public class MyEcosystem {
     
@@ -16,21 +15,29 @@ public class MyEcosystem {
 		WorldOfSand wSand = new WorldOfSand();
 		WorldOfSnow wSnow = new WorldOfSnow();
 		
-		Transfert info = new Transfert();
+		Landscape myLandscapeGen = new Landscape(wTree,200,200, 0.5, 0.2);
+		Landscape.run(myLandscapeGen);
+		/*
 		DialogAppli dialog = new DialogAppli(null);
-		dialog.LanceDialg(info);
-		
+		Transfert info = new Transfert();
+		dialog.LanceDialog(info);
 		if(info.file)
-		{
+		{ 
+			System.out.println("okfile");
 			Landscape myLandscape = new Landscape(wSand, "landscape_default-200.png", info.altitude, info.waterlevel);
 			Landscape.run(myLandscape);
 		}
 				
 		else if(info.random)
 		{
-				Landscape myLandscapeGen = new Landscape(wSand,200,200, info.altitude, info.waterlevel);
-				Landscape.run(myLandscapeGen);
+			System.out.println("okrand");
+			Landscape myLandscapeGen = new Landscape(wSand,200,200, info.altitude, info.waterlevel);
+			Landscape.run(myLandscapeGen);
 		}
+		
+		*/
+		
+		
 		
 	/*
 		// parametres:

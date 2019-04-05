@@ -137,7 +137,7 @@ public class Landscape implements GLEventListener {
 		heightFactor = 32.0f; //64.0f; // was: 32.0f;
 		heightBooster = 6.0; // default: 2.0 // 6.0 makes nice high mountains.
 
-		offset = -200.0f; // was: -40.
+		offset = -260.0f; // was: -40.
 		stepX = (-offset * 2.0f) / dxView;
 		stepY = (-offset * 2.0f) / dxView;
 		lenX = stepX / 2f;
@@ -165,14 +165,15 @@ public class Landscape implements GLEventListener {
 
 		final Frame frame = new Frame("World Of Cells");
 		animator = new Animator(panel);
-		//Landscape myLandscape = new Landscape(dx,dy,myWorld);
+		
 		panel.addGLEventListener(landscape);
 		panel.addMouseListener(play);// register mouse callback functions
 		panel.addKeyListener(play);// register keyboard callback functions
 		frame.add(panel);
+		
 		frame.setSize(1024, 768);
-		//frame.setSize(1280, 960);
 		frame.setResizable(false);
+		
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				animator.stop();
@@ -181,8 +182,9 @@ public class Landscape implements GLEventListener {
 			}
 		});
 		frame.setVisible(true);
-		//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
+		animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
 		animator.start();
+		//frame.requestFocus();
 		panel.requestFocus();
 
 		return landscape;

@@ -1,11 +1,14 @@
 package applications.simpleworld;
 
+import worlds.World;
+
 /**
  *
  * @author Serero
  */
 public class Transfert 
 {
-	public float waterlevel, altitude;
+	public double waterlevel, altitude;
 	public boolean random, file;
+	public String choosen;
 }
