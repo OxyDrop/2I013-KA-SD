@@ -12,7 +12,8 @@ public class MyEcosystem {
 	public static void main(String[] args) {
 
 		WorldOfTrees_1 myWorld = new WorldOfTrees_1();
-		Landscape myLandscape = new Landscape(myWorld, "landscape_default-200.png", 0.2, 0.1);
+		//Landscape myLandscape = new Landscape(myWorld, "landscape_default-200.png", 0.2, 0.1);
+		Landscape myLandscape = new Landscape(myWorld,200,200, 0.5, 0.5);
 		Landscape.run(myLandscape);
 		
 	/*

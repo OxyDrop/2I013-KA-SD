@@ -12,7 +12,7 @@ import javax.swing.JDialog;
 
 public class WorldOfTrees_1 extends World {
 	
-	private static final int POPINI=800;
+	private static final int POPINI=300;
     protected ForestCA cellularAutomata;
 	/*
 	protected int iteration = 0;

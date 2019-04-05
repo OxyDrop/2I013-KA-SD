@@ -20,108 +20,90 @@ public class PerlinNoiseLandscapeGenerator {
     {
     	
 		double landscape[][] = new double[dx][dy];
-    	// A ECRIRE ! 
-    	// ...
-    	for ( int x = 0 ; x < dx ; x++ )
-    		for ( int y = 0 ; y < dy ; y++ )
-    			landscape[x][y] = Math.random();
-    	
- 
-    	landscape = LandscapeToolbox.scaleAndCenter(landscape, scaling, altRatio);
-    	landscape = LandscapeToolbox.smoothLandscape(landscape);
-    	
-		return landscape;
-    }
-	public static int[][] generateLandscape(int width, int height, double[][] elevation)
-	{
-		int[][] buffer = new int[width][height];
-		double[] minMax = GenerateAltitude(width, height, elevation);
+    	double[] minMax = GenerateAltitude(dx, dy, landscape);
 		double minValue = minMax[0];
 		double maxValue = minMax[1];
 		double normalizeFactor = 1.0 / (maxValue - minValue);
-
-		for (int x = 0; x < width; x++)
-		{
-			for (int y = 0; y < height; y++)
+		
+		for (int x = 0; x < dx; x++)
+			for (int y = 0; y < dy; y++)
 			{
-				elevation[x][y] = elevation[x][y] - minValue;
-				elevation[x][y] *= normalizeFactor; // [0;1]
-				elevation[x][y] = elevation[x][y] - ALTITUDE_RATIO;
-				elevation[x][y] *= SCALING;
+				landscape[x][y] = landscape[x][y] - minValue;
+				landscape[x][y] *= normalizeFactor; // [0;1]
+				landscape[x][y] = landscape[x][y] - altRatio;
+				landscape[x][y] *= scaling;
 			}
-		}
-
-		for(int x = 0; x < width; x++)
+		/*for(int x = 0; x < dx; x++)
 		{
-			for(int y = 0; y < height; y++)
+			for(int y = 0; y < dy; y++)
 			{
-				if(elevation[x][y] <= WATER_ALTITUDE * minValue) 
+				if(landscape[x][y] <= WATER_ALTITUDE * minValue) 
 				{
-					buffer[x][y] = ENVIRONMENT_WATER;
+					landscape[x][y] = ENVIRONMENT_WATER;
 				}
 
-				if(elevation[x][y] > WATER_ALTITUDE * minValue && elevation[x][y] < FOREST_ALTITUDE * maxValue) //abre+sable
+				if(landscape[x][y] > WATER_ALTITUDE * minValue && landscape[x][y] < FOREST_ALTITUDE * maxValue) //abre+sable
 				{
 					boolean waterCloseBy = false;
-					if (x >= 5 && y >= 5 && x + 5 < width && y + 5 < height) 
+					if (x >= 5 && y >= 5 && x + 5 < dx && y + 5 < dy) 
 					{
 						for (int a = x - 5; a < x + 5; a++)
 						{
 							for (int b = y - 5; b < y + 5; b++)
 							{
-								if (elevation[a][b] <= 0.0)
+								if (landscape[a][b] <= 0.0)
 								{
 									waterCloseBy = true;
 								}
 							}
 						}
 					} //cas speciaux des quatres bords :
-					else if(x >= 5 && y >= 5 && x+5 >= width && y+5 < height) //au bord est : x+5>=width
+					else if(x >= 5 && y >= 5 && x+5 >= dx && y+5 < dy) //au bord est : x+5>=width
 					{
 						for(int a = x-5; a < x;a++)
 						{
 							for(int b = y-5; b < y + 5; b++)
 							{
-								if(elevation[a][b] <= 0.0)
+								if(landscape[a][b] <= 0.0)
 								{
 									waterCloseBy = true;
 								}
 							}
 						}
 					}
-					else if(x >= 5 && y < 5 && x+5 < width && y+5 < height) //au bord sud : y-5<0
+					else if(x >= 5 && y < 5 && x+5 < dx && y+5 < dy) //au bord sud : y-5<0
 					{
 						for(int a = x-5; a < x + 5;a++)
 						{
 							for(int b = y; b < y + 5; b++)
 							{
-								if(elevation[a][b] <= 0.0)
+								if(landscape[a][b] <= 0.0)
 								{
 									waterCloseBy = true;
 								}
 							}
 						}
 					}
-					else if(x < 5 && y >= 5 && x+5 < width && y+5 < height) //bord ouest : x-5<0
+					else if(x < 5 && y >= 5 && x+5 < dx && y+5 < dy) //bord ouest : x-5<0
 					{
 						for(int a = x; a < x+5;a++)
 						{
 							for(int b = y-5; b < y + 5; b++)
 							{
-								if(elevation[a][b] <= 0.0)
+								if(landscape[a][b] <= 0.0)
 								{
 									waterCloseBy = true;
 								}
 							}
 						}
 					}
-					else if(x >= 5 && y >= 5 && x+5 < width && y+5 >= height) //bord nord : y+5>height
+					else if(x >= 5 && y >= 5 && x+5 < dx && y+5 >= dy) //bord nord : y+5>height
 					{
 						for(int a = x-5; a < x+5;a++)
 						{
 							for(int b = y-5; b < y; b++)
 							{
-								if(elevation[a][b] <= 0.0)
+								if(landscape[a][b] <= 0.0)
 								{
 									waterCloseBy = true;
 								}
@@ -131,23 +113,30 @@ public class PerlinNoiseLandscapeGenerator {
 					//on ne s'occupe pas des coins : zone trop petite
 					if(waterCloseBy)
 					{
-						buffer[x][y] = ENVIRONMENT_SAND;
+						landscape[x][y] = ENVIRONMENT_SAND;
 					}
 					else 
 					{
-						buffer[x][y] = ENVIRONMENT_FOREST;
+						landscape[x][y] = ENVIRONMENT_FOREST;
 					}
 				}
 			}
 		}
+    	/*for ( int x = 0 ; x < dx ; x++ )
+    		for ( int y = 0 ; y < dy ; y++ )
+    			landscape[x][y] = Math.random();
+    	
+		*/
+    	landscape = LandscapeToolbox.scaleAndCenter(landscape, scaling, altRatio);
+    	landscape = LandscapeToolbox.smoothLandscape(landscape);
 
-		return buffer;
-	}
+		
+		return landscape;
+    }
 	
 	private static double[] GenerateAltitude(final int dx, final int dy, double[][] elevation) 
 	{
 		OpenSimplexNoise landscape = new OpenSimplexNoise((long)(Math.random() * 1000));
-//		SimplexNoise noise = new SimplexNoise(10, 0.7, (int) (Math.random() * 1000));
 		double min, max;
 		
 		min = Double.MAX_VALUE;
@@ -157,7 +146,6 @@ public class PerlinNoiseLandscapeGenerator {
 		{
 			for (int y = 0; y < dy; y++) 
 			{
-//				elevation[x][y] = noise.getNoise(x, y, 0);
 				elevation[x][y] = landscape.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0);
 				if (elevation[x][y] < min)
 				{
