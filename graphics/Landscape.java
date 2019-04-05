@@ -9,11 +9,12 @@ import input.PlayerInput;
 import java.awt.*;
 import java.awt.event.*;
 import javax.media.opengl.*;
+import javax.media.opengl.awt.GLJPanel;
 import javax.media.opengl.fixedfunc.*;
 import landscapegenerator.LoadFromFileLandscape;
 import landscapegenerator.PerlinNoiseLandscapeGenerator;
+import landscapegenerator.RandomLandscapeGenerator;
 import worlds.*;
-import javax.media.opengl.awt.GLJPanel;
 
 /**
  * Self-contained code displaying a landscape generated with Perlin noise
@@ -95,7 +96,7 @@ public class Landscape implements GLEventListener {
 	int movingY = 0;
 
 	/**
-	 * Initialise landscap
+	 * Initialise landscape à partir du bruit 
 	 */
 	public Landscape(World myWorld, int dx, int dy, double scaling, double altitudeRatio) {
 		this.myWorld = myWorld;
@@ -112,6 +113,13 @@ public class Landscape implements GLEventListener {
 
 		landscape = LoadFromFileLandscape.load(filename, scaling, landscapeAltitudeRatio);
 
+		initLandscape();
+	}
+	
+	public Landscape(World myWorld, int dx, int dy) {
+		this.myWorld = myWorld;
+
+		landscape = RandomLandscapeGenerator.generateRandomLandscape(dx, dy); // 11
 		initLandscape();
 	}
 

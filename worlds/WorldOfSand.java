@@ -5,18 +5,19 @@
 package worlds;
 
 import DynamicObject.Agent;
-import cellularautomata.ForestCA;
+import cellularautomata.DesertCA;
 import javax.media.opengl.GL2;
+import objects.Arbres.Cactus;
 import objects.Arbres.GrandArbre;
 import objects.Arbres.Tree;
 import objects.Architect.BridgeBlock;
 import objects.Architect.Monolith;
 import objects.Consommables.Herbe;
 
-public class WorldOfTrees extends World {
+public class WorldOfSand extends World {
 	
-	private static final int POPINI=400;
-    protected ForestCA cellularAutomata;
+	private static final int POPINI=100;
+    protected DesertCA cellularAutomata;
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -39,13 +40,13 @@ public class WorldOfTrees extends World {
 		    	
 		        if ( height >= 0 )
 				{	/* snowy mountain
-		        	color[0] = height / (float)this.getMaxEverHeight();
-					color[1] = height / (float)this.getMaxEverHeight();
-					color[2] = height / (float)this.getMaxEverHeight();
-					*/
-					// green mountains
+		        	color[0] = 1f;//height / (float)this.getMaxEverHeight();
+					color[1] = 1f;//height / (float)this.getMaxEverHeight();
+					color[2] = 1f;//height / (float)this.getMaxEverHeight();
+					*/ 
+					//yellow mountain
 		        	
-		        	color[0] = height / ( (float)this.getMaxEverHeight() );
+		        	color[0] = 0.9f + 0.1f * height / ( (float)this.getMaxEverHeight() );
 					color[1] = 0.9f + 0.1f * height / ( (float)this.getMaxEverHeight() );
 					color[2] = height / ( (float)this.getMaxEverHeight() );
 					//
@@ -60,33 +61,17 @@ public class WorldOfTrees extends World {
     		}
 		/*-------------------FIN COULEUR--------------------*/
     	/*-----------------AJOUT OBJETS--------------------*/
-    	for ( int i = 0 ; i < 11 ; i++ )
-    		if ( i%10 == 0 ){
-    			LObjects.add(new Monolith(110,110+i,this)); // Colonnes de l arc
-			}else{
-    			LObjects.add(new BridgeBlock(110,110+i,this)); // Pont de l arc
-			}
 		
 		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
 				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
 		
-    	// AJOUT ARBRES ET HERBES
-    	for (int i = 0 ; i < dxCA ; i++)
-    		for (int j = 0 ; j < dyCA ; j++)
-    		{
-    			cellState = this.getCellValue(i, j);
-    			if (cellState == 1)
-    				if (Math.random() < 0.009)
-    					LDynamicObjects.add(new GrandArbre(i,j,this));
-    				else
-						LDynamicObjects.add(new Herbe(i,j,this)); // Creation de l'herbe	
-    		}
+    	
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }
     
     protected void initCellularAutomata(int dx, int dy, double[][] landscape)
     {
-    	cellularAutomata = new ForestCA(this,dx,dy,HeightVal);
+    	cellularAutomata = new DesertCA(this,dx,dy,HeightVal);
     	cellularAutomata.init();
     }
     
@@ -123,20 +108,7 @@ public class WorldOfTrees extends World {
 			float stepX, float stepY, float lenX, float lenY,
 			float normalizeHeight) 
 	{
-		switch ( cellState )
-		{
-		case 1: 
-			Tree.displayObjectAt(_myWorld,gl,cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
-			break;
-		case 2:
-			Tree.displayObjectAt(_myWorld,gl,cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
-			break;
-		case 3:
-			Tree.displayObjectAt(_myWorld,gl,cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
-			break;
-		default:
-			// nothing to display at this location.
-		}
+		
 	}
 	public void displayObject(World _myWorld, GL2 gl, float offset,
 							float stepX, float stepY, float lenX, float lenY, 

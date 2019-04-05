@@ -5,16 +5,32 @@
 package applications.simpleworld;
 
 import graphics.Landscape;
-import worlds.WorldOfTrees_1;
+import worlds.*;
+import javax.swing.*;
 
 public class MyEcosystem {
     
 	public static void main(String[] args) {
-
-		WorldOfTrees_1 myWorld = new WorldOfTrees_1();
-		Landscape myLandscape = new Landscape(myWorld, "landscape_default-200.png", 0.75, 0.35);
-		Landscape myLandscapeGen = new Landscape(myWorld,200,200, 0.5, 0.35);
-		Landscape.run(myLandscapeGen);
+		
+		WorldOfTrees wTree = new WorldOfTrees();
+		WorldOfSand wSand = new WorldOfSand();
+		WorldOfSnow wSnow = new WorldOfSnow();
+		
+		Transfert info = new Transfert();
+		DialogAppli dialog = new DialogAppli(null);
+		dialog.LanceDialg(info);
+		
+		if(info.file)
+		{
+			Landscape myLandscape = new Landscape(wSand, "landscape_default-200.png", info.altitude, info.waterlevel);
+			Landscape.run(myLandscape);
+		}
+				
+		else if(info.random)
+		{
+				Landscape myLandscapeGen = new Landscape(wSand,200,200, info.altitude, info.waterlevel);
+				Landscape.run(myLandscapeGen);
+		}
 		
 	/*
 		// parametres:

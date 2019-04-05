@@ -1,4 +1,4 @@
-package objects;
+package objects.Arbres;
 
 
 import DynamicObject.Agent;

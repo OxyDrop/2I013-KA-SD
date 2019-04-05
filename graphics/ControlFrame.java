@@ -1,9 +1,7 @@
 package graphics;
-import javax.swing.*; 
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.sound.sampled.*;
+import javax.swing.*;
 /**
  *
  * @author Serero

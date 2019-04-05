@@ -4,19 +4,19 @@
 
 package worlds;
 
+import DynamicObject.Agent;
+import cellularautomata.SnowyCA;
+import javax.media.opengl.GL2;
+import objects.Arbres.GrandArbre;
+import objects.Arbres.Tree;
 import objects.Architect.BridgeBlock;
 import objects.Architect.Monolith;
 import objects.Consommables.Herbe;
-import DynamicObject.Agent;
-import cellularautomata.ForestCA;
-import javax.media.opengl.GL2;
-import objects.*;
-import javax.swing.JDialog;
 
-public class WorldOfTrees_1 extends World {
+public class WorldOfSnow extends World {
 	
 	private static final int POPINI=400;
-    protected ForestCA cellularAutomata;
+    protected SnowyCA cellularAutomata;
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -85,7 +85,7 @@ public class WorldOfTrees_1 extends World {
     
     protected void initCellularAutomata(int dx, int dy, double[][] landscape)
     {
-    	cellularAutomata = new ForestCA(this,dx,dy,HeightVal);
+    	cellularAutomata = new SnowyCA(this,dx,dy,HeightVal);
     	cellularAutomata.init();
     }
     
