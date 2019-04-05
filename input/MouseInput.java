@@ -1,7 +1,8 @@
 package input;
 
-import com.jogamp.newt.event.MouseEvent;
-import com.jogamp.newt.event.MouseListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 
 /**
  *
@@ -29,39 +30,24 @@ public class MouseInput implements MouseListener {
 		//return (unitsTall / windowHeight * y - unitsTall / 2)  + cameraY
 		return 0;
 	}
-	
+
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(MouseEvent me) {
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void mousePressed(MouseEvent me) {
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void mouseReleased(MouseEvent me) {
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mouseEntered(MouseEvent me) {
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseExited(MouseEvent me) {
 	}
-
-	@Override
-	public void mouseMoved(MouseEvent e) {
-		x=e.getX();
-		y=e.getY();
-	}
-
-	@Override
-	public void mouseDragged(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseWheelMoved(MouseEvent e) {
-	}
-	
 }

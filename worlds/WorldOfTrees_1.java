@@ -56,11 +56,11 @@ public class WorldOfTrees_1 extends World {
     		}
 		/*-------------------FIN COULEUR--------------------*/
     	/*-----------------AJOUT OBJETS--------------------*/
-    	for ( int i = 0 ; i < 110 ; i++ )
+    	for ( int i = 0 ; i < 11 ; i++ )
     		if ( i%10 == 0 ){
-    			LObjects.add(new Monolith(i*10,110+i,this)); // Colonnes de l arc
+    			LObjects.add(new Monolith(110,110+i,this)); // Colonnes de l arc
 			}else{
-    			LObjects.add(new BridgeBlock(i*10,110+i,this)); // Pont de l arc
+    			LObjects.add(new BridgeBlock(110,110+i,this)); // Pont de l arc
 			}
 		
 		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT

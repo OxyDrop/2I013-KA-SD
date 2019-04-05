@@ -1,4 +1,4 @@
-package etu.upmc.project.landscape;
+package landscapegenerator;
 /*
  * OpenSimplex Noise in Java.
  * by Kurt Spencer
