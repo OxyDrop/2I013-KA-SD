@@ -2,18 +2,25 @@ package objects.Arbres;
 
 
 import Interfaces.*;
+import java.util.ArrayList;
 import javax.media.opengl.GL2;
+import objects.Consommables.Pomme;
 import objects.UniqueObject;
 import worlds.World;
 
 public class GrandArbre extends UniqueObject implements Eliminable
 {
+	private ArrayList<Pomme> pomme;
+	private int health;
+	private final static int NBPOMME = 3;
+	private static boolean vide = false;
 	
-	int health;
 	public GrandArbre ( int __x , int __y , World __world )
 	{
 		super(__x, __y, __world);
 		health = 6000;
+		pomme = new ArrayList<>();
+		init();
 	}
 	
 	public void step()
@@ -24,7 +31,45 @@ public class GrandArbre extends UniqueObject implements Eliminable
 	{
 		return health <= 0;
 	}
+	
+	public void addPomme() //ajoute une pomme à l'arbre;
+	{
+		pomme.add(new Pomme(x,y,world));
+	} 
+	
+	public Pomme popPomme() //retourne la pomme en fin de liste
+	{
+		return pomme.remove(pomme.size()-1);
+	}
+	
+	public final void init() //Initialise le 
+	{
+		for(int i = 0; i<NBPOMME; i++)
+			addPomme();
+	}
+	
+	public static boolean getVide()
+	{
+		return vide;
+	}
+	
+	public static void setVide(boolean vide)
+	{
+		GrandArbre.vide=vide;
+	}
 
+	public ArrayList<Pomme> getPomme() {
+		return pomme;
+	}
+
+	public int getHealth() {
+		return health;
+	}
+	
+	public void setHealth(int health){
+		this.health=health;
+	}
+	
 	public void displayUniqueObject(World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight)
     {
 
@@ -47,11 +92,13 @@ public class GrandArbre extends UniqueObject implements Eliminable
     	{
     		cellState = 3;
     	}
+		
+		//for(Pomme p : pomme)
+		//	p.displayUniqueObject(myWorld, gl, x2, y2, offset, stepX, stepY, lenX, lenY, normalizeHeight);
 		switch ( cellState )
         {
         	case 1:
-        		
-        		
+        	
         		gl.glColor3f(0.4f,0.3f-(float)(0.2*Math.random()),0.0f);
         		/* Tronc de l'arbre */
                 gl.glVertex3f( offset+x2*stepX-lenX, offset+y2*stepY-lenY, height*normalizeHeight);

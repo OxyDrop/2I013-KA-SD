@@ -4,6 +4,8 @@
 
 package landscapegenerator;
 
+import java.util.Random;
+
 public class PerlinNoiseLandscapeGenerator {
 	
 		public static final int ENVIRONMENT_WATER	= 1;
@@ -15,7 +17,93 @@ public class PerlinNoiseLandscapeGenerator {
 		private static final double FEATURE_SIZE 	=  64;
 		private static final double FOREST_ALTITUDE = 0.6;
 		public static final double WATER_ALTITUDE	= 0.10;
-
+		private static final float AMPLITUDE = 70f;
+		private static final int OCTAVES = 3;
+		private static final float ROUGHNESS = 0.3f;
+		
+		private static Random random = new Random();
+		private static int seed =  random.nextInt(1000000000);
+	
+		/************************************************************
+		 *  DEBUT TENTATIVE ECRITURE GENERATEUR ALEATOIRE 
+		 * **********************************************************/
+	public static float generateHeight(int x, int z)
+	{
+		float total = 0;
+		float d = (float) Math.pow(2,OCTAVES-1);
+		
+		for(int i=0;i<OCTAVES;i++){
+			float freq = (float) (Math.pow(2,i)/d);
+			float amp = (float) Math.pow(ROUGHNESS,i) * AMPLITUDE;
+			total += getInterpolatedNoise(x*freq, z*freq) * amp;
+		}
+		return total;
+	}
+	
+	public static float getNoise(int x, int z)
+	{
+		random.setSeed(x*49632+z*325176+seed);
+		return random.nextFloat()*2f-1f;
+	}
+	
+	private static float getSmoothNoise(int x, int z)
+	{
+		float corners =  (getNoise(x-1,z-1) + getNoise(x+1,z-1) + getNoise(x-1,z+1) 
+				+ getNoise(x+1,z+1))/16f;
+		
+		float sides = (getNoise(x-1,z) + getNoise(x+1,z) + getNoise(x,z-1) 
+				+ getNoise(x,z+1))/8f;
+		
+		float center = getNoise(x,z)/4f;
+		
+		return corners + sides + center;
+		
+	}
+	
+	private static float getInterpolatedNoise(float x, float z)
+	{
+		int intX = (int) x;
+		int intZ = (int) z;
+		float fracX = x - intX;
+		float fracZ = z - intZ;
+		
+		float v1 = getSmoothNoise(intX,intZ);
+		float v2 = getSmoothNoise(intX+1,intZ);
+		float v3 = getSmoothNoise(intX,intZ+1);
+		float v4 = getSmoothNoise(intX+1,intZ+1);
+		float i1 = interpolate(v1,v2,fracX);
+		float i2 = interpolate(v3,v4,fracX);
+		
+		return interpolate(i1,i2,fracZ);
+	}
+	
+	private static float interpolate(float a, float b, float blend)
+	{
+		double theta = blend * Math.PI;
+		float f = (float)(1f - Math.cos(theta)) * 0.5f;
+		
+		return a * (1f - f) + b * f;
+	}
+	
+	public static double[][] generatePNL(int dx, int dy, double scaling, double altRatio)
+	{
+		double landscape[][] = new double[dx][dy];	
+		float pnlgh = PerlinNoiseLandscapeGenerator.generateHeight(dx,dy);
+		for (int x = 0; x < dx; x++)
+			for (int y = 0; y < dy; y++){
+				landscape[x][y] = pnlgh;
+				landscape[x][y] -= altRatio;
+				landscape[x][y] *= 0.5;
+				landscape[x][y] *= scaling;
+			}
+		return landscape;
+	}
+	
+	/************************************************************
+		 *  FIN TENTATIVE ECRITURE GENERATEUR ALEATOIRE 
+	* **********************************************************/
+	
+	/***********************UTILISER CETTE METHODE****************/
     public static double[][] generatePerlinNoiseLandscape ( int dx, int dy, double scaling, double altRatio, int perlinLayer )
     {
     	
@@ -33,104 +121,9 @@ public class PerlinNoiseLandscapeGenerator {
 				landscape[x][y] = landscape[x][y] - altRatio;
 				landscape[x][y] *= scaling;
 			}
-		/*for(int x = 0; x < dx; x++)
-		{
-			for(int y = 0; y < dy; y++)
-			{
-				if(landscape[x][y] <= WATER_ALTITUDE * minValue) 
-				{
-					landscape[x][y] = ENVIRONMENT_WATER;
-				}
-
-				if(landscape[x][y] > WATER_ALTITUDE * minValue && landscape[x][y] < FOREST_ALTITUDE * maxValue) //abre+sable
-				{
-					boolean waterCloseBy = false;
-					if (x >= 5 && y >= 5 && x + 5 < dx && y + 5 < dy) 
-					{
-						for (int a = x - 5; a < x + 5; a++)
-						{
-							for (int b = y - 5; b < y + 5; b++)
-							{
-								if (landscape[a][b] <= 0.0)
-								{
-									waterCloseBy = true;
-								}
-							}
-						}
-					} //cas speciaux des quatres bords :
-					else if(x >= 5 && y >= 5 && x+5 >= dx && y+5 < dy) //au bord est : x+5>=width
-					{
-						for(int a = x-5; a < x;a++)
-						{
-							for(int b = y-5; b < y + 5; b++)
-							{
-								if(landscape[a][b] <= 0.0)
-								{
-									waterCloseBy = true;
-								}
-							}
-						}
-					}
-					else if(x >= 5 && y < 5 && x+5 < dx && y+5 < dy) //au bord sud : y-5<0
-					{
-						for(int a = x-5; a < x + 5;a++)
-						{
-							for(int b = y; b < y + 5; b++)
-							{
-								if(landscape[a][b] <= 0.0)
-								{
-									waterCloseBy = true;
-								}
-							}
-						}
-					}
-					else if(x < 5 && y >= 5 && x+5 < dx && y+5 < dy) //bord ouest : x-5<0
-					{
-						for(int a = x; a < x+5;a++)
-						{
-							for(int b = y-5; b < y + 5; b++)
-							{
-								if(landscape[a][b] <= 0.0)
-								{
-									waterCloseBy = true;
-								}
-							}
-						}
-					}
-					else if(x >= 5 && y >= 5 && x+5 < dx && y+5 >= dy) //bord nord : y+5>height
-					{
-						for(int a = x-5; a < x+5;a++)
-						{
-							for(int b = y-5; b < y; b++)
-							{
-								if(landscape[a][b] <= 0.0)
-								{
-									waterCloseBy = true;
-								}
-							}
-						}
-					}
-					//on ne s'occupe pas des coins : zone trop petite
-					if(waterCloseBy)
-					{
-						landscape[x][y] = ENVIRONMENT_SAND;
-					}
-					else 
-					{
-						landscape[x][y] = ENVIRONMENT_FOREST;
-					}
-				}
-			}
-		}
-    	/*for ( int x = 0 ; x < dx ; x++ )
-    		for ( int y = 0 ; y < dy ; y++ )
-    			landscape[x][y] = Math.random();
-    	
-		*/
     	landscape = LandscapeToolbox.scaleAndCenter(landscape, scaling, altRatio);
     	landscape = LandscapeToolbox.smoothLandscape(landscape);
 
-		
 		return landscape;
     }
 	

@@ -12,6 +12,7 @@ import objects.Arbres.Tree;
 import objects.Architect.BridgeBlock;
 import objects.Architect.Monolith;
 import objects.Consommables.Herbe;
+import objects.Consommables.Pomme;
 
 public class WorldOfTrees extends World {
 	
@@ -62,30 +63,30 @@ public class WorldOfTrees extends World {
     		}
 		/*-------------------FIN COULEUR--------------------*/
     	/*-----------------AJOUT OBJETS--------------------*/
-    	for ( int i = 0 ; i < 11 ; i++ )
-    		if ( i%10 == 0 ){
-    			LObjects.add(new Monolith(110,110+i,this)); // Colonnes de l arc
-			}else{
-    			LObjects.add(new BridgeBlock(110,110+i,this)); // Pont de l arc
-			}
-		/*------------------AJOUTS AGENTS ----------------------*/
-		for(int i=0;i<POPINI;i++) 
-				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
-		
-    	/*----------AJOUT GRAND ARBRES ET HERBES ------------------------*/
-    	for (int i = 0 ; i < dxCA ; i++)
+	 for (int i = 0 ; i < dxCA ; i++)
     		for (int j = 0 ; j < dyCA ; j++)
     		{
     			cellState = this.getCellValue(i, j);
-    			if (cellState == 1)
-    				if (Math.random() < 0.009)
+				
+    			if (cellState == 1){
+    				if (Math.random() < 0.009){
     					LObjects.add(new GrandArbre(i,j,this));
-				else if(Math.random()<0.1)
-					LObjects.add(new Herbe(i,j,this)); // Creation de l'herbe	
-    		}
+					}
+				}
+				
+				else if(Math.random()<0.009){
+					//LObjects.add(new Herbe(i,j,this)); // Creation de l'herbe
+					LObjects.add(new Pomme(i,j,this));
+				}
+			}
+		/*------------------AJOUTS AGENTS ----------------------*/
+		for(int i=0;i<POPINI;i++) 
+			agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
+		
+ 
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
-    }
-    
+
+	}
     protected void initCellularAutomata(int dx, int dy, double[][] landscape)
     {
     	cellularAutomata = new ForestCA(this,dx,dy,HeightVal);

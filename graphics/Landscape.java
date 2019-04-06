@@ -46,24 +46,18 @@ public class Landscape implements GLEventListener {
 	private World myWorld;
 
 	private static GLCapabilities caps;  // GO FAST ???
-
-	static boolean MY_LIGHT_RENDERING = false; // true: nicer but slower
-
-	final static boolean SMOOTH_AT_BORDER = true; // nicer (but wrong) rendering at border (smooth altitudes)
-
-	//final static double landscapeAltitudeRatio = 0.6; // 0.5: half mountain, half water ; 0.3: fewer water
-	static boolean VIEW_FROM_ABOVE = false; // also desactivate altitudes
-
-	static boolean DISPLAY_OBJECTS = true; // useful to deactivate if view_from_above
-
-	final static boolean DISPLAY_FPS = true; // on-screen display
-
 	static Animator animator;
 
+	static boolean MY_LIGHT_RENDERING = false; // true: nicer but slower
+	final static boolean SMOOTH_AT_BORDER = true; // nicer (but wrong) rendering at border (smooth altitudes)
+	//final static double landscapeAltitudeRatio = 0.6; // 0.5: half mountain, half water ; 0.3: fewer water
+	static boolean VIEW_FROM_ABOVE = false; // also desactivate altitudes
+	static boolean DISPLAY_OBJECTS = true; // useful to deactivate if view_from_above
+	final static boolean DISPLAY_FPS = true; // on-screen display
+
 	private float rotateX = 0.0f;
-
 	private float rotationVelocity = 0f; // 0.2f
-
+	
 	int it = 0;
 	int movingIt = 0;
 	int dxView;
@@ -72,7 +66,6 @@ public class Landscape implements GLEventListener {
 	double[][] landscape;
 
 	int lastFpsValue = 0;
-
 	public static int lastItStamp = 0;
 	public static long lastTimeStamp = 0;
 
@@ -98,6 +91,7 @@ public class Landscape implements GLEventListener {
 	
 	float moduleAltitude;
 	float moduleDepth;
+		
 	/**
 	 * Initialise landscape à partir du bruit 
 	 */
@@ -105,6 +99,7 @@ public class Landscape implements GLEventListener {
 		this.myWorld = myWorld;
 
 		landscape = PerlinNoiseLandscapeGenerator.generatePerlinNoiseLandscape(dx, dy, scaling, altitudeRatio, 100); // 11
+		//landscape = PerlinNoiseLandscapeGenerator.generatePNL(dx, dy, scaling, altitudeRatio);
 		initLandscape();
 	}
 
@@ -119,17 +114,12 @@ public class Landscape implements GLEventListener {
 		initLandscape();
 	}
 	
-	public Landscape(World myWorld, int dx, int dy) {
-		this.myWorld = myWorld;
-
-		landscape = RandomLandscapeGenerator.generateRandomLandscape(dx, dy); // 11
-		initLandscape();
-	}
 
 	/**
 	 *
 	 */
-	private void initLandscape() {
+	private void initLandscape() 
+	{
 		dxView = landscape.length;
 		dyView = landscape[0].length;
 
@@ -154,7 +144,7 @@ public class Landscape implements GLEventListener {
 		smoothingDistanceThreshold = 30; //30;
 		moduleAltitude = -44f;
 		moduleDepth = -130f;
-
+		
 	}
 
 	/**
@@ -200,18 +190,13 @@ public class Landscape implements GLEventListener {
 	 * OpenGL Init method
 	 */
 	@Override
-	public void init(GLAutoDrawable glDrawable) {
+	public void init(GLAutoDrawable glDrawable) 
+	{
 		GL2 gl = glDrawable.getGL().getGL2();
 
-		// Enable front face culling (can speed up code, but is not always 
-		// GO FAST ???
-		// double buffer
 		gl.glEnable(GL2.GL_DOUBLEBUFFER);
 		glDrawable.setAutoSwapBufferMode(true);
-
-		// Enable VSync
-		// ? gl.setSwapInterval(1);
-		// END of GO FAST ???
+		
 		gl.glShadeModel(GLLightingFunc.GL_SMOOTH);
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glClearDepth(1.0f);
@@ -222,15 +207,8 @@ public class Landscape implements GLEventListener {
 		// Culling - display only triangles facing the screen
 		gl.glCullFace(GL.GL_FRONT);
 		gl.glEnable(GL.GL_CULL_FACE);
-
-		// trucs d'alex
 		gl.glEnable(GL.GL_DITHER);
-
 	}
-
-	/**
-	 *
-	 */
 	@Override
 	public void display(GLAutoDrawable gLDrawable) {
 
@@ -243,10 +221,8 @@ public class Landscape implements GLEventListener {
 				System.out.print("frames per second  : " + fps + " ; ");
 				System.out.println();
 			}
-
 			lastItStamp = it;
 			lastTimeStamp = System.currentTimeMillis();
-
 			lastFpsValue = fps;
 		}
 
@@ -288,28 +264,7 @@ public class Landscape implements GLEventListener {
 			gl.glEnable(GL2.GL_LIGHT1);
 			gl.glEnable(GL2.GL_LIGHTING);
 		}
-
-		// ***
-		////gl.glTranslatef(0.0f, 0.0f, -100.0f); // 0,0,-5
-		// rotate on the three axis
-		////gl.glRotatef(rotateT, 1.0f, 0.0f, 0.0f);
-		////gl.glRotatef(rotateT, 0.0f, 1.0f, 0.0f);
-		//gl.glRotatef(rotateT, 0.0f, 0.0f, 1.0f);
-		// gl.glPushMatrix(); gl.glPopMatrix();
-		/* DEBUG: as seen from above *
-                gl.glTranslatef(0.0f, 0.0f, -500.0f); // 0,0,-5
-                gl.glRotatef(rotateT, 0.0f, 0.0f, 1.0f);
-                // DEBUG
-                /**/
-
- /*
-                // DEBUG
-                gl.glTranslatef(0.0f, 0.0f, -500.0f); // 0,0,-5
-                //gl.glRotatef(rotateT, 0.0f, 0.0f, 1.0f);
-                //gl.glRotatef(-90.f, 1.0f, 0.0f, 0.0f);
-                gl.glRotatef(-90.f, 0.0f, 0.0f, 1.0f);
-                // DEBUG
-                /**/
+		
 		if (VIEW_FROM_ABOVE == true) {
 			// as seen from above, no rotation (debug mode)
 			gl.glTranslatef(0.0f, 0.0f, -500.0f); // 0,0,-5
@@ -319,17 +274,10 @@ public class Landscape implements GLEventListener {
 			gl.glRotatef(rotateX, 0.0f, 1.0f, 0.0f);
 			gl.glRotatef(-90.f, 1.0f, 0.0f, 0.0f);
 		}
-
-		//System.out.println("rotateT = " + rotateT );
+		
 		it++;
-		//if ( it % 30 == 0 )//&& it != 0)
-		//  movingIt++;
-		//movingIt=0;
-
-		//movingIt=dxView+1;
 		// ** update Cellular Automata
 		myWorld.step();
-
 		// ** draw everything
 		gl.glBegin(GL2.GL_QUADS);
 
@@ -427,9 +375,6 @@ public class Landscape implements GLEventListener {
 		//gLDrawable.swapBuffers(); // GO FAST ???  // should be done at the end (http://stackoverflow.com/questions/1540928/jogl-double-buffering)
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public void reshape(GLAutoDrawable gLDrawable, int x, int y, int width, int height) {
 		if (this.it == 0) {
@@ -450,24 +395,10 @@ public class Landscape implements GLEventListener {
 		gl.glLoadIdentity();
 	}
 
-	/**
-	 *
-	 */
 	@Override
 	public void dispose(GLAutoDrawable gLDrawable) {
 	}
 
-	/**
-	 *
-	 * @param args
-	 */
-	/*
-        public static void main(String[] args) {
-
-            initLandscape(200,200, new WorldOfTrees());
-
-        }
-	 */
 	public static Animator getAnimator() {
 		return animator;
 	}

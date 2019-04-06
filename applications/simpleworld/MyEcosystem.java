@@ -110,7 +110,7 @@ public class MyEcosystem {
 				break;
 				
 			case 3: 
-				Landscape.run(new Landscape(new WorldOfTrees(),200,200,0.6,0.35)); 
+				Landscape.run(new Landscape(new WorldOfTrees(),200,200,0.33,0.1)); 
 				break;
 				
 			case 4: //Works only in debug mode
