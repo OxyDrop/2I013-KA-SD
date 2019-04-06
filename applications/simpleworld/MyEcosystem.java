@@ -9,8 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -92,10 +90,10 @@ public class MyEcosystem {
 				System.out.print("Initialisation\n\tfalse:Fichier\n\ttrue:Random\n>");
 				boolean choixfile = sc.nextBoolean();
 				
-				System.out.print("\n Altitude : ");
+				System.out.print("\nUtiliser la virgule\nAltitude : ");
 				double altitude = sc.nextDouble();
 				
-				System.out.print("\n Hauteur de l'eau : ");
+				System.out.print("\nHauteur de l'eau : ");
 				double waterLevel = sc.nextDouble();
 				
 				Landscape.run(new Landscape(new WorldOfTrees(),200,200,altitude,waterLevel));

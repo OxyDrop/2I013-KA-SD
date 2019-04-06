@@ -1,12 +1,12 @@
 package objects.Arbres;
 
 
-import DynamicObject.Agent;
 import Interfaces.*;
 import javax.media.opengl.GL2;
+import objects.UniqueObject;
 import worlds.World;
 
-public class GrandArbre extends Agent implements Eliminable
+public class GrandArbre extends UniqueObject implements Eliminable
 {
 	
 	int health;

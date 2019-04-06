@@ -7,12 +7,6 @@ package worlds;
 import DynamicObject.Agent;
 import cellularautomata.DesertCA;
 import javax.media.opengl.GL2;
-import objects.Arbres.Cactus;
-import objects.Arbres.GrandArbre;
-import objects.Arbres.Tree;
-import objects.Architect.BridgeBlock;
-import objects.Architect.Monolith;
-import objects.Consommables.Herbe;
 
 public class WorldOfSand extends World {
 	

@@ -1,8 +1,7 @@
 package applications.simpleworld;
-import javax.swing.*;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
 import worlds.World;
 import worlds.WorldOfSand;
 import worlds.WorldOfSnow;
@@ -30,14 +29,14 @@ public class DialogAppli extends JDialog implements ActionListener
 	private boolean confirm = false;
 	public DialogAppli()
 	{
-		setSize(600,200);
+		setSize(700,200);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
 		toFront();
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim = tk.getScreenSize();
-		setLocation(dim.width/2, dim.height/2);
+		setLocation(dim.width/3, dim.height/3);
 				
 		explication = new JLabel("1:Tree|2:Sand|3:Snow");
 		altitude = new JLabel("Altitude : ");

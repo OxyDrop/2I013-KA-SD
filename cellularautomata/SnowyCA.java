@@ -7,7 +7,7 @@ public class SnowyCA extends CellularAutomataInteger {
 	CellularAutomataDouble HeightVal;
 	
 	World world;
-	private final static double DENSITY_TREES = 0.3;
+	private final static double DENSITY_TREES = 0.01;
 	
 	public SnowyCA ( World world, int dx , int dy, CellularAutomataDouble HeightVal )
 	{
@@ -41,11 +41,7 @@ public class SnowyCA extends CellularAutomataInteger {
         
 	public void step()
 	{
-    	for ( int i = 0 ; i != dx ; i++ )
-    		for ( int j = 0 ; j != dy ; j++ )
-	    			this.world.ColorVal.setCellState(i, j, 1f,1f,1f);
-   
-    	this.swapBuffer();
+    	//this.swapBuffer();
 	}	
 }
 

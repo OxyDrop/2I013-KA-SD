@@ -1,12 +1,12 @@
 package objects.Consommables;
 
 
-import DynamicObject.Agent;
 import Interfaces.*;
 import javax.media.opengl.GL2;
+import objects.UniqueObject;
 import worlds.World;
 
-public class Herbe extends Agent implements Eliminable, Consommable
+public class Herbe extends UniqueObject implements Eliminable, Consommable
 {
 	int health;
 	boolean isConsommable;

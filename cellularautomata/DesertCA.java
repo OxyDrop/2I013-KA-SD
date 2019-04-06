@@ -40,6 +40,6 @@ public class DesertCA extends CellularAutomataInteger {
         
 	public void step()
 	{
-    	this.swapBuffer();
+    	//this.swapBuffer();
 	}	
 }

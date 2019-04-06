@@ -77,9 +77,9 @@ public class WorldOfTrees extends World {
     			cellState = this.getCellValue(i, j);
     			if (cellState == 1)
     				if (Math.random() < 0.009)
-    					LDynamicObjects.add(new GrandArbre(i,j,this));
+    					LObjects.add(new GrandArbre(i,j,this));
 				else if(Math.random()<0.1)
-					LDynamicObjects.add(new Herbe(i,j,this)); // Creation de l'herbe	
+					LObjects.add(new Herbe(i,j,this)); // Creation de l'herbe	
     		}
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }
