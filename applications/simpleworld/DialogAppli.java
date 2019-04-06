@@ -3,6 +3,10 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
+import worlds.World;
+import worlds.WorldOfSand;
+import worlds.WorldOfSnow;
+import worlds.WorldOfTrees;
 /**
  *
  * @author Serero
@@ -14,25 +18,28 @@ import java.awt.event.*;
  */
 public class DialogAppli extends JDialog implements ActionListener
 {
-	private JLabel altitude, waterlevel;
+	private JLabel altitude, waterlevel, explication;
 	private JTextField inputalt, inputwater;
 	private JButton ok, annuler;
 	private JCheckBox cbFile, cbRandom;
 	private JList chooseWorld;
 	
-	private static final String[] WORLD = {"wTrees","WSand","wSnow"};
+	private static final World[] WORLD = {new WorldOfTrees(),new WorldOfSand(),new WorldOfSnow()};
 	private static JComponent[] auto;
 	
 	private boolean confirm = false;
-	public DialogAppli(Object o)
+	public DialogAppli()
 	{
-		setSize(400,200);
+		setSize(600,200);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setAlwaysOnTop(true);
+		toFront();
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim = tk.getScreenSize();
 		setLocation(dim.width/2, dim.height/2);
 				
+		explication = new JLabel("1:Tree|2:Sand|3:Snow");
 		altitude = new JLabel("Altitude : ");
 		waterlevel = new JLabel("Eau : ");
 		inputalt = new JTextField(5);
@@ -42,7 +49,7 @@ public class DialogAppli extends JDialog implements ActionListener
 		cbFile = new JCheckBox("Fichier");
 		cbRandom = new JCheckBox("Random");
 		chooseWorld = new JList(WORLD);
-		auto = new JComponent[]{chooseWorld,altitude,inputalt,waterlevel,inputwater,cbFile,cbRandom,ok,annuler};
+		auto = new JComponent[]{explication,chooseWorld,altitude,inputalt,waterlevel,inputwater,cbFile,cbRandom,ok,annuler};
 		confirm = false;
 		
 		Container contenu = getContentPane();
@@ -60,14 +67,14 @@ public class DialogAppli extends JDialog implements ActionListener
 	{
 		setVisible(true);
 		requestFocus();
-		while(this.isVisible()){}
+		while(!confirm){}
 		if(confirm)
 		{
 			info.altitude=Double.parseDouble(inputalt.getText());
 			info.waterlevel=Double.parseDouble(inputwater.getText());
 			info.file=cbFile.isSelected();
 			info.random=cbRandom.isSelected();
-			info.choosen=(String)chooseWorld.getSelectedValue();
+			info.choosen=(World)chooseWorld.getSelectedValue();
 			
 		}
 	}

@@ -82,7 +82,7 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 				break;
 				
 			case java.awt.event.KeyEvent.VK_Z:
-				if(key.isAltDown())
+				if(key.isControlDown())
 					land.setModuleDepth(land.getModuleDepth()-10);
 				else
 					land.setModuleAltitude(land.getModuleAltitude()-3);

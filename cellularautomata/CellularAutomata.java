@@ -28,7 +28,7 @@ public abstract class CellularAutomata {
 		if ( x < 0 || x > dx || y < 0 || y > dy )
 		{
 			System.err.println("[error] out of bounds ("+x+","+y+")");
-			//System.exit(-1);
+			System.exit(-1);
 		}
 	}
 	

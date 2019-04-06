@@ -10,5 +10,5 @@ public class Transfert
 {
 	public double waterlevel, altitude;
 	public boolean random, file;
-	public String choosen;
+	public World choosen;
 }

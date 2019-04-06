@@ -189,7 +189,8 @@ public class Landscape implements GLEventListener {
 		frame.setVisible(true);
 		animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
 		animator.start();
-		//frame.requestFocus();
+		frame.setAlwaysOnTop(true);
+		frame.toFront();
 		panel.requestFocus();
 
 		return landscape;
