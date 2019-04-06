@@ -88,13 +88,16 @@ public class Landscape implements GLEventListener {
 	float stepY;
 	float lenX;
 	float lenY;
+	
 
 	float smoothFactor[];
 	int smoothingDistanceThreshold;
 
 	int movingX = 0;
 	int movingY = 0;
-
+	
+	float moduleAltitude;
+	float moduleDepth;
 	/**
 	 * Initialise landscape à partir du bruit 
 	 */
@@ -149,6 +152,8 @@ public class Landscape implements GLEventListener {
 		}
 
 		smoothingDistanceThreshold = 30; //30;
+		moduleAltitude = -44f;
+		moduleDepth = -130f;
 
 	}
 
@@ -309,7 +314,7 @@ public class Landscape implements GLEventListener {
 			gl.glTranslatef(0.0f, 0.0f, -500.0f); // 0,0,-5
 		} else {
 			// continuous rotation (default view) 
-			gl.glTranslatef(0.0f, -44.0f, -130.0f); // 0,0,-5
+			gl.glTranslatef(0.0f, moduleAltitude, moduleDepth); // 0,0,-5
 			gl.glRotatef(rotateX, 0.0f, 1.0f, 0.0f);
 			gl.glRotatef(-90.f, 1.0f, 0.0f, 0.0f);
 		}
@@ -674,4 +679,20 @@ public class Landscape implements GLEventListener {
 		this.movingY = movingY;
 	}
 
+	public float getModuleAltitude() {
+		return moduleAltitude;
+	}
+
+	public void setModuleAltitude(float moduleAltitude) {
+		this.moduleAltitude = moduleAltitude;
+	}
+
+	public float getModuleDepth() {
+		return moduleDepth;
+	}
+
+	public void setModuleDepth(float moduleDepth) {
+		this.moduleDepth = moduleDepth;
+	}
+	
 }

@@ -70,21 +70,31 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 				break;
 				
 			case java.awt.event.KeyEvent.VK_Z:
+				if(key.isAltDown())
+					land.setModuleDepth(land.getModuleDepth()-10);
+				else
+					land.setModuleAltitude(land.getModuleAltitude()-3);
 				break;
 				
 			case java.awt.event.KeyEvent.VK_S:
+				if(key.isAltDown())
+					land.setModuleDepth(land.getModuleDepth()+10);
+				else
+					land.setModuleAltitude(land.getModuleAltitude()+3);
 				break; 
-				
+	
 			case java.awt.event.KeyEvent.VK_H:
 				System.out.println(
 						"Help:\n" +
-						"           [v] change view\n" +
-						"           [o] objects display on/off\n" +
-						"           [1] decrease altitude booster\n" +
-						"           [2] increase altitude booster\n" +
-						" [cursor keys] navigate in the landscape\n" +
-						"         [q/d] rotation wrt landscape\n" +
-						" [cursor keys] navigate\n"
+						" [v] change view\n\t" +
+						"[o] objects display on/off\n\t" +
+						"[1] decrease altitude booster\n\t" +
+						"[2] increase altitude booster\n\t" +
+						"[cursor keys] navigate in the landscape\n\t" +
+						"[q/d] rotation wrt landscape\n\t" +
+						"[z/s] increase/decrease height\n\t"+
+						"[alt]+[z/s] increase/decrease depth\n\t" +
+						"[cursor keys] navigate\n\t"
 						);
 				break;
 			default:
