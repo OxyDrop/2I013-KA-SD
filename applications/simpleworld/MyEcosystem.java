@@ -15,7 +15,7 @@ public class MyEcosystem {
 		WorldOfSand wSand = new WorldOfSand();
 		WorldOfSnow wSnow = new WorldOfSnow();
 		
-		Landscape myLandscapeGen = new Landscape(wTree,200,200, 0.5, 0.2);
+		Landscape myLandscapeGen = new Landscape(wTree,200,200, 0.8, 0.2);
 		Landscape.run(myLandscapeGen);
 		/*
 		DialogAppli dialog = new DialogAppli(null);

@@ -46,19 +46,31 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 				break;
 				
 			case java.awt.event.KeyEvent.VK_UP:
-				land.setMovingX((land.getMovingX() + 1 ) % (land.getDxView()-1));
+				if(key.isShiftDown())
+					land.setMovingX((land.getMovingX() + 5 ) % (land.getDxView()-1));
+				else
+					land.setMovingX((land.getMovingX() + 1 ) % (land.getDxView()-1));
 				break;
 				
 			case java.awt.event.KeyEvent.VK_DOWN:
-				land.setMovingX((land.getMovingX()-1 + land.getDxView()) % land.getDxView());
+				if(key.isShiftDown())
+					land.setMovingX((land.getMovingX()-5 + land.getDxView()) % land.getDxView());
+				else
+					land.setMovingX((land.getMovingX()-1 + land.getDxView()) % land.getDxView());
 				break;
 				
 			case java.awt.event.KeyEvent.VK_RIGHT:
-				land.setMovingY((land.getMovingY()-1 + land.getDyView()) % land.getDyView());
+				if(key.isShiftDown())
+					land.setMovingY((land.getMovingY()-5 + land.getDyView()) % land.getDyView());
+				else
+					land.setMovingY((land.getMovingY()-1 + land.getDyView()) % land.getDyView());
 				break;
 				
 			case java.awt.event.KeyEvent.VK_LEFT:
-				land.setMovingY((land.getMovingY() + 1 ) % (land.getDyView()-1));
+				if(key.isShiftDown())
+					land.setMovingY((land.getMovingY() + 5 ) % (land.getDyView()-1));
+				else
+					land.setMovingY((land.getMovingY() + 1 ) % (land.getDyView()-1));
 				break; 
 				
 			case java.awt.event.KeyEvent.VK_Q:
@@ -77,12 +89,11 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 				break;
 				
 			case java.awt.event.KeyEvent.VK_S:
-				if(key.isAltDown())
+				if(key.isControlDown())
 					land.setModuleDepth(land.getModuleDepth()+10);
 				else
 					land.setModuleAltitude(land.getModuleAltitude()+3);
 				break; 
-	
 			case java.awt.event.KeyEvent.VK_H:
 				System.out.println(
 						"Help:\n" +
@@ -90,10 +101,10 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 						"[o] objects display on/off\n\t" +
 						"[1] decrease altitude booster\n\t" +
 						"[2] increase altitude booster\n\t" +
-						"[cursor keys] navigate in the landscape\n\t" +
+						"(shift+)[cursor keys] navigate in the landscape\n\t" +
 						"[q/d] rotation wrt landscape\n\t" +
 						"[z/s] increase/decrease height\n\t"+
-						"[alt]+[z/s] increase/decrease depth\n\t" +
+						"[crtl]+[z/s] increase/decrease depth\n\t" +
 						"[cursor keys] navigate\n\t"
 						);
 				break;
