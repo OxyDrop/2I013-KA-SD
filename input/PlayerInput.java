@@ -3,6 +3,7 @@ package input;
 import graphics.Landscape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 
@@ -145,14 +146,15 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 		@Override
 		  public void mousePressed(java.awt.event.MouseEvent mouse)
 		  {
-			/* example from doublebuf.java
-		    switch (mouse.getButton()) {
+			//example from doublebuf.java
+		    switch (mouse.getButton()) 
+			{
 		      case MouseEvent.BUTTON1:
-		        spinDelta = 2f;
+		        land.setRotationVelocity(land.getRotationVelocity()+0.1f);
 		        break;
 		      case MouseEvent.BUTTON2:
 		      case MouseEvent.BUTTON3:
-		        spinDelta = 0f;
+				land.setRotationVelocity(0f);
 		        break;
 		    }
 		    /**/

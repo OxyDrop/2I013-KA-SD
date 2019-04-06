@@ -47,5 +47,10 @@ public class Tree extends CommonObject {
 			gl.glVertex3f( offset+x*stepX, offset+y*stepY, altitude );
         }
     }
+	
+	public static void removeTree(GL2 gl)
+	{
+		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+	}
 
 }

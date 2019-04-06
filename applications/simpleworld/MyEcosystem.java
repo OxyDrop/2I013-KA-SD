@@ -89,21 +89,31 @@ public class MyEcosystem {
 				Scanner sc = new Scanner(System.in);
 				System.out.print("Initialisation\n\tfalse:Fichier\n\ttrue:Random\n>");
 				boolean choixfile = sc.nextBoolean();
-				
+		
 				System.out.print("\nUtiliser la virgule\nAltitude : ");
 				double altitude = sc.nextDouble();
 				
 				System.out.print("\nHauteur de l'eau : ");
 				double waterLevel = sc.nextDouble();
 				
-				Landscape.run(new Landscape(new WorldOfTrees(),200,200,altitude,waterLevel));
+				if(choixfile)
+					Landscape.run(new Landscape(new WorldOfTrees(),200,200,altitude,waterLevel));
+				else
+				{
+					System.out.println("Entrez le nom d'un fichier\n"
+							+ "\"Perlin1.png\", \"Perlin2.png\", \"Perlin3.png\", \"Perlin4.png\", \"Perlin5.png\", \"Perlin6.png\",\n" +
+"								\"Fractal1.png\", \"Fractal2.png\", \"fun1.png\", \"fun2.png\", \"canyon.png\", \"gouffre.png\", \n" +
+"								\"defaultM.png\", \"defaultS\", \"default2S.png\", \"paris.png\", \"random1.png\", \"random2.png\",\n" +
+"								\"random3.png\", \"volcano1.png\", \"volcano2.png\"");
+					Landscape.run(new Landscape(new WorldOfTrees(),sc.next(),altitude,waterLevel));
+				}
 				break;
 				
 			case 3: 
 				Landscape.run(new Landscape(new WorldOfTrees(),200,200,0.6,0.35)); 
 				break;
 				
-			case 4: 
+			case 4: //Works only in debug mode
 				DialogAppli dialog = new DialogAppli();
 				Transfert info = new Transfert();
 				dialog.LanceDialog(info);
@@ -118,8 +128,7 @@ public class MyEcosystem {
 				else if(info.random)
 				{
 					System.out.println("okrand");
-					Landscape myLandscapeGen = new Landscape(info.choosen,200,200, info.altitude, info.waterlevel);
-					Landscape.run(myLandscapeGen);
+					Landscape.run(new Landscape(info.choosen,200,200, info.altitude, info.waterlevel));
 				}
 				break;
 				

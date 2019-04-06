@@ -8,7 +8,7 @@ import worlds.World;
  */
 public class Transfert 
 {
-	public double waterlevel, altitude;
-	public boolean random, file;
-	public World choosen;
+	public volatile double waterlevel, altitude;
+	public volatile boolean random = false, file = false;
+	public volatile World choosen;
 }
