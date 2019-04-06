@@ -12,30 +12,63 @@ public class GrandArbre extends UniqueObject implements Eliminable
 {
 	private ArrayList<Pomme> pomme;
 	private int health;
+	private int age;
+	
 	private final static int NBPOMME = 3;
+	private final int lifeEsperance; //Vie entre 70 et 300 ans;
+	private final static int TAUXMURATION = 100;
+	private final static int TAUXMURATIONARBRE = 200;
+
 	private static boolean vide = false;
 	
 	public GrandArbre ( int __x , int __y , World __world )
 	{
 		super(__x, __y, __world);
+		
 		health = 6000;
+		age = 0;
+		lifeEsperance = (int)(Math.random()%(300-70+1)+70);
+		
 		pomme = new ArrayList<>();
-		init();
 	}
 	
-	public void step()
+	public void step() //met à jour les consommables de l'arbre
 	{
-	
+		for(Pomme p : pomme)
+			if(Math.random()<p.getPdrop())
+				pomme.remove(p);
+		
+		if(Math.random()<lifeEsperance/1000)
+			popPomme();
+		
+		viellir();
+		murirTous();
 	}
 	public boolean die()
 	{
-		return health <= 0;
+		return (health <= 0 || age>lifeEsperance);
+	}
+	
+	public void viellir()
+	{
+		if(world.getIteration()%TAUXMURATIONARBRE==0)
+			age ++;
+	}
+	public void murirTous()
+	{
+		if(world.getIteration() % TAUXMURATION == 0)
+			for(Pomme p : pomme)
+				p.murir();
 	}
 	
 	public void addPomme() //ajoute une pomme à l'arbre;
 	{
 		pomme.add(new Pomme(x,y,world));
 	} 
+	
+	public void removePomme(Pomme p){ //supprime la pomme indiquée
+		pomme.remove(p);
+	}
 	
 	public Pomme popPomme() //retourne la pomme en fin de liste
 	{

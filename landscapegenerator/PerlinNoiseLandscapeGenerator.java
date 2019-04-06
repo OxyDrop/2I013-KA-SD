@@ -8,15 +8,8 @@ import java.util.Random;
 
 public class PerlinNoiseLandscapeGenerator {
 	
-		public static final int ENVIRONMENT_WATER	= 1;
-		public static final int ENVIRONMENT_SAND	= 1;
-		public static final int ENVIRONMENT_FOREST	= 1;
 		
-		private static final double SCALING			=  1;
-		private static final double ALTITUDE_RATIO 	=  0.3;
 		private static final double FEATURE_SIZE 	=  64;
-		private static final double FOREST_ALTITUDE = 0.6;
-		public static final double WATER_ALTITUDE	= 0.10;
 		private static final float AMPLITUDE = 70f;
 		private static final int OCTAVES = 3;
 		private static final float ROUGHNESS = 0.3f;

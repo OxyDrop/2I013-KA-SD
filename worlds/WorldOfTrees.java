@@ -13,6 +13,7 @@ import objects.Architect.BridgeBlock;
 import objects.Architect.Monolith;
 import objects.Consommables.Herbe;
 import objects.Consommables.Pomme;
+import objects.UniqueObject;
 
 public class WorldOfTrees extends World {
 	
@@ -69,14 +70,17 @@ public class WorldOfTrees extends World {
     			cellState = this.getCellValue(i, j);
 				
     			if (cellState == 1){
-    				if (Math.random() < 0.009){
-    					LObjects.add(new GrandArbre(i,j,this));
+    				if (Math.random() < 0.009)
+					{
+						GrandArbre ga = new GrandArbre(i,j,this);
+						ga.init();
+    					LObjects.add(ga);
 					}
 				}
 				
 				else if(Math.random()<0.009){
-					//LObjects.add(new Herbe(i,j,this)); // Creation de l'herbe
-					LObjects.add(new Pomme(i,j,this));
+					LObjects.add(new Herbe(i,j,this)); // Creation de l'herbe
+					//LObjects.add(new Pomme(i,j,this));
 				}
 			}
 		/*------------------AJOUTS AGENTS ----------------------*/
@@ -98,6 +102,10 @@ public class WorldOfTrees extends World {
     {
     	if ( iteration%10 == 0 )
     		cellularAutomata.step();
+		
+		for(UniqueObject abr : LObjects) //Met a jour les arbres
+			if(abr instanceof GrandArbre)
+				((GrandArbre)abr).step();
     }
     
 	@Override
