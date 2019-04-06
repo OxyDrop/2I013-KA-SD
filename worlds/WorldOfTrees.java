@@ -66,11 +66,11 @@ public class WorldOfTrees extends World {
 			}else{
     			LObjects.add(new BridgeBlock(110,110+i,this)); // Pont de l arc
 			}
-		
-		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
+		/*------------------AJOUTS AGENTS ----------------------*/
+		for(int i=0;i<POPINI;i++) 
 				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
 		
-    	// AJOUT ARBRES ET HERBES
+    	/*----------AJOUT GRAND ARBRES ET HERBES ------------------------*/
     	for (int i = 0 ; i < dxCA ; i++)
     		for (int j = 0 ; j < dyCA ; j++)
     		{
@@ -78,8 +78,8 @@ public class WorldOfTrees extends World {
     			if (cellState == 1)
     				if (Math.random() < 0.009)
     					LDynamicObjects.add(new GrandArbre(i,j,this));
-    				else
-						LDynamicObjects.add(new Herbe(i,j,this)); // Creation de l'herbe	
+				else if(Math.random()<0.1)
+					LDynamicObjects.add(new Herbe(i,j,this)); // Creation de l'herbe	
     		}
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }

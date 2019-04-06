@@ -153,7 +153,7 @@ public class Landscape implements GLEventListener {
 	}
 
 	/**
-	 *
+	 *Ajouter skybox, astres
 	 */
 	public static Landscape run(Landscape landscape) {
 		PlayerInput play = new PlayerInput(landscape);

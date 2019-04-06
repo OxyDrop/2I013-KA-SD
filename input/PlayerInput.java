@@ -50,11 +50,11 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 				break;
 				
 			case java.awt.event.KeyEvent.VK_DOWN:
-				land.setMovingX((land.getMovingX()-1 + land.getDxView()-1) % land.getDxView()-1);
+				land.setMovingX((land.getMovingX()-1 + land.getDxView()) % land.getDxView());
 				break;
 				
 			case java.awt.event.KeyEvent.VK_RIGHT:
-				land.setMovingY((land.getMovingY()-1 + land.getDyView()-1) % land.getDyView()-1);
+				land.setMovingY((land.getMovingY()-1 + land.getDyView()) % land.getDyView());
 				break;
 				
 			case java.awt.event.KeyEvent.VK_LEFT:
