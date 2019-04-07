@@ -84,9 +84,16 @@ public class WorldOfTrees extends World {
 				}
 			}
 		/*------------------AJOUTS AGENTS ----------------------*/
-		for(int i=0;i<POPINI;i++) 
-			agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
-		
+		for(int i=0;i<POPINI;i++){
+			int dxRand=0;
+			int dyRand=0;
+			do{
+				dxRand = (int)(Math.random()*dxCA);
+				dyRand = (int)(Math.random()*dyCA);
+			}while(this.getCellHeight(dxRand, dyRand)<=0); //On s'assure que les agents ne soient pas generés sur l'eau
+			
+			agent.add(new Agent(dxRand, dyRand, this ));
+		}
  
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
 

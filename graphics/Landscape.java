@@ -197,6 +197,7 @@ public class Landscape implements GLEventListener {
 		gl.glEnable(GL2.GL_DOUBLEBUFFER);
 		glDrawable.setAutoSwapBufferMode(true);
 		
+		//Depth
 		gl.glShadeModel(GLLightingFunc.GL_SMOOTH);
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glClearDepth(1.0f);

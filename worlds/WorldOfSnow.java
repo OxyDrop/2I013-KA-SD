@@ -43,8 +43,8 @@ public class WorldOfSnow extends World {
 		        }
 		        else
 		        {	// water
-					color[0] = 0.5f;
-					color[1] = 0.5f;
+					color[0] = 0.2f;
+					color[1] = 0.2f;
 					color[2] = 1f;
 		        }
 		        this.ColorVal.setCellState(x, y, color);
