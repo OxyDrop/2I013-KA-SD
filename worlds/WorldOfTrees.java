@@ -113,6 +113,7 @@ public class WorldOfTrees extends World {
 				LObjects.add(new Portail(xportrand,yportrand,this,w2));
 			}
 		 }
+		 
 		 for(int port = 0 ; port <NBMAXTELEPORTEUR ; port++)
 		 {
 			 do{

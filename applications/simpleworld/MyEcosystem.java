@@ -17,6 +17,8 @@ import worlds.*;
 public class MyEcosystem {
 	
 	static ImageIcon imIc;
+	private final static float ALTITUDE= 0.33f;
+	private final static float WATERLVL = 0.4f;
 	
 	
 	public static void main(String[] args) {
@@ -113,7 +115,7 @@ public class MyEcosystem {
 				break;
 				
 			case 3: 
-				Landscape.run(new Landscape(new WorldOfTrees(),200,200,0.33,0.1)); 
+				Landscape.run(new Landscape(new WorldOfTrees(),200,200,ALTITUDE,WATERLVL)); 
 				break;
 				
 			case 4: //Works only in debug mode
@@ -145,19 +147,86 @@ public class MyEcosystem {
 				wSnow.setW1(wTree);
 				wSnow.setW2(wSand);
 				
-				Landscape[] landListeCards = {new Landscape(wTree,200,200,0.5,0.25),
-											new Landscape(wSand,200,200,0.5,0.25),
-											new Landscape(wSnow,200,200,0.5,0.25)};
+				int choixMultipleRF =	Integer.parseInt(JOptionPane.showInputDialog(null,
+										"Landscape en : \n\t1>Fichier\n2>Bruit de Perlin",
+										JOptionPane.INFORMATION_MESSAGE));
 				
-				Landscape.runAll(landListeCards);
+				switch (choixMultipleRF)
+				{
+					case 1:
+						String[] pathMultipleFile = {"Perlin1.png", "Perlin2.png", "Perlin3.png", "Perlin4.png", "Perlin5.png", "Perlin6.png",
+													"Fractal1.png", "Fractal2.png", "fun1.png", "fun2.png", "canyon.png", "gouffre.png", 
+													"defaultM.png", "defaultS", "default2S.png", "paris.png", "random1.png", "random2.png",
+													"random3.png", "volcano1.png", "volcano2.png"};
+						
+						String fileMultiple = (String)JOptionPane.showInputDialog(null,"Choississez un fichier", 
+						"Choix fichier", 0, imIc ,pathMultipleFile, pathMultipleFile[0]);
+						
+						Landscape[] landListeTabFile = {new Landscape(wTree,fileMultiple,ALTITUDE,WATERLVL),
+														new Landscape(wSand,fileMultiple,ALTITUDE,WATERLVL/2),
+														new Landscape(wSnow,fileMultiple,ALTITUDE,WATERLVL/2)};
+						
+						Landscape.runAll(landListeTabFile);
+						break;
+						
+					case 2:
+						Landscape[] landListeTab = {new Landscape(wTree,200,200,ALTITUDE,WATERLVL),
+													new Landscape(wSand,200,200,ALTITUDE,WATERLVL/2),
+													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2)};
+						
+						Landscape.runAll(landListeTab);
+						break;
+						
+					default:
+						JOptionPane.showMessageDialog(null, "Entrée incorrecte, réessayez");
+						System.exit(1);
+				}
 				break;
 				
 			case 6 :
-				Landscape[] landListeTab = {new Landscape(new WorldOfTrees(),200,200,0.5,0.25),
-											new Landscape(new WorldOfSand(),200,200,0.5,0.25),
-											new Landscape(new WorldOfSnow(),200,200,0.5,0.25)};
+				wTree.setW1(wSand);
+				wTree.setW2(wSnow);
 				
-				Landscape.runAllTabbedPane(landListeTab);
+				wSand.setW1(wTree);
+				wSand.setW2(wSand);
+				
+				wSnow.setW1(wTree);
+				wSnow.setW2(wSand);
+				
+				int choixMultipleRFTab =	Integer.parseInt(JOptionPane.showInputDialog(null,
+											"Landscape en : \n\t1>Fichier\n2>Bruit de Perlin",
+											JOptionPane.INFORMATION_MESSAGE));
+				
+				switch (choixMultipleRFTab)
+				{
+					case 1:
+						String[] pathMultipleFileTab = {"Perlin1.png", "Perlin2.png", "Perlin3.png", "Perlin4.png", "Perlin5.png", "Perlin6.png",
+													"Fractal1.png", "Fractal2.png", "fun1.png", "fun2.png", "canyon.png", "gouffre.png", 
+													"defaultM.png", "defaultS", "default2S.png", "paris.png", "random1.png", "random2.png",
+													"random3.png", "volcano1.png", "volcano2.png"};
+						
+						String fileMultipleTab = (String)JOptionPane.showInputDialog(null,"Choississez un fichier", 
+						"Choix fichier", 0, imIc ,pathMultipleFileTab, pathMultipleFileTab[0]);
+						
+						Landscape[] landListeTabFile = {new Landscape(wTree,fileMultipleTab,ALTITUDE,WATERLVL),
+														new Landscape(wSand,fileMultipleTab,ALTITUDE,WATERLVL/2),
+														new Landscape(wSnow,fileMultipleTab,ALTITUDE,WATERLVL/2)};
+						
+						Landscape.runAllTabbedPane(landListeTabFile);
+						break;
+						
+					case 2:
+						Landscape[] landListeTab = {new Landscape(wTree,200,200,ALTITUDE,WATERLVL),
+													new Landscape(wSand,200,200,ALTITUDE,WATERLVL/2),
+													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2)};
+						
+						Landscape.runAllTabbedPane(landListeTab);
+						break;
+						
+					default:
+						JOptionPane.showMessageDialog(null, "Entrée incorrecte, réessayez");
+						System.exit(1);
+				}
 				break;
 				
 			default :

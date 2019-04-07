@@ -1,8 +1,13 @@
 package objects.Architect;
 
 import DynamicObject.Agent;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureIO;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.imageio.ImageIO;
 import javax.media.opengl.GL2;
 import objects.UniqueObject;
 import worlds.World;
@@ -17,14 +22,13 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 	private final static int DISTANCEMIN = 2; //utilisé pour definir la distance minimale
 	private static int cpt = 0;
 	private int id;
+	
 	public Portail(int x, int y, World world, World passage) 
 	{
 		super(x, y, world);
 		this.passage = passage;
 		id=++cpt;
 	}
-
-	
 	
 	public boolean distanceSuffisante(Agent a)
 	{
@@ -59,6 +63,8 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 	public void displayUniqueObject(World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, 
 			float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight) 
 	{
+		
+		Texture t = null;
 		int x2 = (x-(offsetCA_x%myWorld.getWidth()));
     	if ( x2 < 0) x2+=myWorld.getWidth();
 		
@@ -67,9 +73,36 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 		
 		float height = Math.max ( 0 , (float)myWorld.getCellHeight(x, y) );
     	float altitude = (float)height * normalizeHeight ; 
+		/*
+		float[] lightColorAmbient = {0.3f,0.8f,1f,1f};
+		float[] lightColorSpecular = {0.3f,0.8f,1f,1f};
+		float[] lightPos = {x,y,height*normalizeHeight,1};
+		gl.glLightfv(GL2.GL_LIGHT5, GL2.GL_POSITION, lightPos, 0);
+        gl.glLightfv(GL2.GL_LIGHT5, GL2.GL_AMBIENT, lightColorAmbient, 0);
+        gl.glLightfv(GL2.GL_LIGHT5, GL2.GL_SPECULAR, lightColorSpecular, 0);
+		gl.glEnable(GL2.GL_LIGHTING);
 		
-		gl.glColor3f(036f,0.87f,1f);
+		float[] rgba = {1f, 1f, 1f};
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, rgba, 0);
+        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, rgba, 0);
+        gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 0.5f);
+		/*/
+		/*gl.glEnable(GL2.GL_TEXTURE_2D);
+		try {
+			t = TextureIO.newTexture(new File("portal.png"), false);
+		}catch (IOException e){
+			e.printStackTrace();
+			System.exit(1);
+		}
+		if(t != null) 
+		{
+			System.out.println("Chargement reussi !");
+			int texture = t.getTextureObject(gl);
+			gl.glBindTexture(GL2.GL_TEXTURE_2D, texture);
+		}*/
 		
+		gl.glColor3f(0.36f,0.87f,1f);
+	
 		gl.glVertex3f( (offset+x2*stepX-lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight);
         gl.glVertex3f( (offset+x2*stepX-lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight + 40f);
         gl.glVertex3f( (offset+x2*stepX+lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight + 40f);
@@ -94,6 +127,8 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 20.f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 20.f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 20.f);
+		
+		gl.glDisable(GL2.GL_LIGHT5);
 		
 	}
 	

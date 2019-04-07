@@ -3,6 +3,7 @@ package objects.Arbres;
 
 import Interfaces.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Consommables.Pomme;
 import objects.UniqueObject;
@@ -10,7 +11,7 @@ import worlds.World;
 
 public class GrandArbre extends UniqueObject implements Eliminable
 {
-	private ArrayList<Pomme> pomme;
+	private final ArrayList<Pomme> pomme;
 	private int health;
 	private int age;
 	
@@ -34,13 +35,22 @@ public class GrandArbre extends UniqueObject implements Eliminable
 	
 	public void step() //met à jour les consommables de l'arbre
 	{
-		for(Pomme p : pomme)
+		for(Iterator<Pomme> it = pomme.iterator() ; it.hasNext();)
+		{
+			Pomme p = it.next();
 			if(Math.random()<p.getPdrop())
-				pomme.remove(p);
+			{
+				this.world.getLObjects().add(p);
+				System.out.println("Une pomme est tombé d'un arbre");
+				it.remove();
+			}
+		}
 		
-		if(Math.random()<lifeEsperance/1000)
-			popPomme();
-		
+		if(Math.random()<lifeEsperance/1000){
+			Pomme tombe = popPomme();
+			this.world.getLObjects().add(tombe);
+			System.out.println("Une pomme est tombé d'un arbre");
+		}
 		viellir();
 		murirTous();
 	}

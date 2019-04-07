@@ -114,6 +114,9 @@ public class WorldOfSnow extends World {
     {
     	if ( iteration%10 == 0 )
     		cellularAutomata.step();
+		for(UniqueObject abr : LObjects) //Met a jour les arbres
+			if(abr instanceof Sapin)
+				((Sapin)abr).step();
     }
     
 	@Override

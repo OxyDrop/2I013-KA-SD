@@ -187,6 +187,15 @@ public abstract class World {
 	abstract public void setW2(World w2);
 
 	abstract public void setW1(World w1);
+
+	public ArrayList<UniqueObject> getLObjects() {
+		return LObjects;
+	}
+
+	public ArrayList<UniqueDynamicObject> getLDynamicObjects() {
+		return LDynamicObjects;
+	}
+	
 	
 	
 }

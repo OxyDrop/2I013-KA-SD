@@ -88,9 +88,7 @@ public class ForestCA extends CellularAutomataInteger {
 	    			case 0:
 						if(this.HeightVal.getCellState(i, j)>0)
 						{
-							color[0] = 0f;
-							color[1] = 1f;
-							color[2] = 0f;
+							color = this.world.getCellColorValue(i, j);
 						}
 						break;
 					case 1:
