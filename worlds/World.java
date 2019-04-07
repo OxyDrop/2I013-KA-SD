@@ -40,6 +40,11 @@ public abstract class World {
     	// ... cf. init() for initialization
     }
 	
+	public World(World w1, World w2)
+	{
+		
+	}
+	
    
 	//Initialise le monde à partir des dimensions et d'une matrice de double
     public void init( int dx, int dy, double[][] landscape )

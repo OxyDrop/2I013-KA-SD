@@ -21,6 +21,10 @@ public class MyEcosystem {
 	
 	public static void main(String[] args) {
 		
+		WorldOfTrees wTree = new WorldOfTrees();
+		WorldOfSand wSand = new WorldOfSand();
+		WorldOfSnow wSnow = new WorldOfSnow();
+		
 		try {
 			BufferedImage bi = ImageIO.read(new File("earthmap1k.png"));
 			 imIc = new ImageIcon(bi);
@@ -35,9 +39,6 @@ public class MyEcosystem {
 		switch(choix)
 		{
 			case 1: 	
-				WorldOfTrees wTree = new WorldOfTrees();
-				WorldOfSand wSand = new WorldOfSand();
-				WorldOfSnow wSnow = new WorldOfSnow();
 				
 				String[] path = {"Perlin1.png", "Perlin2.png", "Perlin3.png", "Perlin4.png", "Perlin5.png", "Perlin6.png",
 								"Fractal1.png", "Fractal2.png", "fun1.png", "fun2.png", "canyon.png", "gouffre.png", 
@@ -135,9 +136,13 @@ public class MyEcosystem {
 				break;
 			
 			case 5:
-				Landscape[] landListeCards = {new Landscape(new WorldOfTrees(),200,200,0.5,0.25),
-											new Landscape(new WorldOfSand(),200,200,0.5,0.25),
-											new Landscape(new WorldOfSnow(),200,200,0.5,0.25)};
+				WorldOfTrees wTreeCo = new WorldOfTrees(wSand,wSnow);
+				WorldOfSand wSandCo = new WorldOfSand(wTree, wSnow);
+				WorldOfSnow wSnowCo = new WorldOfSnow(wTree, wSand);
+				
+				Landscape[] landListeCards = {new Landscape(wTreeCo,200,200,0.5,0.25),
+											new Landscape(wSandCo,200,200,0.5,0.25),
+											new Landscape(wSnowCo,200,200,0.5,0.25)};
 				
 				Landscape.runAll(landListeCards);
 				break;

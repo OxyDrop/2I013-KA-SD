@@ -6,8 +6,13 @@ package worlds;
 
 import DynamicObject.Agent;
 import cellularautomata.DesertCA;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.media.opengl.GL2;
 import objects.Architect.Portail;
+import objects.UniqueObject;
 
 public class WorldOfSand extends World {
 	
@@ -17,6 +22,7 @@ public class WorldOfSand extends World {
 	private static final int NBMAXTELEPORTEURS = 5;
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
+	private static final int NOTIFYITERATION = 100; //Used to display messages every number of iteration 
 	World w1,w2;
 	/*
 	protected int iteration = 0;
@@ -75,10 +81,12 @@ public class WorldOfSand extends World {
 				yportrand = (int)(Math.random()*dyCA);
 			 }while(this.getCellHeight(xportrand, yportrand)<=0);
 			 
-			 if(port==0)
-				LObjects.add(new Portail(xportrand,yportrand,this,w1));
-			 else
-				LObjects.add(new Portail(xportrand,yportrand,this,w2));
+			 if(w1 != null && w2 != null){ 
+				if(port==0)
+					LObjects.add(new Portail(xportrand,yportrand,this,w1));
+				 else
+					LObjects.add(new Portail(xportrand,yportrand,this,w2));
+			 }
 		 }
 		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
 				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
@@ -103,12 +111,27 @@ public class WorldOfSand extends World {
 	@Override
     protected void stepAgents()
     {
-    	// nothing to do.
-    	for ( int i = 0 ; i < this.agent.size() ; i++ )
+		for (Iterator<Agent> it = agent.iterator() ; it.hasNext();)
     	{
-    		this.agent.get(i).step();
+    		Agent a = it.next();
+			a.step();
+			for(UniqueObject port : LObjects)
+				if(port instanceof Portail)
+						if(((Portail)port).distanceSuffisante(a))
+						{
+							Portail currentP = (Portail)port;
+							Agent clone = a.clone();
+							//Propulse a un point aleatoire en dehors du portail
+							clone.setX(a.getX() + (int) (Math.random() % (10 - 5 + 1) + 5));
+							clone.setY(a.getY() + (int) (Math.random() % (10 - 5 + 1) + 5));
+							it.remove();
+							currentP.getPassage().getAgentListe().add(clone);
+							System.out.println("Un agent a emprunté le portail " + getNom()
+								+ " en (" + currentP.getX() + "," + currentP.getY() + ") menant au " + currentP.getPassage().getNom());
+						}
+
     	}
-		if(iteration%30==0)
+		if(iteration%NOTIFYITERATION==0)
 			System.out.println("Nombre agent = "+agent.size());
     }
 

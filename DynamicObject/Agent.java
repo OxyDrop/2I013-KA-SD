@@ -6,10 +6,12 @@ package DynamicObject;
 
 import java.util.ArrayList;
 import javax.media.opengl.GL2;
+import objects.Architect.Portail;
 import worlds.World;
 
 public class Agent extends UniqueDynamicObject{
 	
+	private static final int DISTANCEPORTAIL = 2;
 	public Agent ( int x , int y, World world )
 	{
 		super(x,y,world);
@@ -57,6 +59,12 @@ public class Agent extends UniqueDynamicObject{
 			wagent.add(p);
 	}
 	
+	public boolean distanceSuffisante(Portail port)
+	{
+		return (Math.sqrt(Math.pow( port.getX() - x , 2 ) + Math.pow( port.getY() - y , 2 )) <= DISTANCEPORTAIL);
+		
+	}
+	
 	public void step()  //pas d'un agent, deplacement et reproduction
 	{
 		if ( world.getIteration() % 20 == 0 )
@@ -73,6 +81,7 @@ public class Agent extends UniqueDynamicObject{
 					else
 						this.y = ( this.y - 1 +  this.world.getHeight() ) % this.world.getHeight() ;
 		}
+		
 	}
 
 	@Override
