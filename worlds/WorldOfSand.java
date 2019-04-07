@@ -6,7 +6,6 @@ package worlds;
 
 import DynamicObject.Agent;
 import cellularautomata.DesertCA;
-import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Architect.Portail;
 import objects.UniqueObject;
@@ -145,6 +144,30 @@ public class WorldOfSand extends World {
     public String getNom()
 	{
 		return "WorldOfSand";
+	}
+
+	@Override
+	public World getw1() 
+	{
+		return w1;
+	}
+
+	@Override
+	public World getw2() 
+	{
+		return w2;
+	}
+
+	@Override
+	public void setW2(World w2) 
+	{
+		this.w2=w2;
+	}
+
+	@Override
+	public void setW1(World w1) 
+	{
+		this.w1=w1;
 	}
 
 }

@@ -34,6 +34,8 @@ public abstract class World {
 
 	private double maxEver = Double.NEGATIVE_INFINITY;
 	private double minEver = Double.POSITIVE_INFINITY;
+	
+	protected World w1,w2;
 
     public World( )
     {
@@ -42,7 +44,8 @@ public abstract class World {
 	
 	public World(World w1, World w2)
 	{
-		
+		this.w1=w1;
+		this.w2=w2;
 	}
 	
    
@@ -178,4 +181,12 @@ public abstract class World {
 	public double getMaxEverHeight() { return this.maxEver; }
 	public double getMinEverHeight() { return this.minEver; }
 	abstract public String getNom();
+	abstract public World getw1();
+	abstract public World getw2();
+
+	abstract public void setW2(World w2);
+
+	abstract public void setW1(World w1);
+	
+	
 }

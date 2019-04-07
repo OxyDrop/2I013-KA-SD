@@ -136,13 +136,18 @@ public class MyEcosystem {
 				break;
 			
 			case 5:
-				WorldOfTrees wTreeCo = new WorldOfTrees(wSand,wSnow);
-				WorldOfSand wSandCo = new WorldOfSand(wTree, wSnow);
-				WorldOfSnow wSnowCo = new WorldOfSnow(wTree, wSand);
+				wTree.setW1(wSand);
+				wTree.setW2(wSnow);
 				
-				Landscape[] landListeCards = {new Landscape(wTreeCo,200,200,0.5,0.25),
-											new Landscape(wSandCo,200,200,0.5,0.25),
-											new Landscape(wSnowCo,200,200,0.5,0.25)};
+				wSand.setW1(wTree);
+				wSand.setW2(wSand);
+				
+				wSnow.setW1(wTree);
+				wSnow.setW2(wSand);
+				
+				Landscape[] landListeCards = {new Landscape(wTree,200,200,0.5,0.25),
+											new Landscape(wSand,200,200,0.5,0.25),
+											new Landscape(wSnow,200,200,0.5,0.25)};
 				
 				Landscape.runAll(landListeCards);
 				break;
