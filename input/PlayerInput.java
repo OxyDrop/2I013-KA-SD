@@ -1,13 +1,9 @@
 package input;
 
 import graphics.Landscape;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 
-
-public class PlayerInput implements KeyListener, MouseListener { //Ajouter les actions de landscape ici
+public class PlayerInput implements KeyListener, MouseListener, MouseWheelListener { //Ajouter les actions de landscape ici
 
 		private Landscape land;
 		public PlayerInput(Landscape land)
@@ -15,9 +11,9 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 			this.land=land;
 		}
 		@Override
-		public void keyPressed(java.awt.event.KeyEvent key) {
+		public void keyPressed(KeyEvent key) {
 			switch (key.getKeyCode()) {
-			case java.awt.event.KeyEvent.VK_ESCAPE:
+			case KeyEvent.VK_ESCAPE:
 				new Thread()
 				{
 					public void run() { Landscape.getAnimator().stop();}
@@ -25,77 +21,77 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 				System.exit(0);
 				break;
 				
-			case java.awt.event.KeyEvent.VK_V:
+			case KeyEvent.VK_V:
 				Landscape.setVIEW_FROM_ABOVE(!Landscape.isVIEW_FROM_ABOVE()) ;
 				break;
 				
-			case java.awt.event.KeyEvent.VK_R:
+			case KeyEvent.VK_R:
 				//MY_LIGHT_RENDERING = !MY_LIGHT_RENDERING;
 				break;
 				
-			case java.awt.event.KeyEvent.VK_O:
+			case KeyEvent.VK_O:
 				Landscape.setDISPLAY_OBJECTS(Landscape.isDISPLAY_OBJECTS());
 				break;
 				
-			case java.awt.event.KeyEvent.VK_2:
+			case KeyEvent.VK_2:
 				land.setHeightBooster(land.getHeightBooster()+1);
 				break;
 				
-			case java.awt.event.KeyEvent.VK_1:
+			case KeyEvent.VK_1:
 				if ( land.getHeightBooster() > 0 )
 					land.setHeightBooster(land.getHeightBooster()-1);
 				break;
 				
-			case java.awt.event.KeyEvent.VK_UP:
+			case KeyEvent.VK_UP:
 				if(key.isShiftDown())
 					land.setMovingX((land.getMovingX() + 5 ) % (land.getDxView()-1));
 				else
 					land.setMovingX((land.getMovingX() + 1 ) % (land.getDxView()-1));
 				break;
 				
-			case java.awt.event.KeyEvent.VK_DOWN:
+			case KeyEvent.VK_DOWN:
 				if(key.isShiftDown())
 					land.setMovingX((land.getMovingX()-5 + land.getDxView()) % land.getDxView());
 				else
 					land.setMovingX((land.getMovingX()-1 + land.getDxView()) % land.getDxView());
 				break;
 				
-			case java.awt.event.KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_RIGHT:
 				if(key.isShiftDown())
 					land.setMovingY((land.getMovingY()-5 + land.getDyView()) % land.getDyView());
 				else
 					land.setMovingY((land.getMovingY()-1 + land.getDyView()) % land.getDyView());
 				break;
 				
-			case java.awt.event.KeyEvent.VK_LEFT:
+			case KeyEvent.VK_LEFT:
 				if(key.isShiftDown())
 					land.setMovingY((land.getMovingY() + 5 ) % (land.getDyView()-1));
 				else
 					land.setMovingY((land.getMovingY() + 1 ) % (land.getDyView()-1));
 				break; 
 				
-			case java.awt.event.KeyEvent.VK_Q:
+			case KeyEvent.VK_Q:
 				land.setRotationVelocity(land.getRotationVelocity()-0.1f);
 				break;
 				
-			case java.awt.event.KeyEvent.VK_D:
+			case KeyEvent.VK_D:
 				land.setRotationVelocity(land.getRotationVelocity()+0.1f);			
 				break;
 				
-			case java.awt.event.KeyEvent.VK_Z:
+			case KeyEvent.VK_Z:
 				if(key.isControlDown())
 					land.setModuleDepth(land.getModuleDepth()-10);
 				else
 					land.setModuleAltitude(land.getModuleAltitude()-3);
 				break;
 				
-			case java.awt.event.KeyEvent.VK_S:
+			case KeyEvent.VK_S:
 				if(key.isControlDown())
 					land.setModuleDepth(land.getModuleDepth()+10);
 				else
 					land.setModuleAltitude(land.getModuleAltitude()+3);
 				break; 
-			case java.awt.event.KeyEvent.VK_H:
+			case KeyEvent.VK_H:
 				System.out.println(
 						"Help:\n" +
 						" [v] change view\n\t" +
@@ -118,33 +114,33 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 		}
 		
 		@Override
-		public void keyTyped(java.awt.event.KeyEvent arg0) {
+		public void keyTyped(KeyEvent arg0) {
 			// TODO Auto-generated method stub
 			
 		}
 		@Override
-		public void mouseClicked(java.awt.event.MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-		@Override
-		public void mouseEntered(java.awt.event.MouseEvent arg0) {
+		public void mouseClicked(MouseEvent arg0) {
 			// TODO Auto-generated method stub
 			
 		}
 
 
 		@Override
-		public void mouseExited(java.awt.event.MouseEvent arg0) {
+		public void mouseEntered(MouseEvent arg0) {
 			// TODO Auto-generated method stub
 			
 		}
 
 
 		@Override
-		  public void mousePressed(java.awt.event.MouseEvent mouse)
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		  public void mousePressed(MouseEvent mouse)
 		  {
 			//example from doublebuf.java
 		    switch (mouse.getButton()) 
@@ -152,7 +148,7 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 		      case MouseEvent.BUTTON1:
 		        land.setRotationVelocity(land.getRotationVelocity()+0.1f);
 		        break;
-		      case MouseEvent.BUTTON2:
+		      case MouseEvent.BUTTON2:break;
 		      case MouseEvent.BUTTON3:
 				land.setRotationVelocity(0f);
 		        break;
@@ -161,8 +157,28 @@ public class PlayerInput implements KeyListener, MouseListener { //Ajouter les a
 		  }
 
 		@Override
-		public void mouseReleased(java.awt.event.MouseEvent arg0) {
+		public void mouseReleased(MouseEvent arg0) {
 			// TODO Auto-generated method stub
 			
 		}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent mwe)
+	{
+		int source = mwe.getModifiers();
+		int notches = mwe.getWheelRotation();
+		
+		if ((source & InputEvent.BUTTON1_MASK) == InputEvent.BUTTON1_MASK)  //Avance
+			  land.setMovingX((land.getMovingX() + 5 ) % (land.getDxView()-1));
+		
+		else if ((source & InputEvent.BUTTON2_MASK) == InputEvent.BUTTON2_MASK)  //Modifie le relief
+			  land.setHeightBooster(land.getHeightBooster()+5*notches);
+		
+		else if ((source & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK) //Modifie le champ de profondeur
+			 land.setModuleDepth(land.getModuleDepth()+10*notches);
+		
+		else
+			land.setModuleAltitude(land.getModuleAltitude()+5*notches); //Modifie l'altitude
+
+	}
 }

@@ -8,16 +8,18 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import input.PlayerInput;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLJPanel;
 import javax.media.opengl.fixedfunc.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 import landscapegenerator.LoadFromFileLandscape;
 import landscapegenerator.PerlinNoiseLandscapeGenerator;
-import landscapegenerator.RandomLandscapeGenerator;
 import worlds.*;
 
 /**
@@ -45,7 +47,7 @@ import worlds.*;
 //  add : drawable.getGL().setSwapInterval(1); in the init method
 //  then: in the main method, replace the FPSAnimator with a regular Animator.
 
-public class Landscape implements GLEventListener {
+public class Landscape implements GLEventListener{
 
 	private World myWorld;
 	
@@ -94,6 +96,7 @@ public class Landscape implements GLEventListener {
 	
 	float moduleAltitude;
 	float moduleDepth;
+	
 		
 	/**
 	 * Initialise landscape à partir du bruit 
@@ -153,15 +156,16 @@ public class Landscape implements GLEventListener {
 		caps = new GLCapabilities(null); //!n
 		caps.setDoubleBuffered(true);  //!n
 
-		final GLJPanel panel = new GLJPanel(caps); // original
+		final GLJPanel canvas = new GLJPanel(caps); // original
 
 		final JFrame frame = new JFrame("World Of Cells");
-		animator = new Animator(panel);
+		animator = new Animator(canvas);
 		
-		panel.addGLEventListener(landscape);
-		panel.addMouseListener(play);// register mouse callback functions
-		panel.addKeyListener(play);// register keyboard callback functions
-		frame.add(panel);
+		canvas.addGLEventListener(landscape);
+		canvas.addMouseListener(play);// register mouse callback functions
+		canvas.addKeyListener(play);// register keyboard callback functions
+		canvas.addMouseWheelListener(play);
+		frame.add(canvas);
 		
 		frame.setSize(1024, 768);
 		frame.setResizable(false);
@@ -178,16 +182,86 @@ public class Landscape implements GLEventListener {
 		animator.start();
 		//frame.setAlwaysOnTop(true);
 		//frame.toFront();
-		panel.requestFocus();
+		canvas.requestFocus();
 
 		return landscape;
 	}
 	
 	public static Landscape[] runAll(Landscape[] landscape) {
 		
+		JPanel mainPanel = new JPanel(new CardLayout());
+		JPanel comboBoxPane = new JPanel(); //use FlowLayout
+		
+		final String wp1 = "WorldOfTrees";
+		final String wp2 = "WorldOfSand";
+		final String wp3 = "WorldOfSnow";
+		String comboBoxItems[] = { wp1, wp2, wp3 };
+		
+        JComboBox cb = new JComboBox(comboBoxItems);
+        cb.setEditable(false);
+        cb.addItemListener((ItemEvent ie) -> {
+			CardLayout cl = (CardLayout)(mainPanel.getLayout());
+			cl.show(mainPanel, (String)ie.getItem());
+		});
+        comboBoxPane.add(cb);
+		
+	   	final JFrame frame = new JFrame("World Of Cells");
+		
+		for(int i=0;i<landscape.length;i++)
+		{
+			PlayerInput play = new PlayerInput(landscape[i]);
+
+			caps = new GLCapabilities(null); //!n
+			caps.setDoubleBuffered(true);  //!n
+
+			final GLJPanel canvas = new GLJPanel(caps); // original
+			final JPanel worldPanel = new JPanel(new BorderLayout());
+			
+			animator = new Animator(canvas);
+
+			canvas.addGLEventListener(landscape[i]);
+			canvas.addMouseListener(play);// register mouse callback functions
+			canvas.addKeyListener(play);// register keyboard callback functions
+			canvas.addMouseWheelListener(play);
+			
+			//canvas.requestFocus();
+			canvas.setAnimator(animator);
+			canvas.getAnimator().start();
+			
+			worldPanel.add(canvas);
+			switch(i)
+			{
+				case 0: mainPanel.add("WorldOfTrees",worldPanel); break;
+				case 1: mainPanel.add("WorldOfSand",worldPanel); break;
+				case 2: mainPanel.add("WorldOfSnow",worldPanel); break;
+			}
+		}
+		
+		comboBoxPane.setFocusTraversalKeysEnabled(false);
+		
+		frame.getContentPane().add(mainPanel,BorderLayout.CENTER);
+		frame.getContentPane().add(comboBoxPane, BorderLayout.SOUTH);
+		
+		frame.setSize(1024, 768);
+		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
+		frame.setVisible(true);
+		//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
+		//animator.start();
+
+		return landscape;
+	}
+	
+
+	/**
+	 * OpenGL Init method
+	 */
+	
+	public static Landscape[] runAllDebug(Landscape[] landscape) {
+		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		JPanel mainPanel = new JPanel(new BorderLayout());
-		
+	
 		for(int i=0;i<landscape.length;i++)
 		{
 			PlayerInput play = new PlayerInput(landscape[i]);
@@ -198,16 +272,19 @@ public class Landscape implements GLEventListener {
 			final GLJPanel panel = new GLJPanel(caps); // original
 			final JPanel worldPanel = new JPanel(new BorderLayout());
 			
-			animator = new Animator(panel);
+			Animator animator = new Animator(panel);
 
 			panel.addGLEventListener(landscape[i]);
 			panel.addMouseListener(play);// register mouse callback functions
 			panel.addKeyListener(play);// register keyboard callback functions
-			panel.requestFocus();
 			
-			animator.start();
+			panel.requestFocus();
+			panel.setAnimator(animator);
+			
+			panel.getAnimator().start();
 			
 			worldPanel.add(panel);
+			worldPanel.addKeyListener(play);
 			switch(i)
 			{
 				case 0: tabbedPane.add("WorldOfTrees",worldPanel); break;
@@ -216,32 +293,25 @@ public class Landscape implements GLEventListener {
 			}	
 		}
 		mainPanel.add(tabbedPane);
+		tabbedPane.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("LEFT"), "none");
+		tabbedPane.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("RIGHT"), "none");
 		
 		final JFrame frame = new JFrame("World Of Cells");
 		frame.getContentPane().add(mainPanel);
 		
 		frame.setSize(1024, 768);
 		frame.setResizable(false);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				animator.stop();
-				frame.dispose();
-				System.exit(0);
-			}
-		});
 		frame.setVisible(true);
 		//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
-		
+		//animator.start();
 		//frame.setAlwaysOnTop(true);
 		//frame.toFront();
 
 		return landscape;
 	}
-
-	/**
-	 * OpenGL Init method
-	 */
+	
 	@Override
 	public void init(GLAutoDrawable glDrawable) 
 	{
@@ -680,5 +750,4 @@ public class Landscape implements GLEventListener {
 	public void setModuleDepth(float moduleDepth) {
 		this.moduleDepth = moduleDepth;
 	}
-	
 }
