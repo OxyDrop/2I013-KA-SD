@@ -172,6 +172,5 @@ public abstract class World {
 
 	public double getMaxEverHeight() { return this.maxEver; }
 	public double getMinEverHeight() { return this.minEver; }
-	
-
+	abstract public String getNom();
 }

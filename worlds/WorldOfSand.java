@@ -7,11 +7,17 @@ package worlds;
 import DynamicObject.Agent;
 import cellularautomata.DesertCA;
 import javax.media.opengl.GL2;
+import objects.Architect.Portail;
 
 public class WorldOfSand extends World {
 	
 	private static final int POPINI=100;
     protected DesertCA cellularAutomata;
+	private static final int NBMAXPORTAILS=2;
+	private static final int NBMAXTELEPORTEURS = 5;
+	private int xportrand, yportrand;
+	private int xteleprand, yteleprand;
+	World w1,w2;
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -20,6 +26,13 @@ public class WorldOfSand extends World {
 	protected CellularAutomataDouble cellsHeightAmplitudeCA;
 	*/
 	
+	public WorldOfSand(){}
+	
+	public WorldOfSand(World w1, World w2)
+	{
+		this.w1=w1;
+		this.w2=w2;
+	}
     public void init ( int dxCA, int dyCA, double[][] landscape )
     {
     	super.init(dxCA, dyCA, landscape);
@@ -55,7 +68,18 @@ public class WorldOfSand extends World {
     		}
 		/*-------------------FIN COULEUR--------------------*/
     	/*-----------------AJOUT OBJETS--------------------*/
-		
+		 for(int port = 0 ; port <NBMAXPORTAILS ; port++)
+		 {
+			 do{
+				xportrand = (int)(Math.random()*dxCA);
+				yportrand = (int)(Math.random()*dyCA);
+			 }while(this.getCellHeight(xportrand, yportrand)<=0);
+			 
+			 if(port==0)
+				LObjects.add(new Portail(xportrand,yportrand,this,w1));
+			 else
+				LObjects.add(new Portail(xportrand,yportrand,this,w2));
+		 }
 		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
 				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
 		
@@ -111,6 +135,9 @@ public class WorldOfSand extends World {
 	{
 		
 	} 
-    
+    public String getNom()
+	{
+		return "WorldOfSand";
+	}
 
 }

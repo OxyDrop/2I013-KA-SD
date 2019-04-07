@@ -11,6 +11,7 @@ import objects.Arbres.GrandArbre;
 import objects.Arbres.Tree;
 import objects.Architect.BridgeBlock;
 import objects.Architect.Monolith;
+import objects.Architect.Portail;
 import objects.Consommables.Herbe;
 import objects.Consommables.Pomme;
 import objects.UniqueObject;
@@ -19,6 +20,11 @@ public class WorldOfTrees extends World {
 	
 	private static final int POPINI=400;
     protected ForestCA cellularAutomata;
+	private static final int NBMAXPORTAILS=2;
+	private static final int NBMAXTELEPORTEURS = 5;
+	private int xportrand, yportrand;
+	private int xteleprand, yteleprand;
+	World w1,w2;
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -29,6 +35,13 @@ public class WorldOfTrees extends World {
 	public CellularAutomataColor ColorVal;
 	*/
 	
+	public WorldOfTrees(){}
+	
+	public WorldOfTrees(World w1, World w2)
+	{
+		this.w1=w1;
+		this.w2=w2;
+	}
     public void init ( int dxCA, int dyCA, double[][] landscape )
     {
     	super.init(dxCA, dyCA, landscape);
@@ -63,26 +76,39 @@ public class WorldOfTrees extends World {
 		        this.ColorVal.setCellState(x, y, color);
     		}
 		/*-------------------FIN COULEUR--------------------*/
-    	/*-----------------AJOUT OBJETS--------------------*/
-	 for (int i = 0 ; i < dxCA ; i++)
+    	/*-----------------AJOUT OBJETS EN BOUCLE--------------------*/
+		 for (int i = 0 ; i < dxCA ; i++){
     		for (int j = 0 ; j < dyCA ; j++)
     		{
     			cellState = this.getCellValue(i, j);
 				
-    			if (cellState == 1){
+    			if (cellState == 1)
+				{
     				if (Math.random() < 0.009)
 					{
 						GrandArbre ga = new GrandArbre(i,j,this);
 						ga.init();
     					LObjects.add(ga);
 					}
-				}
-				
-				else if(Math.random()<0.009){
-					LObjects.add(new Herbe(i,j,this)); // Creation de l'herbe
-					//LObjects.add(new Pomme(i,j,this));
+					else if(Math.random()<0.009)
+						LObjects.add(new Herbe(i,j,this)); // Creation de l'herbe
+					
+					
 				}
 			}
+		 }
+		 for(int port = 0 ; port <NBMAXPORTAILS ; port++)
+		 {
+			 do{
+				xportrand = (int)(Math.random()*dxCA);
+				yportrand = (int)(Math.random()*dyCA);
+			 }while(this.getCellHeight(xportrand, yportrand)<=0);
+			 
+			 if(port==0)
+				LObjects.add(new Portail(xportrand,yportrand,this,w1));
+			 else
+				LObjects.add(new Portail(xportrand,yportrand,this,w2));
+		 }
 		/*------------------AJOUTS AGENTS ----------------------*/
 		for(int i=0;i<POPINI;i++){
 			int dxRand=0;
@@ -163,6 +189,9 @@ public class WorldOfTrees extends World {
 	{
 		
 	} 
-    
+     public String getNom()
+	{
+		return "WorldOfTrees";
+	}
 
 }
