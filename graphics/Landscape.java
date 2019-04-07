@@ -8,6 +8,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 import input.PlayerInput;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLJPanel;
 import javax.media.opengl.fixedfunc.*;
@@ -44,6 +45,7 @@ import worlds.*;
 public class Landscape implements GLEventListener {
 
 	private World myWorld;
+	private ArrayList<World> worldList;
 
 	private static GLCapabilities caps;  // GO FAST ???
 	static Animator animator;
