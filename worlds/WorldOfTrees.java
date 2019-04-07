@@ -6,18 +6,12 @@ package worlds;
 
 import DynamicObject.Agent;
 import cellularautomata.ForestCA;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.media.opengl.GL2;
 import objects.Arbres.GrandArbre;
 import objects.Arbres.Tree;
-import objects.Architect.BridgeBlock;
-import objects.Architect.Monolith;
 import objects.Architect.Portail;
 import objects.Consommables.Herbe;
-import objects.Consommables.Pomme;
 import objects.UniqueObject;
 
 public class WorldOfTrees extends World {
@@ -154,26 +148,13 @@ public class WorldOfTrees extends World {
     protected void stepAgents()
     {
     	// nothing to do.
-    	for (Iterator<Agent> it = agent.iterator() ; it.hasNext();)
-    	{
-    		Agent a = it.next();
+    	for (Agent a : agent)
 			a.step();
-			for(UniqueObject port : LObjects)
-				if(port instanceof Portail)
-						if(((Portail)port).distanceSuffisante(a))
-						{
-							Portail currentP = (Portail)port;
-							Agent clone = a.clone();
-							//Propulse a un point aleatoire en dehors du portail
-							clone.setX(a.getX() + (int) (Math.random() % (10 - 5 + 1) + 5));
-							clone.setY(a.getY() + (int) (Math.random() % (10 - 5 + 1) + 5));
-							it.remove();
-							currentP.getPassage().getAgentListe().add(clone);
-							System.out.println("Un agent a emprunté le portail " + getNom()
-								+ " en (" + currentP.getX() + "," + currentP.getY() + ") menant au " + currentP.getPassage().getNom());
-						}
-
-    	}
+		
+		for(UniqueObject portal : LObjects)
+			if(portal instanceof Portail)
+				((Portail) portal).passePortail(agent);
+		
 		if(iteration%NOTIFYITERATION==0)
 			System.out.println("Nombre agent = "+agent.size());
     }

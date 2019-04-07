@@ -4,7 +4,6 @@ import Interfaces.Eliminable;
 import com.jogamp.opengl.util.gl2.GLUT;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
-import javax.media.opengl.glu.GLUquadric;
 import worlds.World;
 
 /**

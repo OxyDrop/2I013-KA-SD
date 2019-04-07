@@ -1,8 +1,8 @@
 package objects.Architect;
 
 import DynamicObject.Agent;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.UniqueObject;
 import worlds.World;
@@ -28,18 +28,24 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 		return (Math.sqrt(Math.pow( a.getX() - x , 2 ) + Math.pow( a.getY() - y , 2 )) <= DISTANCEMIN);
 		
 	}
-	public void passePortail(Agent a)
+	public void passePortail(ArrayList<Agent> agentList)
 	{
-		if(distanceSuffisante(a))
-		{
-			Agent clone = a.clone();
-			//Propulse a un point aleatoire en dehors du portail
-			clone.setX(a.getX() + (int) (Math.random() % (10 - 5 + 1) + 5));
-			clone.setY(a.getY() + (int) (Math.random() % (10 - 5 + 1) + 5));
-			world.getAgentListe().remove(a);
-			passage.getAgentListe().add(clone);
-			System.out.println("Un agent a emprunté le portail " + world.getNom() + " en (" + x + "," + y + ") menant au " + passage.getNom());
-		}
+		for (Iterator<Agent> it = agentList.iterator() ; it.hasNext();)
+    	{
+    		Agent a = it.next();
+			if (distanceSuffisante(a)) 
+			{
+				Agent clone = a.clone();
+				//Propulse a un point aleatoire en dehors du portail
+				clone.setX(a.getX() + (int) (Math.random() % (10 - 5 + 1) + 5));
+				clone.setY(a.getY() + (int) (Math.random() % (10 - 5 + 1) + 5));
+				it.remove();
+				passage.getAgentListe().add(clone);
+				System.out.println("Un agent a emprunté le portail " + world.getNom()
+						+ " en (" + x + "," + y + ") menant au " + passage.getNom());
+			}
+
+    	}
 	}
 
 	public World getPassage() {

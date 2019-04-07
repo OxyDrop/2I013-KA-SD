@@ -2,12 +2,12 @@ package objects;
 
 
 import com.jogamp.opengl.util.gl2.GLUT;
-import javax.media.opengl.*;
-import javax.media.opengl.glu.*;
 import com.jogamp.opengl.util.texture.*;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
+import javax.media.opengl.*;
+import javax.media.opengl.glu.*;
 /**
  *
  * @author Serero
