@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLJPanel;
 import javax.media.opengl.fixedfunc.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import landscapegenerator.LoadFromFileLandscape;
 import landscapegenerator.PerlinNoiseLandscapeGenerator;
 import landscapegenerator.RandomLandscapeGenerator;
@@ -45,8 +48,7 @@ import worlds.*;
 public class Landscape implements GLEventListener {
 
 	private World myWorld;
-	private ArrayList<World> worldList;
-
+	
 	private static GLCapabilities caps;  // GO FAST ???
 	static Animator animator;
 
@@ -83,7 +85,6 @@ public class Landscape implements GLEventListener {
 	float stepY;
 	float lenX;
 	float lenY;
-	
 
 	float smoothFactor[];
 	int smoothingDistanceThreshold;
@@ -105,9 +106,6 @@ public class Landscape implements GLEventListener {
 		initLandscape();
 	}
 
-	/**
-	 *
-	 */
 	public Landscape(World myWorld, String filename, double scaling, double landscapeAltitudeRatio) {
 		this.myWorld = myWorld;
 
@@ -116,10 +114,6 @@ public class Landscape implements GLEventListener {
 		initLandscape();
 	}
 	
-
-	/**
-	 *
-	 */
 	private void initLandscape() 
 	{
 		dxView = landscape.length;
@@ -153,6 +147,7 @@ public class Landscape implements GLEventListener {
 	 *Ajouter skybox, astres
 	 */
 	public static Landscape run(Landscape landscape) {
+		
 		PlayerInput play = new PlayerInput(landscape);
 
 		caps = new GLCapabilities(null); //!n
@@ -160,7 +155,7 @@ public class Landscape implements GLEventListener {
 
 		final GLJPanel panel = new GLJPanel(caps); // original
 
-		final Frame frame = new Frame("World Of Cells");
+		final JFrame frame = new JFrame("World Of Cells");
 		animator = new Animator(panel);
 		
 		panel.addGLEventListener(landscape);
@@ -181,9 +176,65 @@ public class Landscape implements GLEventListener {
 		frame.setVisible(true);
 		animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
 		animator.start();
-		frame.setAlwaysOnTop(true);
-		frame.toFront();
+		//frame.setAlwaysOnTop(true);
+		//frame.toFront();
 		panel.requestFocus();
+
+		return landscape;
+	}
+	
+	public static Landscape[] runAll(Landscape[] landscape) {
+		
+		JTabbedPane tabbedPane = new JTabbedPane();
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		
+		for(int i=0;i<landscape.length;i++)
+		{
+			PlayerInput play = new PlayerInput(landscape[i]);
+
+			caps = new GLCapabilities(null); //!n
+			caps.setDoubleBuffered(true);  //!n
+
+			final GLJPanel panel = new GLJPanel(caps); // original
+			final JPanel worldPanel = new JPanel(new BorderLayout());
+			
+			animator = new Animator(panel);
+
+			panel.addGLEventListener(landscape[i]);
+			panel.addMouseListener(play);// register mouse callback functions
+			panel.addKeyListener(play);// register keyboard callback functions
+			panel.requestFocus();
+			
+			animator.start();
+			
+			worldPanel.add(panel);
+			switch(i)
+			{
+				case 0: tabbedPane.add("WorldOfTrees",worldPanel); break;
+				case 1: tabbedPane.add("WorldOfSand",worldPanel); break;
+				case 2: tabbedPane.add("WorldOfSnow",worldPanel); break;
+			}	
+		}
+		mainPanel.add(tabbedPane);
+		
+		final JFrame frame = new JFrame("World Of Cells");
+		frame.getContentPane().add(mainPanel);
+		
+		frame.setSize(1024, 768);
+		frame.setResizable(false);
+		
+		frame.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+				animator.stop();
+				frame.dispose();
+				System.exit(0);
+			}
+		});
+		frame.setVisible(true);
+		//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
+		
+		//frame.setAlwaysOnTop(true);
+		//frame.toFront();
 
 		return landscape;
 	}

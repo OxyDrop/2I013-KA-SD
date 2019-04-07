@@ -18,6 +18,7 @@ public class MyEcosystem {
 	
 	static ImageIcon imIc;
 	
+	
 	public static void main(String[] args) {
 		
 		try {
@@ -28,7 +29,7 @@ public class MyEcosystem {
 		}
 		
 		int choix = Integer.parseInt(JOptionPane.showInputDialog(null,
-					"\tMode de lancement\n\tChoississez une option :\n1>Fenetre\n2>Console\n3>Normal\n4>Graphique",
+					"\tMode de lancement\n\tChoississez une option :\n1>Fenetre\n2>Console\n3>Normal\n4>Graphique\n5>Multiple",
 					JOptionPane.INFORMATION_MESSAGE));
 		switch(choix)
 		{
@@ -130,6 +131,14 @@ public class MyEcosystem {
 					System.out.println("okrand");
 					Landscape.run(new Landscape(info.choosen,200,200, info.altitude, info.waterlevel));
 				}
+				break;
+			
+			case 5:
+				Landscape[] landListe = {new Landscape(new WorldOfTrees(),200,200,0.5,0.25),
+										new Landscape(new WorldOfSand(),200,200,0.5,0.25),
+										new Landscape(new WorldOfSnow(),200,200,0.5,0.25)};
+				
+				Landscape.runAll(landListe);
 				break;
 				
 			default :
