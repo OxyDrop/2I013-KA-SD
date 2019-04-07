@@ -147,8 +147,15 @@ public class PlayerInput implements KeyListener, MouseListener, MouseWheelListen
 			{
 		      case MouseEvent.BUTTON1:
 		        land.setRotationVelocity(land.getRotationVelocity()+0.1f);
+				if (mouse.getClickCount() == 2 && !mouse.isConsumed()) 
+				{
+					Landscape.setVIEW_FROM_ABOVE(!Landscape.isVIEW_FROM_ABOVE()) ;
+					mouse.consume();
+				}
 		        break;
+				
 		      case MouseEvent.BUTTON2:break;
+			  
 		      case MouseEvent.BUTTON3:
 				land.setRotationVelocity(0f);
 		        break;
@@ -172,7 +179,7 @@ public class PlayerInput implements KeyListener, MouseListener, MouseWheelListen
 			  land.setMovingX((land.getMovingX() + 5 ) % (land.getDxView()-1));
 		
 		else if ((source & InputEvent.BUTTON2_MASK) == InputEvent.BUTTON2_MASK)  //Modifie le relief
-			  land.setHeightBooster(land.getHeightBooster()+5*notches);
+			  land.setHeightBooster(land.getHeightBooster()+2*notches);
 		
 		else if ((source & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK) //Modifie le champ de profondeur
 			 land.setModuleDepth(land.getModuleDepth()+10*notches);

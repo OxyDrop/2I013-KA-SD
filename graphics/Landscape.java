@@ -257,7 +257,7 @@ public class Landscape implements GLEventListener{
 	 * OpenGL Init method
 	 */
 	
-	public static Landscape[] runAllDebug(Landscape[] landscape) {
+	public static Landscape[] runAllTabbedPane(Landscape[] landscape) {
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		JPanel mainPanel = new JPanel(new BorderLayout());
@@ -277,6 +277,7 @@ public class Landscape implements GLEventListener{
 			panel.addGLEventListener(landscape[i]);
 			panel.addMouseListener(play);// register mouse callback functions
 			panel.addKeyListener(play);// register keyboard callback functions
+			panel.addMouseWheelListener(play);
 			
 			panel.requestFocus();
 			panel.setAnimator(animator);

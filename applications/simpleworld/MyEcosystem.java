@@ -134,11 +134,19 @@ public class MyEcosystem {
 				break;
 			
 			case 5:
-				Landscape[] landListe = {new Landscape(new WorldOfTrees(),200,200,0.5,0.25),
-										new Landscape(new WorldOfSand(),200,200,0.5,0.25),
-										new Landscape(new WorldOfSnow(),200,200,0.5,0.25)};
+				Landscape[] landListeCards = {new Landscape(new WorldOfTrees(),200,200,0.5,0.25),
+											new Landscape(new WorldOfSand(),200,200,0.5,0.25),
+											new Landscape(new WorldOfSnow(),200,200,0.5,0.25)};
 				
-				Landscape.runAll(landListe);
+				Landscape.runAll(landListeCards);
+				break;
+				
+			case 6 :
+				Landscape[] landListeTab = {new Landscape(new WorldOfTrees(),200,200,0.5,0.25),
+											new Landscape(new WorldOfSand(),200,200,0.5,0.25),
+											new Landscape(new WorldOfSnow(),200,200,0.5,0.25)};
+				
+				Landscape.runAllTabbedPane(landListeTab);
 				break;
 				
 			default :
