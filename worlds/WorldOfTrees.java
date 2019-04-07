@@ -10,16 +10,17 @@ import javax.media.opengl.GL2;
 import objects.Arbres.GrandArbre;
 import objects.Arbres.Tree;
 import objects.Architect.Portail;
+import objects.Architect.Teleporteur;
 import objects.Consommables.Herbe;
 import objects.UniqueObject;
 
 public class WorldOfTrees extends World {
 	
-	private static final int POPINI=400;
+	private static final int POPINI=800;
     protected ForestCA cellularAutomata;
 	
 	private static final int NBMAXPORTAILS=2;
-	private static final int NBMAXTELEPORTEURS = 5;
+	private static final int NBMAXTELEPORTEUR = 5;
 	private static final int NOTIFYITERATION = 100; //Used to display messages every number of iteration 
 	
 	private int xportrand, yportrand;
@@ -104,13 +105,23 @@ public class WorldOfTrees extends World {
 				yportrand = (int)(Math.random()*dyCA);
 			 }while(this.getCellHeight(xportrand, yportrand)<=0);
 			 
-			if(w1 != null && w2 != null){ 
+			if(w1 != null && w2 != null)
+			{ 
 			 if(port==0)
 				LObjects.add(new Portail(xportrand,yportrand,this,w1));
 			 else
 				LObjects.add(new Portail(xportrand,yportrand,this,w2));
 			}
 		 }
+		 for(int port = 0 ; port <NBMAXTELEPORTEUR ; port++)
+		 {
+			 do{
+				xportrand = (int)(Math.random()*dxCA);
+				yportrand = (int)(Math.random()*dyCA);
+			 }while(this.getCellHeight(xportrand, yportrand)<=0);
+	
+			LObjects.add(new Teleporteur(xportrand,yportrand,(int)(Math.random()*dxCA),(int)(Math.random()*dyCA),this));
+		}
 		/*------------------AJOUTS AGENTS ----------------------*/
 		for(int i=0;i<POPINI;i++){
 			int dxRand=0;
@@ -153,6 +164,8 @@ public class WorldOfTrees extends World {
 		for(UniqueObject portal : LObjects)
 			if(portal instanceof Portail)
 				((Portail) portal).passePortail(agent);
+			else if(portal instanceof Teleporteur)
+				((Teleporteur)portal).passeTeleporteur(agent);
 		
 		if(iteration%NOTIFYITERATION==0)
 			System.out.println("Nombre agent = "+agent.size());

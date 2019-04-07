@@ -15,10 +15,13 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 	
 	private World passage; //le monde de passage
 	private final static int DISTANCEMIN = 2; //utilisé pour definir la distance minimale
+	private static int cpt = 0;
+	private int id;
 	public Portail(int x, int y, World world, World passage) 
 	{
 		super(x, y, world);
 		this.passage = passage;
+		id=++cpt;
 	}
 
 	
@@ -41,7 +44,7 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 				clone.setY(a.getY() + (int) (Math.random() % (10 - 5 + 1) + 5));
 				it.remove();
 				passage.getAgentListe().add(clone);
-				System.out.println("Un agent a emprunté le portail " + world.getNom()
+				System.out.println("Un agent a emprunté le portail "+id 
 						+ " en (" + x + "," + y + ") menant au " + passage.getNom());
 			}
 

@@ -9,14 +9,15 @@ import cellularautomata.SnowyCA;
 import javax.media.opengl.GL2;
 import objects.Arbres.Sapin;
 import objects.Architect.Portail;
+import objects.Architect.Teleporteur;
 import objects.UniqueObject;
 
 public class WorldOfSnow extends World {
 	
-	private static final int POPINI=100;
+	private static final int POPINI=500;
     protected SnowyCA cellularAutomata;
 	private static final int NBMAXPORTAILS=2;
-	private static final int NBMAXTELEPORTEURS = 5;
+	private static final int NBMAXTELEPORTEUR = 5;
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
 	private static final int NOTIFYITERATION = 100; //Used to display messages every number of iteration 
@@ -79,6 +80,16 @@ public class WorldOfSnow extends World {
 					LObjects.add(new Portail(xportrand,yportrand,this,w2));
 			 }
 		 }
+		 
+		for (int port = 0; port < NBMAXTELEPORTEUR; port++) {
+			do {
+				xportrand = (int) (Math.random() * dxCA);
+				yportrand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(xportrand, yportrand) <= 0);
+
+			LObjects.add(new Teleporteur(xportrand, yportrand, (int) (Math.random() * dxCA), (int) (Math.random() * dyCA), this));
+		}
+		
 		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
 				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
 		
@@ -114,6 +125,8 @@ public class WorldOfSnow extends World {
 		for(UniqueObject portal : LObjects)
 			if(portal instanceof Portail)
 				((Portail) portal).passePortail(agent);
+			else if(portal instanceof Teleporteur)
+				((Teleporteur)portal).passeTeleporteur(agent);
 		
 		if(iteration%NOTIFYITERATION==0)
 			System.out.println("Nombre agent = "+agent.size());
