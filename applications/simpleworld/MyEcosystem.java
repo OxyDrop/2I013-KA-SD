@@ -29,7 +29,8 @@ public class MyEcosystem {
 		}
 		
 		int choix = Integer.parseInt(JOptionPane.showInputDialog(null,
-					"\tMode de lancement\n\tChoississez une option :\n1>Fenetre\n2>Console\n3>Normal\n4>Graphique\n5>Multiple",
+					"\tMode de lancement\n\tChoississez une option :\n1>Fenetre\n2>Console\n3>Normal\n"
+					+ "4>Graphique\n5>Multiple à JComboBox\n6>Multiple à Onglets (clavier ne fonctionne pas)",
 					JOptionPane.INFORMATION_MESSAGE));
 		switch(choix)
 		{

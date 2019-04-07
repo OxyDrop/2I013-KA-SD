@@ -5,19 +5,13 @@ package graphics;
 
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
-import input.PlayerInput;
+import input.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLJPanel;
 import javax.media.opengl.fixedfunc.*;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import landscapegenerator.LoadFromFileLandscape;
 import landscapegenerator.PerlinNoiseLandscapeGenerator;
 import worlds.*;
@@ -189,6 +183,7 @@ public class Landscape implements GLEventListener{
 	
 	public static Landscape[] runAll(Landscape[] landscape) {
 		
+		/**********COMPOSANTS DE LA FENETRE*******************/
 		JPanel mainPanel = new JPanel(new CardLayout());
 		JPanel comboBoxPane = new JPanel(); //use FlowLayout
 		
@@ -199,14 +194,18 @@ public class Landscape implements GLEventListener{
 		
         JComboBox cb = new JComboBox(comboBoxItems);
         cb.setEditable(false);
+		cb.setBackground(Color.black);
+		cb.setForeground(Color.lightGray);
         cb.addItemListener((ItemEvent ie) -> {
 			CardLayout cl = (CardLayout)(mainPanel.getLayout());
 			cl.show(mainPanel, (String)ie.getItem());
 		});
+		comboBoxPane.setBackground(Color.black);
         comboBoxPane.add(cb);
 		
 	   	final JFrame frame = new JFrame("World Of Cells");
 		
+		/**********AJOUT CANVAS ET SES PROPRIETES A CHAQUE PANNEAU*******************/
 		for(int i=0;i<landscape.length;i++)
 		{
 			PlayerInput play = new PlayerInput(landscape[i]);
@@ -224,7 +223,11 @@ public class Landscape implements GLEventListener{
 			canvas.addKeyListener(play);// register keyboard callback functions
 			canvas.addMouseWheelListener(play);
 			
-			//canvas.requestFocus();
+			//REACTIVE ININTOTIONNELEMENT LE PLAYERINPUT POUR LES TOUCHES, NE FONCTIONNE PAS UNE FOIS LE CHANGEMENT DE FENETRE
+			canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0),"Left"); 
+			canvas.getActionMap().put("Left", new LeftAction(landscape[i]));
+			
+			canvas.requestFocus();
 			canvas.setAnimator(animator);
 			canvas.getAnimator().start();
 			
@@ -237,6 +240,7 @@ public class Landscape implements GLEventListener{
 			}
 		}
 		
+		/**********DERNIERS AJOUTS FENETRE ET DEMARRAGE*******************/
 		comboBoxPane.setFocusTraversalKeysEnabled(false);
 		
 		frame.getContentPane().add(mainPanel,BorderLayout.CENTER);
@@ -269,23 +273,21 @@ public class Landscape implements GLEventListener{
 			caps = new GLCapabilities(null); //!n
 			caps.setDoubleBuffered(true);  //!n
 
-			final GLJPanel panel = new GLJPanel(caps); // original
+			final GLJPanel canvas = new GLJPanel(caps); // original
 			final JPanel worldPanel = new JPanel(new BorderLayout());
 			
-			Animator animator = new Animator(panel);
+			animator = new Animator(canvas);
 
-			panel.addGLEventListener(landscape[i]);
-			panel.addMouseListener(play);// register mouse callback functions
-			panel.addKeyListener(play);// register keyboard callback functions
-			panel.addMouseWheelListener(play);
+			canvas.addGLEventListener(landscape[i]);
+			canvas.addMouseListener(play);// register mouse callback functions
+			canvas.addKeyListener(play);// register keyboard callback functions
+			canvas.addMouseWheelListener(play);
 			
-			panel.requestFocus();
-			panel.setAnimator(animator);
+			canvas.setAnimator(animator);
+			canvas.getAnimator().start();
 			
-			panel.getAnimator().start();
+			worldPanel.add(canvas);
 			
-			worldPanel.add(panel);
-			worldPanel.addKeyListener(play);
 			switch(i)
 			{
 				case 0: tabbedPane.add("WorldOfTrees",worldPanel); break;
@@ -294,8 +296,6 @@ public class Landscape implements GLEventListener{
 			}	
 		}
 		mainPanel.add(tabbedPane);
-		tabbedPane.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("LEFT"), "none");
-		tabbedPane.getInputMap(JComponent.WHEN_FOCUSED).put(KeyStroke.getKeyStroke("RIGHT"), "none");
 		
 		final JFrame frame = new JFrame("World Of Cells");
 		frame.getContentPane().add(mainPanel);
@@ -752,3 +752,4 @@ public class Landscape implements GLEventListener{
 		this.moduleDepth = moduleDepth;
 	}
 }
+
