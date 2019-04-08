@@ -1,6 +1,7 @@
 package objects.Architect;
 
 import DynamicObject.Agent;
+import Tools.ImageResources;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureIO;
 import java.io.File;
@@ -58,6 +59,8 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 	public World getPassage() {
 		return passage;
 	}
+	
+	
 		
 	@Override
 	public void displayUniqueObject(World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, 
@@ -86,20 +89,18 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, rgba, 0);
         gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, rgba, 0);
         gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 0.5f);
-		/*/
-		/*gl.glEnable(GL2.GL_TEXTURE_2D);
-		try {
-			t = TextureIO.newTexture(new File("portal.png"), false);
-		}catch (IOException e){
-			e.printStackTrace();
-			System.exit(1);
-		}
+		
+		// ---------  NE MARCHERA PROBABLEMENT JAMAIS ! -----------------------------
+		*/
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		t = ImageResources.createTexture("/res/portal.png");
 		if(t != null) 
 		{
 			System.out.println("Chargement reussi !");
 			int texture = t.getTextureObject(gl);
 			gl.glBindTexture(GL2.GL_TEXTURE_2D, texture);
-		}*/
+		}
+		//
 		
 		gl.glColor3f(0.36f,0.87f,1f);
 	
@@ -128,7 +129,7 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 20.f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 20.f);
 		
-		gl.glDisable(GL2.GL_LIGHT5);
+		gl.glDisable(GL2.GL_TEXTURE_2D);
 		
 	}
 	

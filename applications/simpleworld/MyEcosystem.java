@@ -17,7 +17,7 @@ import worlds.*;
 public class MyEcosystem {
 	
 	static ImageIcon imIc;
-	private final static float ALTITUDE= 0.33f;
+	private final static float ALTITUDE= 0.3f;
 	private final static float WATERLVL = 0.3f;
 	
 	
@@ -63,9 +63,9 @@ public class MyEcosystem {
 						"Choix fichier", 0, imIc ,path, path[0]);					
 						switch(choixW)
 						{
-							case 1: Landscape.run(new Landscape(wTree,file,0.6,0.35)); break;
-							case 2: Landscape.run(new Landscape(wSand,file,0.6,0.2)); break;
-							case 3: Landscape.run(new Landscape(wSnow,file,0.6,0.2)); break;
+							case 1: Landscape.run(new Landscape(wTree,file,ALTITUDE,WATERLVL)); break;
+							case 2: Landscape.run(new Landscape(wSand,file,ALTITUDE,WATERLVL/1.5)); break;
+							case 3: Landscape.run(new Landscape(wSnow,file,ALTITUDE,WATERLVL/1.5)); break;
 							default:
 								JOptionPane.showMessageDialog(null, "Entrée incorrecte, réessayez");
 								System.exit(1);
@@ -75,9 +75,9 @@ public class MyEcosystem {
 					case 2: 
 						switch(choixW)
 						{
-							case 1 : Landscape.run(new Landscape(wTree,200,200,0.6,0.35)); break;
-							case 2 : Landscape.run(new Landscape(wSand,200,200,0.6,0.2));break;
-							case 3 : Landscape.run(new Landscape(wSnow,200,200,0.6,0.2)); break;
+							case 1 : Landscape.run(new Landscape(wTree,200,200,ALTITUDE,WATERLVL)); break;
+							case 2 : Landscape.run(new Landscape(wSand,200,200,ALTITUDE,WATERLVL/1.5));break;
+							case 3 : Landscape.run(new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/1.5)); break;
 							default:
 								JOptionPane.showMessageDialog(null, "Entrée incorrecte, réessayez");
 								System.exit(1);

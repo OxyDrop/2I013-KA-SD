@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class PerlinNoiseLandscapeGenerator {
 	
-		private static final double TAILLEMODULEUR 	=  29;
+		private static final double TAILLEMODULEUR 	= 40;
 		private static final float AMPLITUDE = 70f;
 		private static final int OCTAVES = 3;
 		private static final float ROUGHNESS = 0.3f;

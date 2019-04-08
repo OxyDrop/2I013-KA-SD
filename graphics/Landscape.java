@@ -91,6 +91,7 @@ public class Landscape implements GLEventListener{
 	float moduleAltitude;
 	float moduleDepth;
 	
+	int time = 0;
 		
 	/**
 	 * Initialise landscape à partir du bruit 
@@ -334,7 +335,6 @@ public class Landscape implements GLEventListener{
 		gl.glEnable(GL.GL_CULL_FACE);
 		gl.glEnable(GL.GL_DITHER);
 		
-		gl.glEnable(GL2.GL_TEXTURE_2D);
 	}
 	@Override
 	public void display(GLAutoDrawable gLDrawable) {
