@@ -23,7 +23,7 @@ public class WorldOfSand extends World {
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
 	
-	World w1,w2;
+	private World w1,w2;
 	/*
 	protected int iteration = 0;
 	indexCA;

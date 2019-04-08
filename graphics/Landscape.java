@@ -3,8 +3,10 @@
 // date of creation: 2013-1-12
 package graphics;
 
+import Tools.ImageResources;
 import com.jogamp.opengl.util.Animator;
 import com.jogamp.opengl.util.gl2.GLUT;
+import com.jogamp.opengl.util.texture.Texture;
 import input.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -92,25 +94,24 @@ public class Landscape implements GLEventListener{
 	float moduleDepth;
 	
 	int time = 0;
-	Skybox sky;
+	private int skyboxT1 , skyboxT2, skyboxT3, skyboxT4, skyboxT5,	skyboxT6;
+	private Texture t1, t2, t3, t4, t5, t6;
 		
 	/**
 	 * Initialise landscape à partir du bruit 
 	 */
-	public Landscape(World myWorld, int dx, int dy, double scaling, double altitudeRatio, Skybox sky) {
+	public Landscape(World myWorld, int dx, int dy, double scaling, double altitudeRatio) {
 		
 		this.myWorld = myWorld;
-		this.sky=sky;
 		landscape = PerlinNoiseLandscapeGenerator.generatePerlinNoiseLandscape(dx, dy, scaling, altitudeRatio, 100); // 11
 		
 		//landscape = PerlinNoiseLandscapeGenerator.generatePNL(dx, dy, scaling, altitudeRatio);
 		initLandscape();
 	}
 
-	public Landscape(World myWorld, String filename, double scaling, double landscapeAltitudeRatio, Skybox sky) {
+	public Landscape(World myWorld, String filename, double scaling, double landscapeAltitudeRatio) {
 		
 		this.myWorld = myWorld;
-		this.sky = sky;
 		landscape = LoadFromFileLandscape.load(filename, scaling, landscapeAltitudeRatio);
 
 		initLandscape();
@@ -153,7 +154,7 @@ public class Landscape implements GLEventListener{
 	public static Landscape run(Landscape landscape) {
 		
 		PlayerInput play = new PlayerInput(landscape);
-
+		
 		caps = new GLCapabilities(null); //!n
 		caps.setDoubleBuffered(true);  //!n
 
@@ -163,6 +164,7 @@ public class Landscape implements GLEventListener{
 		animator = new Animator(canvas);
 		
 		canvas.addGLEventListener(landscape);
+		
 		canvas.addMouseListener(play);// register mouse callback functions
 		canvas.addKeyListener(play);// register keyboard callback functions
 		canvas.addMouseWheelListener(play);
@@ -179,7 +181,7 @@ public class Landscape implements GLEventListener{
 			}
 		});
 		frame.setVisible(true);
-		animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
+		//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
 		animator.start();
 		//frame.setAlwaysOnTop(true);
 		//frame.toFront();
@@ -216,7 +218,7 @@ public class Landscape implements GLEventListener{
 		for(int i=0;i<landscape.length;i++)
 		{
 			PlayerInput play = new PlayerInput(landscape[i]);
-
+			
 			caps = new GLCapabilities(null); //!n
 			caps.setDoubleBuffered(true);  //!n
 
@@ -224,7 +226,7 @@ public class Landscape implements GLEventListener{
 			final JPanel worldPanel = new JPanel(new BorderLayout());
 			
 			animator = new Animator(canvas);
-
+			
 			canvas.addGLEventListener(landscape[i]);
 			canvas.addMouseListener(play);// register mouse callback functions
 			canvas.addKeyListener(play);// register keyboard callback functions
@@ -335,17 +337,38 @@ public class Landscape implements GLEventListener{
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL.GL_LEQUAL);
 		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		
+		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP,GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
+		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP,GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
+		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
+		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_R, GL2.GL_CLAMP_TO_EDGE); 
 
 		// Culling - display only triangles facing the screen
 		gl.glCullFace(GL.GL_FRONT);
 		gl.glEnable(GL.GL_CULL_FACE);
 		gl.glEnable(GL.GL_DITHER);
 		
+		t1=ImageResources.createTexture("/res/skyfront.png");
+		t2=ImageResources.createTexture("/res/skyback.png");
+		t3=ImageResources.createTexture("/res/skytop.png");
+		//t4=ImageResources.createTexture("/res/bottom.png");
+		//t5=ImageResources.createTexture("/res/skyright.png");
+		//t6=ImageResources.createTexture("/res/skyleft.png");
+		
+		 skyboxT1=t1.getTextureObject(gl);
+		 skyboxT2=t2.getTextureObject(gl);
+		 skyboxT3=t3.getTextureObject(gl);
+		 //skyboxT4=t4.getTextureObject(gl);
+		//skyboxT5=t5.getTextureObject(gl);
+		 //skyboxT6=t6.getTextureObject(gl);
+		
 	}
 	@Override
 	public void display(GLAutoDrawable gLDrawable) {
 
-		// ** compute FPS
+		// **--------------- compute FPS --------------- //
 		if (System.currentTimeMillis() - lastTimeStamp >= 1000) {
 			int fps = (it - lastItStamp) / 1;
 
@@ -359,13 +382,12 @@ public class Landscape implements GLEventListener{
 			lastFpsValue = fps;
 		}
 
-		// ** clean screen
+		// **--------------- clean screen --------------- //
 		final GL2 gl = gLDrawable.getGL().getGL2();
-		gl.glClear(GL.GL_COLOR_BUFFER_BIT);
-		gl.glClear(GL.GL_DEPTH_BUFFER_BIT);
+		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
 		gl.glLoadIdentity();
 
-		// ** display FPS on screen
+		// **--------------- display FPS on screen --------------- //
 		if (DISPLAY_FPS) {
 			gl.glPushMatrix();
 			gl.glColor3f((float) Math.random(), (float) Math.random(), (float) Math.random()); // do this before calling glWindowsPos2d
@@ -377,7 +399,7 @@ public class Landscape implements GLEventListener{
 		}
 
 		// ** render all
-		// *** ADD LIGHT
+		// ***--------------- ADD LIGHT --------------- //
 		if (MY_LIGHT_RENDERING) {
 			// Prepare light parameters.
 			float SHINE_ALL_DIRECTIONS = 1;
@@ -409,25 +431,26 @@ public class Landscape implements GLEventListener{
 		}
 		
 		it++;
-		// ** update Cellular Automata
+		// ** ---------------update Cellular Automata --------------- //
 		myWorld.step();
-		// ** draw everything
+		// ** ---------------draw everything --------------- //
 		gl.glBegin(GL2.GL_QUADS);
 
-		//movingX = movingIt;// it; // was: it
-		//movingY = 0; // was: it
-		for (int x = 0; x < dxView - 1; x++) {
-			for (int y = 0; y < dyView - 1; y++) {
+		for (int x = 0; x < dxView - 1; x++) 
+		{
+			for (int y = 0; y < dyView - 1; y++) 
+			{
 
-				double height = myWorld.getCellHeight(x + movingX, y + movingY);
-				int cellState = myWorld.getCellValue(x + movingX, y + movingY);
-				float[] color = myWorld.getCellColorValue(x + movingX, y + movingY);
+				double height = myWorld.getCellHeight(x + movingX, y + movingY); //HAUTEUR
+				int cellState = myWorld.getCellValue(x + movingX, y + movingY); //ETAT CELLULE
+				float[] color = myWorld.getCellColorValue(x + movingX, y + movingY); //COULEUR CELLULE
 
 				// compute CA-based coloring
-				gl.glColor3f(color[0], color[1], color[2]);
+				gl.glColor3f(color[0], color[1], color[2]); //APPLIQUE COULEUR
 
 				// * if light is on
-				if (MY_LIGHT_RENDERING) {
+				if (MY_LIGHT_RENDERING) 
+				{
 					gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, color, 0);
 					gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_DIFFUSE, color, 0);
 					gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_SPECULAR, color, 0);
@@ -437,10 +460,12 @@ public class Landscape implements GLEventListener{
 				}
 
 				// Border visual smoothing : smooth altitudes near border (i.e. nicer rendering)
-				if (SMOOTH_AT_BORDER == true && VIEW_FROM_ABOVE != true) {
-					if (Math.min(Math.min(x, dxView - x - 1), Math.min(y, dyView - y - 1)) < smoothingDistanceThreshold) {
-
-						for (int i = 0; i < 4; i++) {
+				if (SMOOTH_AT_BORDER == true && VIEW_FROM_ABOVE != true) 
+				{
+					if (Math.min(Math.min(x, dxView - x - 1), Math.min(y, dyView - y - 1)) < smoothingDistanceThreshold) 
+					{
+						for (int i = 0; i < 4; i++) 
+						{
 							int xIt = i == 1 || i == 2 ? 1 : 0;
 							int yIt = i == 0 || i == 1 ? 1 : 0;
 							float xSign = i == 1 || i == 2 ? 1.f : -1.f;

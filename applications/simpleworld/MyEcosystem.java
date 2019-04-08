@@ -28,8 +28,6 @@ public class MyEcosystem {
 		WorldOfSand wSand = new WorldOfSand();
 		WorldOfSnow wSnow = new WorldOfSnow();
 		
-		Skybox sky = new Skybox();
-		
 		try {
 			BufferedImage bi = ImageIO.read(new File("earthmap1k.png"));
 			 imIc = new ImageIcon(bi);
@@ -66,9 +64,9 @@ public class MyEcosystem {
 						"Choix fichier", 0, imIc ,path, path[0]);					
 						switch(choixW)
 						{
-							case 1: Landscape.run(new Landscape(wTree,file,ALTITUDE,WATERLVL,sky)); break;
-							case 2: Landscape.run(new Landscape(wSand,file,ALTITUDE,WATERLVL/1.5,sky)); break;
-							case 3: Landscape.run(new Landscape(wSnow,file,ALTITUDE,WATERLVL/1.5,sky)); break;
+							case 1: Landscape.run(new Landscape(wTree,file,ALTITUDE,WATERLVL)); break;
+							case 2: Landscape.run(new Landscape(wSand,file,ALTITUDE,WATERLVL/1.5)); break;
+							case 3: Landscape.run(new Landscape(wSnow,file,ALTITUDE,WATERLVL/1.5)); break;
 							default:
 								JOptionPane.showMessageDialog(null, "Entrée incorrecte, réessayez");
 								System.exit(1);
@@ -78,9 +76,9 @@ public class MyEcosystem {
 					case 2: 
 						switch(choixW)
 						{
-							case 1 : Landscape.run(new Landscape(wTree,200,200,ALTITUDE,WATERLVL,sky)); break;
-							case 2 : Landscape.run(new Landscape(wSand,200,200,ALTITUDE,WATERLVL/1.5,sky));break;
-							case 3 : Landscape.run(new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/1.5,sky)); break;
+							case 1 : Landscape.run(new Landscape(wTree,200,200,ALTITUDE,WATERLVL)); break;
+							case 2 : Landscape.run(new Landscape(wSand,200,200,ALTITUDE,WATERLVL/1.5));break;
+							case 3 : Landscape.run(new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/1.5)); break;
 							default:
 								JOptionPane.showMessageDialog(null, "Entrée incorrecte, réessayez");
 								System.exit(1);
@@ -105,7 +103,7 @@ public class MyEcosystem {
 				double waterLevel = sc.nextDouble();
 				
 				if(choixfile)
-					Landscape.run(new Landscape(new WorldOfTrees(),200,200,altitude,waterLevel,sky));
+					Landscape.run(new Landscape(new WorldOfTrees(),200,200,altitude,waterLevel));
 				else
 				{
 					System.out.println("Entrez le nom d'un fichier\n"
@@ -114,12 +112,12 @@ public class MyEcosystem {
 "								\"defaultM.png\", \"defaultS\", \"default2S.png\", \"paris.png\", \"random1.png\", \"random2.png\",\n" +
 "								\"random3.png\", \"volcano1.png\", \"volcano2.png\"");
 					
-					Landscape.run(new Landscape(new WorldOfTrees(),sc.next(),altitude,waterLevel,sky));
+					Landscape.run(new Landscape(new WorldOfTrees(),sc.next(),altitude,waterLevel));
 				}
 				break;
 				
 			case 3: 
-				Landscape.run(new Landscape(new WorldOfTrees(),200,200,ALTITUDE,WATERLVL,sky)); 
+				Landscape.run(new Landscape(wTree,200,200,ALTITUDE,WATERLVL)); 
 				break;
 				
 			case 4: //Works only in debug mode
@@ -130,14 +128,14 @@ public class MyEcosystem {
 				if(info.file)
 				{ 
 					System.out.println("okfile");
-					Landscape myLandscape = new Landscape(info.choosen, "landscape_default-200.png", info.altitude, info.waterlevel,sky);
+					Landscape myLandscape = new Landscape(info.choosen, "landscape_default-200.png", info.altitude, info.waterlevel);
 					Landscape.run(myLandscape);
 				}
 				
 				else if(info.random)
 				{
 					System.out.println("okrand");
-					Landscape.run(new Landscape(info.choosen,200,200, info.altitude, info.waterlevel,sky));
+					Landscape.run(new Landscape(info.choosen,200,200, info.altitude, info.waterlevel));
 				}
 				break;
 			
@@ -166,17 +164,17 @@ public class MyEcosystem {
 						String fileMultiple = (String)JOptionPane.showInputDialog(null,"Choississez un fichier", 
 						"Choix fichier", 0, imIc ,pathMultipleFile, pathMultipleFile[0]);
 						
-						Landscape[] landListeTabFile = {new Landscape(wTree,fileMultiple,ALTITUDE,WATERLVL,sky),
-														new Landscape(wSand,fileMultiple,ALTITUDE,WATERLVL/2,sky),
-														new Landscape(wSnow,fileMultiple,ALTITUDE,WATERLVL/2,sky)};
+						Landscape[] landListeTabFile = {new Landscape(wTree,fileMultiple,ALTITUDE,WATERLVL),
+														new Landscape(wSand,fileMultiple,ALTITUDE,WATERLVL/2),
+														new Landscape(wSnow,fileMultiple,ALTITUDE,WATERLVL/2)};
 						
 						Landscape.runAll(landListeTabFile);
 						break;
 						
 					case 2:
-						Landscape[] landListeTab = {new Landscape(wTree,200,200,ALTITUDE,WATERLVL,sky),
-													new Landscape(wSand,200,200,ALTITUDE,WATERLVL/2,sky),
-													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2,sky)};
+						Landscape[] landListeTab = {new Landscape(wTree,200,200,ALTITUDE,WATERLVL),
+													new Landscape(wSand,200,200,ALTITUDE,WATERLVL/2),
+													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2)};
 						
 						Landscape.runAll(landListeTab);
 						break;
@@ -212,17 +210,17 @@ public class MyEcosystem {
 						String fileMultipleTab = (String)JOptionPane.showInputDialog(null,"Choississez un fichier", 
 						"Choix fichier", 0, imIc ,pathMultipleFileTab, pathMultipleFileTab[0]);
 						
-						Landscape[] landListeTabFile = {new Landscape(wTree,fileMultipleTab,ALTITUDE,WATERLVL,sky),
-														new Landscape(wSand,fileMultipleTab,ALTITUDE,WATERLVL/2,sky),
-														new Landscape(wSnow,fileMultipleTab,ALTITUDE,WATERLVL/2,sky)};
+						Landscape[] landListeTabFile = {new Landscape(wTree,fileMultipleTab,ALTITUDE,WATERLVL),
+														new Landscape(wSand,fileMultipleTab,ALTITUDE,WATERLVL/2),
+														new Landscape(wSnow,fileMultipleTab,ALTITUDE,WATERLVL/2)};
 						
 						Landscape.runAllTabbedPane(landListeTabFile);
 						break;
 						
 					case 2:
-						Landscape[] landListeTab = {new Landscape(wTree,200,200,ALTITUDE,WATERLVL,sky),
-													new Landscape(wSand,200,200,ALTITUDE,WATERLVL/2,sky),
-													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2,sky)};
+						Landscape[] landListeTab = {new Landscape(wTree,200,200,ALTITUDE,WATERLVL),
+													new Landscape(wSand,200,200,ALTITUDE,WATERLVL/2),
+													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2)};
 						
 						Landscape.runAllTabbedPane(landListeTab);
 						break;

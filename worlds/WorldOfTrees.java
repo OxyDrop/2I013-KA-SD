@@ -6,6 +6,7 @@ package worlds;
 
 import DynamicObject.Agent;
 import cellularautomata.ForestCA;
+import graphics.Skybox;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import javax.media.opengl.GL2;
@@ -32,7 +33,7 @@ public class WorldOfTrees extends World {
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
 	private boolean switchabrsapin=false;
-	World w1,w2;
+	private World w1,w2;
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -147,6 +148,7 @@ public class WorldOfTrees extends World {
 			
 			agentListe.add(new Agent(dxRand, dyRand, this ));
 		}
+	
  
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
 
