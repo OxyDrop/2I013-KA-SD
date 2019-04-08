@@ -6,6 +6,7 @@ package worlds;
 
 import DynamicObject.Agent;
 import cellularautomata.SnowyCA;
+import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Arbres.GrandArbre;
 import objects.Arbres.Sapin;
@@ -132,6 +133,19 @@ public class WorldOfSnow extends World {
 				((Sapin)abr).step();
 			else if(abr instanceof GrandArbre)
 				((GrandArbre)abr).step();
+		
+		for(Iterator<UniqueObject> it = LObjects.iterator(); it.hasNext();)
+		{
+			UniqueObject arbre = it.next();
+			
+			if(arbre instanceof GrandArbre && ((GrandArbre) arbre).die()){
+				it.remove();
+				System.out.println("Un grand arbre est mort :sob:");
+			}else if(arbre instanceof Sapin && ((Sapin) arbre).die() ){
+				System.out.println("Un sapin est mort :sob:");
+				it.remove();
+			}
+		}
     }
     
 	@Override

@@ -7,6 +7,7 @@ package worlds;
 import DynamicObject.Agent;
 import cellularautomata.ForestCA;
 import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Arbres.GrandArbre;
 import objects.Arbres.Sapin;
@@ -158,17 +159,28 @@ public class WorldOfTrees extends World {
     {
     	if ( iteration%10 == 0 )
     		cellularAutomata.step();
-		try{
-			for(UniqueObject abr : LObjects) //Met a jour les arbres
+		
+		//Met a jour les arbres : vielissement, repousse et perte des fruits//////
+			for(UniqueObject abr : LObjects) 
 				if(abr instanceof GrandArbre)
 					((GrandArbre)abr).step();
 				else if(abr instanceof Sapin)
 					((Sapin)abr).step();
-		}catch(Exception e){
-			e.printStackTrace();
-			System.out.println(e.getMessage());
+		
+		//////////Fin de vie des arbres//////////////
+		for(Iterator<UniqueObject> it = LObjects.iterator(); it.hasNext();)
+		{
+			UniqueObject arbre = it.next();
+			
+			if(arbre instanceof GrandArbre && ((GrandArbre) arbre).die()){
+				it.remove();
+				System.out.println("Un grand arbre est mort :sob:");
+			}else if(arbre instanceof Sapin && ((Sapin) arbre).die() ){
+				System.out.println("Un sapin est mort :sob:");
+				it.remove();
+			}
 		}
-    }
+	}
     
 	@Override
     protected void stepAgents()
