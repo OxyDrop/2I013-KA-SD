@@ -16,14 +16,23 @@ import objects.UniqueObject;
 
 public class WorldOfSnow extends World {
 	
+	
+    
 	private static final int POPINI=500;
-    protected SnowyCA cellularAutomata;
 	private static final int NBMAXPORTAILS=2;
 	private static final int NBMAXTELEPORTEUR = 5;
+	private static final int NOTIFYITERATION = 100; 
+	private double pgrowga = 0.005;
+	
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
-	private static final int NOTIFYITERATION = 100; //Used to display messages every number of iteration 
+	private int xabrand, yabrand;
+	protected SnowyCA cellularAutomata;
+	private boolean switchabrsapin=false;
 	World w1,w2;
+	
+	//Used to display messages every number of iteration 
+	
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -146,6 +155,27 @@ public class WorldOfSnow extends World {
 				it.remove();
 			}
 		}
+		
+		if(Math.random()<pgrowga)
+		{
+			 do{
+				xabrand = (int)(Math.random()*dx);
+				yabrand = (int)(Math.random()*dy);
+			 }while(this.getCellHeight(xabrand,yabrand)<=0);
+			 
+		switchabrsapin=!switchabrsapin;
+			if(switchabrsapin){
+				GrandArbre gagrow = new GrandArbre(xabrand,yabrand,this);
+				gagrow.init();
+				LObjects.add(gagrow);
+				System.out.println("Un nouveau Grand Arbre à été ajouté en ("+xabrand+","+yabrand+")");
+			}else{
+				Sapin sagrow = new Sapin(xabrand,yabrand,this);
+				sagrow.init();
+				LObjects.add(sagrow);
+				System.out.println("Un nouveau Sapin à été ajouté en ("+xabrand+","+yabrand+")");
+			}
+		}
     }
     
 	@Override
@@ -187,6 +217,22 @@ public class WorldOfSnow extends World {
 	{
 		
 	} 
+	
+	public int getNombreGA(){ //retourne le nombre de grand arbres
+		int com=0;
+		for(UniqueObject abr : LObjects)
+			if(abr instanceof GrandArbre)
+				com++;
+		return com;
+	}
+	
+	public int getNombreSapin(){ //retourne le nombre de sapins
+		int com=0;
+		for(UniqueObject abr : LObjects)
+			if(abr instanceof Sapin)
+				com++;
+		return com;
+	}
 	 public String getNom()
 	{
 		return "WorldOfSnow";

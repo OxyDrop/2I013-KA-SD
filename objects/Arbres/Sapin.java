@@ -17,9 +17,9 @@ public class Sapin extends UniqueObject implements Eliminable {
 	
 	private final static int NBPOMME = 3;
 	private final int lifeEsperance; //Vie entre 70 et 300 ans;
-	private final static int TAUXMURATION = 100;
-	private final static int TAUXMURATIONARBRE = 200;
-	private final static double PROBAPOUSSE = 0.05;
+	private final static int TAUXMURATION = 10;
+	private final static int TAUXMURATIONARBRE = 20;
+	private final static double PROBAPOUSSE = 0.2;
 	private static boolean vide = false;
 	
 	public Sapin ( int __x , int __y , World __world )
@@ -43,7 +43,7 @@ public class Sapin extends UniqueObject implements Eliminable {
 				if(Math.random()<p.getPdrop())
 				{
 					this.world.getAlimentListe().add(p);
-					System.out.println("Une pomme est tombé d'un arbre");
+					System.out.println("Une pomme est tombé d'un sapin");
 					it.remove();
 				}
 			}
@@ -51,7 +51,7 @@ public class Sapin extends UniqueObject implements Eliminable {
 			if(Math.random()<lifeEsperance/1000)
 			{
 				Pomme tombe = popPomme();
-				System.out.println("Une pomme est tombé d'un arbre");
+				System.out.println("Une pomme est tombé d'un sapin");
 				this.world.getAlimentListe().add(tombe);
 			}
 			murirTous();

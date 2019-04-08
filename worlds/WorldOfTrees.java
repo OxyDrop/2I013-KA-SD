@@ -19,15 +19,19 @@ import objects.UniqueObject;
 
 public class WorldOfTrees extends World {
 	
-	private static final int POPINI=800;
-    protected ForestCA cellularAutomata;
 	
+    
+	private static final int POPINI=800;
 	private static final int NBMAXPORTAILS=2;
 	private static final int NBMAXTELEPORTEUR = 5;
 	private static final int NOTIFYITERATION = 100; //Used to display messages every number of iteration 
+	private  double pgrowga = 0.005;
 	
+	protected ForestCA cellularAutomata;
+	private int xabrand, yabrand;
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
+	private boolean switchabrsapin=false;
 	World w1,w2;
 	/*
 	protected int iteration = 0;
@@ -103,11 +107,10 @@ public class WorldOfTrees extends World {
 					}
 					else if(Math.random()<0.009)
 						LObjects.add(new Herbe(i,j,this)); // Creation de l'herbe
-					
-					
 				}
 			}
 		 }
+		 /////////////////PORTAILS//////////////////////
 		 for(int port = 0 ; port <NBMAXPORTAILS ; port++)
 		 {
 			 do{
@@ -123,7 +126,7 @@ public class WorldOfTrees extends World {
 				LObjects.add(new Portail(xportrand,yportrand,this,w2));
 			}
 		 }
-		 
+		 ///////////////TELEPORTEURS/////////////////////
 		 for(int port = 0 ; port <NBMAXTELEPORTEUR ; port++)
 		 {
 			 do{
@@ -180,6 +183,31 @@ public class WorldOfTrees extends World {
 				it.remove();
 			}
 		}
+		
+		if (Math.random() < pgrowga) {
+			do {
+				xabrand = (int) (Math.random() * dx);
+				yabrand = (int) (Math.random() * dy);
+			} while (this.getCellHeight(xabrand, yabrand) <= 0);
+
+			switchabrsapin = !switchabrsapin;
+			if (switchabrsapin) {
+				GrandArbre gagrow = new GrandArbre(xabrand, yabrand, this);
+				gagrow.init();
+				LObjects.add(gagrow);
+				System.out.println("Un nouveau Grand Arbre à été ajouté en (" + xabrand + "," + yabrand + ")");
+			} else {
+				Sapin sagrow = new Sapin(xabrand, yabrand, this);
+				sagrow.init();
+				LObjects.add(sagrow);
+				System.out.println("Un nouveau Sapin à été ajouté en (" + xabrand + "," + yabrand + ")");
+			}
+		}
+		//Accelere la repousse des arbres s'ils sont en sous-nombre
+		if(getNombreGA()<(int)(Math.random()%(20-5+1)+5))
+			pgrowga=0.1;
+		else
+			pgrowga=0.005;
 	}
     
 	@Override
@@ -262,6 +290,22 @@ public class WorldOfTrees extends World {
 	public void setW1(World w1)
 	{
 		this.w1=w1;
+	}
+	
+	public int getNombreGA(){ //retourne le nombre de grand arbres
+		int com=0;
+		for(UniqueObject abr : LObjects)
+			if(abr instanceof GrandArbre)
+				com++;
+		return com;
+	}
+	
+	public int getNombreSapin(){ //retourne le nombre de sapins
+		int com=0;
+		for(UniqueObject abr : LObjects)
+			if(abr instanceof Sapin)
+				com++;
+		return com;
 	}
 
 }

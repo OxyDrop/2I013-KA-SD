@@ -49,7 +49,7 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 				it.remove();
 				passage.getAgentListe().add(clone);
 				System.out.println("Un agent a emprunté le portail "+id 
-						+ " en (" + x + "," + y + ") menant au " + passage.getNom());
+									+ " en (" + x + "," + y + ") menant au " + passage.getNom());
 			}
 
     	}
