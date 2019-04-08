@@ -8,8 +8,7 @@ import java.util.Random;
 
 public class PerlinNoiseLandscapeGenerator {
 	
-		
-		private static final double FEATURE_SIZE 	=  64;
+		private static final double TAILLEMODULEUR 	=  32;
 		private static final float AMPLITUDE = 70f;
 		private static final int OCTAVES = 3;
 		private static final float ROUGHNESS = 0.3f;
@@ -114,6 +113,7 @@ public class PerlinNoiseLandscapeGenerator {
 				landscape[x][y] = landscape[x][y] - altRatio;
 				landscape[x][y] *= scaling;
 			}
+		
     	landscape = LandscapeToolbox.scaleAndCenter(landscape, scaling, altRatio);
     	landscape = LandscapeToolbox.smoothLandscape(landscape);
 
@@ -132,7 +132,7 @@ public class PerlinNoiseLandscapeGenerator {
 		{
 			for (int y = 0; y < dy; y++) 
 			{
-				elevation[x][y] = landscape.eval(x / FEATURE_SIZE, y / FEATURE_SIZE, 0);
+				elevation[x][y] = landscape.eval(x / TAILLEMODULEUR, y / TAILLEMODULEUR, 0);
 				if (elevation[x][y] < min)
 				{
 					min = elevation[x][y];

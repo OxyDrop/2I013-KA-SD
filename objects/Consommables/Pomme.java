@@ -23,8 +23,8 @@ public class Pomme extends Aliment implements Eliminable{
 	{	
 		super(x,y,world);
 		vie = 10;
-		age = 0;
-		pdrop = Math.random()*age/10;
+		age = 1;
+		pdrop = 0.0000001;
 		
 		isConsommable = true;
 	}
@@ -42,10 +42,16 @@ public class Pomme extends Aliment implements Eliminable{
 	public void murir() //fait murir la pomme, augmentant les chances de tomber de l'arbre;
 	{
 		age++;
+		pdrop += 0.0000001;
 	}
 
 	public double getPdrop() {
 		return pdrop;
+	}
+	
+	public void setPdrop(double pdrop)
+	{
+		this.pdrop=pdrop;
 	}
 	
 	@Override

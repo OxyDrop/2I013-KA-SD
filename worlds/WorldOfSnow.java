@@ -7,6 +7,7 @@ package worlds;
 import DynamicObject.Agent;
 import cellularautomata.SnowyCA;
 import javax.media.opengl.GL2;
+import objects.Arbres.GrandArbre;
 import objects.Arbres.Sapin;
 import objects.Architect.Portail;
 import objects.Architect.Teleporteur;
@@ -89,16 +90,28 @@ public class WorldOfSnow extends World {
 
 			LObjects.add(new Teleporteur(xportrand, yportrand, (int) (Math.random() * dxCA), (int) (Math.random() * dyCA), this));
 		}
-		
-		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
-				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
+		///////////////////AJOUT AGENT ALEATOIREMENT////////////////////
+		for(int i=0;i<POPINI;i++) 
+				agentListe.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
+		////////////////////////ARBRES//////////////////////////////////
 		
     	for (int i = 0 ; i < dxCA ; i++)
     		for (int j = 0 ; j < dyCA ; j++)
     		{
     			cellState = this.getCellValue(i, j);
-    			if (cellState == 1 && Math.random()<0.7)
-    				LObjects.add(new Sapin(i,j,this));
+    			if (cellState == 1)
+				{
+					if(Math.random()<0.05){
+						Sapin sa = new Sapin(i,j,this);
+						sa.init();
+    					LObjects.add(sa);
+					}
+					else if(Math.random()<0.05){
+						GrandArbre ga = new GrandArbre(i,j,this);
+						ga.init();
+    					LObjects.add(ga);
+					}
+				}
     		}
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }
@@ -117,22 +130,24 @@ public class WorldOfSnow extends World {
 		for(UniqueObject abr : LObjects) //Met a jour les arbres
 			if(abr instanceof Sapin)
 				((Sapin)abr).step();
+			else if(abr instanceof GrandArbre)
+				((GrandArbre)abr).step();
     }
     
 	@Override
     protected void stepAgents()
     {
-    	for (Agent a : agent)
+    	for (Agent a : agentListe)
 			a.step();
 		
 		for(UniqueObject portal : LObjects)
 			if(portal instanceof Portail)
-				((Portail) portal).passePortail(agent);
+				((Portail) portal).passePortail(agentListe);
 			else if(portal instanceof Teleporteur)
-				((Teleporteur)portal).passeTeleporteur(agent);
+				((Teleporteur)portal).passeTeleporteur(agentListe);
 		
 		if(iteration%NOTIFYITERATION==0)
-			System.out.println("Nombre agent = "+agent.size());
+			System.out.println("Nombre agent = "+agentListe.size());
     }
 
     public int getCellValue(int x, int y) // used by the visualization code to call specific object display.

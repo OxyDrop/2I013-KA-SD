@@ -333,6 +333,8 @@ public class Landscape implements GLEventListener{
 		gl.glCullFace(GL.GL_FRONT);
 		gl.glEnable(GL.GL_CULL_FACE);
 		gl.glEnable(GL.GL_DITHER);
+		
+		gl.glEnable(GL2.GL_TEXTURE_2D);
 	}
 	@Override
 	public void display(GLAutoDrawable gLDrawable) {

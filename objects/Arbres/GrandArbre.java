@@ -3,6 +3,7 @@ package objects.Arbres;
 
 import Interfaces.*;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Consommables.Pomme;
@@ -15,10 +16,11 @@ public class GrandArbre extends UniqueObject implements Eliminable
 	private int health;
 	private int age;
 	
-	private final static int NBPOMME = 3;
+	private final static int NBPOMME = 5;
 	private final int lifeEsperance; //Vie entre 70 et 300 ans;
-	private final static int TAUXMURATION = 100;
-	private final static int TAUXMURATIONARBRE = 200;
+	private final static int TAUXMURATION = 10;
+	private final static int TAUXMURATIONARBRE = 20;
+	private final static double PROBAPOUSSE = 0.2;
 
 	private static boolean vide = false;
 	
@@ -35,35 +37,46 @@ public class GrandArbre extends UniqueObject implements Eliminable
 	
 	public void step() //met à jour les consommables de l'arbre
 	{
-		for(Iterator<Pomme> it = pomme.iterator() ; it.hasNext();)
+		if(!pomme.isEmpty())
 		{
-			Pomme p = it.next();
-			if(Math.random()<p.getPdrop())
+			for (Iterator<Pomme> it = pomme.iterator(); it.hasNext();) 
 			{
-				this.world.getLObjects().add(p);
-				System.out.println("Une pomme est tombé d'un arbre");
-				it.remove();
+				Pomme p = it.next();
+				if (Math.random() < p.getPdrop()) 
+				{
+					this.world.getAlimentListe().add(p);
+					System.out.println("Une pomme est tombé d'un arbre");
+					it.remove();
+				}
 			}
-		}
-		
-		if(Math.random()<lifeEsperance/1000){
-			Pomme tombe = popPomme();
-			this.world.getLObjects().add(tombe);
-			System.out.println("Une pomme est tombé d'un arbre");
+
+			if (Math.random() < lifeEsperance / 1000) 
+			{
+				Pomme tombe = popPomme();
+				this.world.getAlimentListe().add(tombe);
+				System.out.println("Une pomme est tombé d'un arbre");
+			}
+			murirTous();
 		}
 		viellir();
-		murirTous();
+			
 	}
 	public boolean die()
 	{
 		return (health <= 0 || age>lifeEsperance);
 	}
 	
+	//Fait viellir l'arbre et ajoute des pommes de temps à autre
 	public void viellir()
 	{
 		if(world.getIteration()%TAUXMURATIONARBRE==0)
 			age ++;
+		
+		if(pomme.size()<2 && Math.random()<PROBAPOUSSE)
+			addPomme();
 	}
+	
+	//fait murir toutes les pommes de l'arbre
 	public void murirTous()
 	{
 		if(world.getIteration() % TAUXMURATION == 0)

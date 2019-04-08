@@ -6,8 +6,10 @@ package worlds;
 
 import DynamicObject.Agent;
 import cellularautomata.ForestCA;
+import java.util.ConcurrentModificationException;
 import javax.media.opengl.GL2;
 import objects.Arbres.GrandArbre;
+import objects.Arbres.Sapin;
 import objects.Arbres.Tree;
 import objects.Architect.Portail;
 import objects.Architect.Teleporteur;
@@ -91,6 +93,13 @@ public class WorldOfTrees extends World {
 						ga.init();
     					LObjects.add(ga);
 					}
+					else if(Math.random()<0.0005)
+					{
+						
+						Sapin sa = new Sapin(i,j,this);
+						sa.init();
+    					LObjects.add(sa);
+					}
 					else if(Math.random()<0.009)
 						LObjects.add(new Herbe(i,j,this)); // Creation de l'herbe
 					
@@ -130,9 +139,9 @@ public class WorldOfTrees extends World {
 			do{
 				dxRand = (int)(Math.random()*dxCA);
 				dyRand = (int)(Math.random()*dyCA);
-			}while(this.getCellHeight(dxRand, dyRand)<=0); //On s'assure que les agents ne soient pas generés sur l'eau
+			}while(this.getCellHeight(dxRand, dyRand)<=0); //On s'assure que les agentListes ne soient pas generés sur l'eau
 			
-			agent.add(new Agent(dxRand, dyRand, this ));
+			agentListe.add(new Agent(dxRand, dyRand, this ));
 		}
  
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
@@ -149,27 +158,33 @@ public class WorldOfTrees extends World {
     {
     	if ( iteration%10 == 0 )
     		cellularAutomata.step();
-		
-		for(UniqueObject abr : LObjects) //Met a jour les arbres
-			if(abr instanceof GrandArbre)
-				((GrandArbre)abr).step();
+		try{
+			for(UniqueObject abr : LObjects) //Met a jour les arbres
+				if(abr instanceof GrandArbre)
+					((GrandArbre)abr).step();
+				else if(abr instanceof Sapin)
+					((Sapin)abr).step();
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
     }
     
 	@Override
     protected void stepAgents()
     {
     	// nothing to do.
-    	for (Agent a : agent)
+    	for (Agent a : agentListe)
 			a.step();
 		
 		for(UniqueObject portal : LObjects)
 			if(portal instanceof Portail)
-				((Portail) portal).passePortail(agent);
+				((Portail) portal).passePortail(agentListe);
 			else if(portal instanceof Teleporteur)
-				((Teleporteur)portal).passeTeleporteur(agent);
+				((Teleporteur)portal).passeTeleporteur(agentListe);
 		
 		if(iteration%NOTIFYITERATION==0)
-			System.out.println("Nombre agent = "+agent.size());
+			System.out.println("Nombre agent = "+agentListe.size());
     }
 
     public int getCellValue(int x, int y) // used by the visualization code to call specific object display.

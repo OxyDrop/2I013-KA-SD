@@ -18,7 +18,7 @@ public class MyEcosystem {
 	
 	static ImageIcon imIc;
 	private final static float ALTITUDE= 0.33f;
-	private final static float WATERLVL = 0.4f;
+	private final static float WATERLVL = 0.3f;
 	
 	
 	public static void main(String[] args) {
@@ -201,9 +201,9 @@ public class MyEcosystem {
 				{
 					case 1:
 						String[] pathMultipleFileTab = {"Perlin1.png", "Perlin2.png", "Perlin3.png", "Perlin4.png", "Perlin5.png", "Perlin6.png",
-													"Fractal1.png", "Fractal2.png", "fun1.png", "fun2.png", "canyon.png", "gouffre.png", 
-													"defaultM.png", "defaultS", "default2S.png", "paris.png", "random1.png", "random2.png",
-													"random3.png", "volcano1.png", "volcano2.png"};
+														"Fractal1.png", "Fractal2.png", "fun1.png", "fun2.png", "canyon.png", "gouffre.png", 
+														"defaultM.png", "defaultS", "default2S.png", "paris.png", "random1.png", "random2.png",
+														"random3.png", "volcano1.png", "volcano2.png"};
 						
 						String fileMultipleTab = (String)JOptionPane.showInputDialog(null,"Choississez un fichier", 
 						"Choix fichier", 0, imIc ,pathMultipleFileTab, pathMultipleFileTab[0]);

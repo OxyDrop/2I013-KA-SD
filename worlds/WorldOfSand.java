@@ -98,7 +98,7 @@ public class WorldOfSand extends World {
 		}
 		
 		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
-				agent.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
+				agentListe.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
 		
     	
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
@@ -120,17 +120,17 @@ public class WorldOfSand extends World {
 	@Override
     protected void stepAgents()
     {
-		for (Agent a : agent)
+		for (Agent a : agentListe)
 			a.step();
 		
 		for(UniqueObject portal : LObjects)
 			if(portal instanceof Portail)
-				((Portail) portal).passePortail(agent);
+				((Portail) portal).passePortail(agentListe);
 			else if(portal instanceof Teleporteur)
-				((Teleporteur)portal).passeTeleporteur(agent);
+				((Teleporteur)portal).passeTeleporteur(agentListe);
 		
 		if(iteration%NOTIFYITERATION==0)
-			System.out.println("Nombre agent = "+agent.size());
+			System.out.println("Nombre agent = "+agentListe.size());
     }
 
     public int getCellValue(int x, int y) // used by the visualization code to call specific object display.

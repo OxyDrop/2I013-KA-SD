@@ -8,6 +8,7 @@ import objects.Consommables.Pomme;
 import objects.UniqueObject;
 import worlds.World;
 
+//Classe au fonctionnement identique à GrandArbre, couleur differente
 public class Sapin extends UniqueObject implements Eliminable {
 
 	private final ArrayList<Pomme> pomme;
@@ -18,7 +19,7 @@ public class Sapin extends UniqueObject implements Eliminable {
 	private final int lifeEsperance; //Vie entre 70 et 300 ans;
 	private final static int TAUXMURATION = 100;
 	private final static int TAUXMURATIONARBRE = 200;
-
+	private final static double PROBAPOUSSE = 0.05;
 	private static boolean vide = false;
 	
 	public Sapin ( int __x , int __y , World __world )
@@ -34,24 +35,28 @@ public class Sapin extends UniqueObject implements Eliminable {
 	
 	public void step() //met à jour les consommables de l'arbre
 	{
-		for(Iterator<Pomme> it = pomme.iterator() ; it.hasNext();)
+		if(!pomme.isEmpty())
 		{
-			Pomme p = it.next();
-			if(Math.random()<p.getPdrop())
+			for(Iterator<Pomme> it = pomme.iterator() ; it.hasNext();)
 			{
-				this.world.getLObjects().add(p);
-				System.out.println("Une pomme est tombé d'un arbre");
-				it.remove();
+				Pomme p = it.next();
+				if(Math.random()<p.getPdrop())
+				{
+					this.world.getAlimentListe().add(p);
+					System.out.println("Une pomme est tombé d'un arbre");
+					it.remove();
+				}
 			}
-		}
 		
-		if(Math.random()<lifeEsperance/1000){
-			Pomme tombe = popPomme();
-			System.out.println("Une pomme est tombé d'un arbre");
-			this.world.getLObjects().add(tombe);
+			if(Math.random()<lifeEsperance/1000)
+			{
+				Pomme tombe = popPomme();
+				System.out.println("Une pomme est tombé d'un arbre");
+				this.world.getAlimentListe().add(tombe);
+			}
+			murirTous();
 		}
 		viellir();
-		murirTous();
 	}
 	public boolean die()
 	{
@@ -62,6 +67,9 @@ public class Sapin extends UniqueObject implements Eliminable {
 	{
 		if(world.getIteration()%TAUXMURATIONARBRE==0)
 			age ++;
+		
+		if(pomme.size()<2 && Math.random()<PROBAPOUSSE)
+			addPomme();
 	}
 	public void murirTous()
 	{

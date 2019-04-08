@@ -10,6 +10,7 @@ import cellularautomata.*;
 import java.util.ArrayList;
 import javax.media.opengl.GL2;
 import objects.*;
+import objects.Consommables.Aliment;
 
 public abstract class World {
 	
@@ -17,8 +18,8 @@ public abstract class World {
 
 	protected ArrayList<UniqueObject> LObjects = new ArrayList<>();
 	protected ArrayList<UniqueDynamicObject> LDynamicObjects = new ArrayList<>();
-	
-	protected ArrayList<Agent> agent = new ArrayList<>();
+	protected ArrayList<Aliment> alimentListe = new ArrayList<>();
+	protected ArrayList<Agent> agentListe = new ArrayList<>();
     
 	protected int dx;
 	protected int dy;
@@ -152,9 +153,18 @@ public abstract class World {
 	{
 		return LDynamicObjects;
 	}
+	
+	public ArrayList<UniqueObject> getLObjects() {
+		return LObjects;
+	}
+	
+	public ArrayList<Aliment> getAlimentListe(){
+		return alimentListe;
+	}
+	
 	public ArrayList<Agent> getAgentListe()
 	{
-		return agent;
+		return agentListe;
 	}
 	
 	abstract public void displayObjectAt(World _myWorld, GL2 gl, int cellState, int x,
@@ -171,8 +181,11 @@ public abstract class World {
     	for ( int i = 0 ; i < LDynamicObjects.size(); i++ )
     		LDynamicObjects.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
 		
-		for ( int i = 0 ; i < agent.size(); i++ )
-    		agent.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+		for ( int i = 0 ; i < agentListe.size(); i++ )
+    		agentListe.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+		
+		for ( int i = 0 ; i < alimentListe.size(); i++ )
+    		alimentListe.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
 	}
     
 	public int getWidth() { return dx; }
@@ -188,13 +201,8 @@ public abstract class World {
 
 	abstract public void setW1(World w1);
 
-	public ArrayList<UniqueObject> getLObjects() {
-		return LObjects;
-	}
+	
 
-	public ArrayList<UniqueDynamicObject> getLDynamicObjects() {
-		return LDynamicObjects;
-	}
 	
 	
 	
