@@ -14,16 +14,16 @@ import java.nio.ByteBuffer;
  *
  * @author Serero
  */
-public class SkyBox implements GLEventListener{
+public class Skybox implements GLEventListener{
 	
 	private GLU glu = new GLU();
-	private static final String[] TEXTFILEDAY = {"skyback.png","skyfront.png","skyleft.png","skyright.png","skytop.png"};
-	private static final String[] TEXTFILENIGHT = {"nightBack.png","nightFront.png","nightLeft.png","nightRight.png","nightTop.png"};
+	private static final String[] TEXTFILEDAY = {"/res/skyback.png","/res/skyfront.png","/res/skyleft.png","/res/skyright.png","/res/skytop.png"};
+	private static final String[] TEXTFILENIGHT = {"/res/nightBack.png","/res/nightFront.png","/res/nightLeft.png","/res/nightRight.png","/res/nightTop.png"};
 	private Texture[] textureList;
 	private int[] skyboxday;
 	
 	
-	public SkyBox()
+	public Skybox()
 	{
 		textureList = new Texture[TEXTFILEDAY.length];
 		skyboxday = new int[TEXTFILEDAY.length];
@@ -53,17 +53,12 @@ public class SkyBox implements GLEventListener{
 		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_R, GL2.GL_CLAMP_TO_EDGE); 
 		*/
 		
-		try{
-			for(int i = 0 ; i<textureList.length;i++)
-			{
-				textureList[i]=TextureIO.newTexture(getClass().getResource(TEXTFILEDAY[i]), true, "png");
+		for(int i = 0 ; i<textureList.length;i++)
+		{
+				textureList[i]=ImageResources.createTexture(TEXTFILEDAY[i]);
 				skyboxday[i]=textureList[i].getTextureObject(gl);
-			}
-		}catch(IOException | GLException e){
-			e.printStackTrace();
-			System.err.println("Could not load skybox");
-			System.exit(1);
-		}	
+		}
+			
 	}
 
 	@Override

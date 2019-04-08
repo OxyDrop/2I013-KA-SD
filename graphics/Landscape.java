@@ -92,21 +92,25 @@ public class Landscape implements GLEventListener{
 	float moduleDepth;
 	
 	int time = 0;
+	Skybox sky;
 		
 	/**
 	 * Initialise landscape à partir du bruit 
 	 */
-	public Landscape(World myWorld, int dx, int dy, double scaling, double altitudeRatio) {
+	public Landscape(World myWorld, int dx, int dy, double scaling, double altitudeRatio, Skybox sky) {
+		
 		this.myWorld = myWorld;
-
+		this.sky=sky;
 		landscape = PerlinNoiseLandscapeGenerator.generatePerlinNoiseLandscape(dx, dy, scaling, altitudeRatio, 100); // 11
+		
 		//landscape = PerlinNoiseLandscapeGenerator.generatePNL(dx, dy, scaling, altitudeRatio);
 		initLandscape();
 	}
 
-	public Landscape(World myWorld, String filename, double scaling, double landscapeAltitudeRatio) {
+	public Landscape(World myWorld, String filename, double scaling, double landscapeAltitudeRatio, Skybox sky) {
+		
 		this.myWorld = myWorld;
-
+		this.sky = sky;
 		landscape = LoadFromFileLandscape.load(filename, scaling, landscapeAltitudeRatio);
 
 		initLandscape();
@@ -143,6 +147,8 @@ public class Landscape implements GLEventListener{
 
 	/**
 	 *Ajouter skybox, astres
+	 * @param landscape
+	 * @return landscape
 	 */
 	public static Landscape run(Landscape landscape) {
 		
