@@ -1,18 +1,17 @@
-package objects;
-
+package graphics;
 
 import com.jogamp.opengl.util.gl2.GLUT;
+import javax.media.opengl.*;
+import javax.media.opengl.glu.*;
 import com.jogamp.opengl.util.texture.*;
 import java.awt.*;
 import java.io.*;
 import java.net.URL;
-import javax.media.opengl.*;
-import javax.media.opengl.glu.*;
 /**
  *
  * @author Serero
  */
-public class Astre implements GLEventListener
+public class Sphere implements GLEventListener
 {
 
 	private static GLU glu = new GLU();
@@ -57,14 +56,14 @@ public class Astre implements GLEventListener
 
 		gl.glEnable(GL2.GL_TEXTURE_2D);
 		try {
-			URL url = getClass().getResource("moon.png");
-			texture = TextureIO.newTexture(url, false, "jpg");
-		} catch (IOException ex) {
-			System.out.println(ex.getMessage());
-		}
+			texture = TextureIO.newTexture(getClass().getResource("earthmap1K.jpg"), false, "jpg");
 			textureCode = texture.getTextureObject(gl);
 			texture.enable(gl);
 			texture.bind(gl);
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public class Astre implements GLEventListener
         glu.gluQuadricDrawStyle(earth, GLU.GLU_FILL);
         glu.gluQuadricNormals(earth, GLU.GLU_FLAT);
         glu.gluQuadricOrientation(earth, GLU.GLU_OUTSIDE);
-		glu.gluSphere(earth,0.6f, 20, 20);
+		glu.gluSphere(earth,1f, 40, 40);
 		glu.gluDeleteQuadric(earth);
 		
 		//change the speeds here
@@ -118,7 +117,5 @@ public class Astre implements GLEventListener
 	}
 	
 }
-
-
 
 

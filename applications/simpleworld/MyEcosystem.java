@@ -5,7 +5,6 @@
 package applications.simpleworld;
 
 import graphics.Landscape;
-import graphics.Skybox;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class MyEcosystem {
 		}
 		
 		int choix = Integer.parseInt(JOptionPane.showInputDialog(null,
-					"\tMode de lancement\n\tChoississez une option :\n1>Fenetre\n2>Console\n3>Normal\n"
+					"\tMode de lancement\n\tChoississez une option :\n1>Fenetre\n2>Console\n3>SKYBOX\n"
 					+ "4>Graphique\n5>Multiple à JComboBox\n6>Multiple à Onglets (clavier ne fonctionne pas)",
 					JOptionPane.INFORMATION_MESSAGE));
 		switch(choix)

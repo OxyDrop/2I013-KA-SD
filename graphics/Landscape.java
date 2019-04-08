@@ -13,6 +13,8 @@ import java.awt.event.*;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.GLJPanel;
 import javax.media.opengl.fixedfunc.*;
+import javax.media.opengl.glu.GLU;
+import javax.media.opengl.glu.GLUquadric;
 import javax.swing.*;
 import landscapegenerator.LoadFromFileLandscape;
 import landscapegenerator.PerlinNoiseLandscapeGenerator;
@@ -94,8 +96,21 @@ public class Landscape implements GLEventListener{
 	float moduleDepth;
 	
 	int time = 0;
-	private int skyboxT1 , skyboxT2, skyboxT3, skyboxT4, skyboxT5,	skyboxT6;
-	private Texture t1, t2, t3, t4, t5, t6;
+	//SKYBOX
+	private int skyboxT1 , skyboxT2;
+	private Texture t1, t2;
+	float fx;
+	float fy;
+	float fz;
+	float r,g,b,a;
+	boolean daynight = false;
+	//ASTRE
+	static float angle=0.0f;
+	static boolean moonsun=false;
+	static float xastre=0.0f;
+	static float yastre=0.0f;
+	static float zastre=0.0f;
+	private GLU glu = new GLU();
 		
 	/**
 	 * Initialise landscape à partir du bruit 
@@ -121,6 +136,10 @@ public class Landscape implements GLEventListener{
 	{
 		dxView = landscape.length;
 		dyView = landscape[0].length;
+		fx=(float)dxView*(float)2;
+		fy=(float)dyView*(float)2;
+		fz = 350f;
+		r=g=b=a=1f;
 
 		System.out.println("Landscape contains " + dxView * dyView + " tiles. (" + dxView + "x" + dyView + ")");
 
@@ -181,7 +200,7 @@ public class Landscape implements GLEventListener{
 			}
 		});
 		frame.setVisible(true);
-		//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
+		animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
 		animator.start();
 		//frame.setAlwaysOnTop(true);
 		//frame.toFront();
@@ -334,35 +353,26 @@ public class Landscape implements GLEventListener{
 		gl.glShadeModel(GLLightingFunc.GL_SMOOTH);
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glClearDepth(1.0f);
-		gl.glEnable(GL.GL_DEPTH_TEST);
-		gl.glDepthFunc(GL.GL_LEQUAL);
-		gl.glHint(GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
-		gl.glEnable(GL2.GL_TEXTURE_2D);
+		gl.glEnable(GL2.GL_DEPTH_TEST);
+		gl.glDepthFunc(GL2.GL_LEQUAL);
+		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
 		
-		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP,GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
-		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP,GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
-		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
-		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
-		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_R, GL2.GL_CLAMP_TO_EDGE); 
 
 		// Culling - display only triangles facing the screen
-		gl.glCullFace(GL.GL_FRONT);
-		gl.glEnable(GL.GL_CULL_FACE);
-		gl.glEnable(GL.GL_DITHER);
+		gl.glCullFace(GL2.GL_FRONT);
+		gl.glEnable(GL2.GL_CULL_FACE);
+		gl.glEnable(GL2.GL_DITHER);
 		
-		t1=ImageResources.createTexture("/res/skyfront.png");
-		t2=ImageResources.createTexture("/res/skyback.png");
-		t3=ImageResources.createTexture("/res/skytop.png");
-		//t4=ImageResources.createTexture("/res/bottom.png");
-		//t5=ImageResources.createTexture("/res/skyright.png");
-		//t6=ImageResources.createTexture("/res/skyleft.png");
+		t1=ImageResources.createTexture("/res/moon.png");
+		t2=ImageResources.createTexture("/res/blueSky.png");
+	
+		t1.enable(gl);
+		t1.bind(gl);
+		t2.enable(gl);
+		t2.bind(gl);
 		
-		 skyboxT1=t1.getTextureObject(gl);
-		 skyboxT2=t2.getTextureObject(gl);
-		 skyboxT3=t3.getTextureObject(gl);
-		 //skyboxT4=t4.getTextureObject(gl);
-		//skyboxT5=t5.getTextureObject(gl);
-		 //skyboxT6=t6.getTextureObject(gl);
+		skyboxT1=t1.getTextureObject(gl);
+		skyboxT2=t2.getTextureObject(gl);
 		
 	}
 	@Override
@@ -388,7 +398,8 @@ public class Landscape implements GLEventListener{
 		gl.glLoadIdentity();
 
 		// **--------------- display FPS on screen --------------- //
-		if (DISPLAY_FPS) {
+		if (DISPLAY_FPS) 
+		{
 			gl.glPushMatrix();
 			gl.glColor3f((float) Math.random(), (float) Math.random(), (float) Math.random()); // do this before calling glWindowsPos2d
 			gl.glWindowPos2d(0, 728);
@@ -448,7 +459,7 @@ public class Landscape implements GLEventListener{
 				// compute CA-based coloring
 				gl.glColor3f(color[0], color[1], color[2]); //APPLIQUE COULEUR
 
-				// * if light is on
+				// *--------------------- LIGHT -----------------------*//
 				if (MY_LIGHT_RENDERING) 
 				{
 					gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_AMBIENT, color, 0);
@@ -459,7 +470,7 @@ public class Landscape implements GLEventListener{
 					gl.glMaterialfv(GL.GL_FRONT_AND_BACK, GL2.GL_EMISSION, colorBlack, 0);
 				}
 
-				// Border visual smoothing : smooth altitudes near border (i.e. nicer rendering)
+				// ==============================SMOOTHING ===============================//
 				if (SMOOTH_AT_BORDER == true && VIEW_FROM_ABOVE != true) 
 				{
 					if (Math.min(Math.min(x, dxView - x - 1), Math.min(y, dyView - y - 1)) < smoothingDistanceThreshold) 
@@ -476,24 +487,27 @@ public class Landscape implements GLEventListener{
 									Math.min(1.0, (double) Math.min(y + yIt, dyView - y + yIt) / (double) smoothingDistanceThreshold) // check y-axis
 							);
 						}
-					} else {
+					} 
+					else 
+					{
 						for (int i = 0; i < 4; i++) {
 							smoothFactor[i] = 1.0f;
 						}
 					}
 				}
+				//===========================FIN SMOOTHING=====================================//
 
 				// use dxCA instead of dxView to keep synchronization with CA states
 				for (int i = 0; i < 4; i++) {
-					int xIt = i == 1 || i == 2 ? 1 : 0;
-					int yIt = i == 0 || i == 1 ? 1 : 0;
-					float xSign = i == 1 || i == 2 ? 1.f : -1.f;
-					float ySign = i == 0 || i == 1 ? 1.f : -1.f;
+					int xIt = i == 1 || i == 2 ? 1 : 0; //if(i egal 1 ou 2) alors xit=1 sinon 0
+					int yIt = i == 0 || i == 1 ? 1 : 0; // if(i egal 0 ou 1) alors yit=1 sinon 0
+					float xSign = i == 1 || i == 2 ? 1.f : -1.f; //if (i egal 1 ou 2) xsign=1.f sinon -1.f
+					float ySign = i == 0 || i == 1 ? 1.f : -1.f; //if( i egal 1 ou 0) ysign=1.f sinon -1.f
 
 					float zValue = 0.f;
 
-					if (VIEW_FROM_ABOVE == false) {
-						//double altitude = landscape[(x+xIt+movingX)%(dxCA][(y+yIt+movingY)%dyCA] * heightBooster;
+					if (VIEW_FROM_ABOVE == false) 
+					{
 						double altitude = landscape[(x + xIt + movingX) % (dxView - 1)][(y + yIt + movingY) % (dyView - 1)] * heightBooster;
 						if (altitude < 0) {
 							zValue = 0;
@@ -501,7 +515,8 @@ public class Landscape implements GLEventListener{
 							zValue = heightFactor * (float) altitude * smoothFactor[i];
 						}
 					}
-
+					
+					//------------ DESSINE LE LANDSCAPE -------------------------------------//
 					gl.glVertex3f(offset + x * stepX + xSign * lenX, offset + y * stepY + ySign * lenY, zValue);
 				}
 
@@ -513,8 +528,8 @@ public class Landscape implements GLEventListener{
 					float normalizeHeight = (smoothFactor[0] + smoothFactor[1] + smoothFactor[2] + smoothFactor[3]) / 4.f * (float) heightBooster * heightFactor;
 					myWorld.displayObjectAt(myWorld, gl, cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
 				}
-			}
-		}
+			} //----FIN FORY ------//
+		} // -------FIN FORX ------//
 
 		/**/
 		// TODO+: displayObjects()
@@ -523,14 +538,135 @@ public class Landscape implements GLEventListener{
 			float normalizeHeight = (float) heightBooster * heightFactor;
 			myWorld.displayUniqueObjects(myWorld, gl, movingX, movingY, offset, stepX, stepY, lenX, lenY, normalizeHeight);
 		}
+		time+=0.01;
+		
+		if(daynight)
+		{
+			r-=0.001;
+			g-=0.001;
+			b-=0.001;
+		}
+		else
+		{
+			r+=0.001;
+			g+=0.001;
+			b+=0.001;
+		}
+		if(time>1000)
+		{
+			daynight=!daynight;
+			time=0;
+		}
+		
+		//------------------SKYBOX------------------------//
+		gl.glPushMatrix();
+		gl.glTranslatef(0f, 0f, 0f);
+		gl.glColor4f(r,g,b,a);
+		
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		gl.glBegin(GL2.GL_QUADS);
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
+		// Front Face
+		gl.glTexCoord2f(0.0f, 0.0f);
+		gl.glVertex3f(-fx, -fy, fz);
+		gl.glTexCoord2f(1.0f, 0.0f);
+		gl.glVertex3f(fx, -fy, fz);
+		gl.glTexCoord2f(1.0f, 1.0f);
+		gl.glVertex3f(fx, fy, fz);
+		gl.glTexCoord2f(0.0f, 1.0f);
+		gl.glVertex3f(-fx, fy, fz);
 
+		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT3);
+		// Back Face
+		gl.glTexCoord2f(1.0f, 0.0f);
+		gl.glVertex3f(-fx, -fy, -fz);
+		gl.glTexCoord2f(1.0f, 1.0f);
+		gl.glVertex3f(-fx, fy, -fz);
+		gl.glTexCoord2f(0.0f, 1.0f);
+		gl.glVertex3f(fx, fy, -fz);
+		gl.glTexCoord2f(0.0f, 0.0f);
+		gl.glVertex3f(fx, -fy, -fz);
+		
+		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
+		// Top Face
+		gl.glTexCoord2f(0.0f, 1.0f);
+		gl.glVertex3f(-fx, fy, -fz);
+		gl.glTexCoord2f(0.0f, 0.0f);
+		gl.glVertex3f(-fx, fy, fz);
+		gl.glTexCoord2f(1.0f, 0.0f);
+		gl.glVertex3f(fx, fy, fz);
+		gl.glTexCoord2f(1.0f, 1.0f);
+		gl.glVertex3f(fx, fy, -fz);
+		
+		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT3);
+		// Bottom Face
+		gl.glTexCoord2f(1.0f, 1.0f);
+		gl.glVertex3f(-fx, -fy, -fz);
+		gl.glTexCoord2f(0.0f, 1.0f);
+		gl.glVertex3f(fx, -fy, -fz);
+		gl.glTexCoord2f(0.0f, 0.0f);
+		gl.glVertex3f(fx, -fy, fz);
+		gl.glTexCoord2f(1.0f, 0.0f);
+		gl.glVertex3f(-fx, -fy, fz);
+
+		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
+		// Right face
+		gl.glTexCoord2f(1.0f, 0.0f);
+		gl.glVertex3f(fx, -fy, -fz);
+		gl.glTexCoord2f(1.0f, 1.0f);
+		gl.glVertex3f(fx, fy, -fz);
+		gl.glTexCoord2f(0.0f, 1.0f);
+		gl.glVertex3f(fx, fy, fz);
+		gl.glTexCoord2f(0.0f, 0.0f);
+		gl.glVertex3f(fx, -fy, fz);
+
+		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
+		// Left Face
+		gl.glTexCoord2f(0.0f, 0.0f);
+		gl.glVertex3f(-fx, -fy, -fz);
+		gl.glTexCoord2f(1.0f, 0.0f);
+		gl.glVertex3f(-fx, -fy, fz);
+		gl.glTexCoord2f(1.0f, 1.0f);
+		gl.glVertex3f(-fx, fy, fz);
+		gl.glTexCoord2f(0.0f, 1.0f);
+		gl.glVertex3f(-fx, fy, -fz);
+	
 		gl.glEnd();
+		gl.glFlush();
+		//gl.glDisable(GL2.GL_TEXTURE_2D);
+		gl.glPopMatrix();
 
 		// increasing rotation for the next iteration                   
 		rotateX += rotationVelocity;
-
-		//gl.glFlush(); // GO FAST ???
-		//gLDrawable.swapBuffers(); // GO FAST ???  // should be done at the end (http://stackoverflow.com/questions/1540928/jogl-double-buffering)
+		/*r-=0.005;
+		
+		
+		////-------------LUNE ------------------------////
+		/*gl.glPushMatrix();
+		
+		gl.glRotatef(angle,0f,1f,0f);
+		gl.glColor3f(1f,1f,1f);
+		gl.glTranslatef(0, 0, -200f);
+		
+		gl.glEnable(GL2.GL_TEXTURE_2D);
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT1);
+		GLUquadric earth = glu.gluNewQuadric();
+		glu.gluQuadricTexture(earth, true);
+        glu.gluQuadricDrawStyle(earth, GLU.GLU_FILL);
+        glu.gluQuadricNormals(earth, GLU.GLU_FLAT);
+        glu.gluQuadricOrientation(earth, GLU.GLU_OUTSIDE);
+		glu.gluSphere(earth,30f, 40, 40);
+		
+	
+		glu.gluDeleteQuadric(earth);
+		gl.glDisable(GL2.GL_TEXTURE_2D);
+	
+		//change the speeds here
+		angle += .5f;
+		//gl.glPushMatrix();*/
+		//////////////////////////////////////////////////////////
+		
+		gLDrawable.swapBuffers(); // GO FAST ???  // should be done at the end (http://stackoverflow.com/questions/1540928/jogl-double-buffering)
 	}
 
 	@Override
@@ -544,10 +680,13 @@ public class Landscape implements GLEventListener{
 		}
 		GL2 gl = gLDrawable.getGL().getGL2();
 		final float aspect = (float) width / (float) height;
-		gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
-		gl.glLoadIdentity();
+		
 		final float fh = 0.5f;
 		final float fw = fh * aspect;
+		
+		gl.glMatrixMode(GLMatrixFunc.GL_PROJECTION);
+		gl.glLoadIdentity();
+		
 		gl.glFrustumf(-fw, fw, -fh, fh, 1.0f, 1000.0f);
 		gl.glMatrixMode(GLMatrixFunc.GL_MODELVIEW);
 		gl.glLoadIdentity();

@@ -6,8 +6,6 @@ package worlds;
 
 import DynamicObject.Agent;
 import cellularautomata.ForestCA;
-import graphics.Skybox;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Arbres.GrandArbre;
@@ -148,7 +146,6 @@ public class WorldOfTrees extends World {
 			
 			agentListe.add(new Agent(dxRand, dyRand, this ));
 		}
-	
  
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
 

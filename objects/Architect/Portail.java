@@ -23,6 +23,8 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 	private final static int DISTANCEMIN = 2; //utilisé pour definir la distance minimale
 	private static int cpt = 0;
 	private int id;
+	private int texture;
+	private Texture t;
 	
 	public Portail(int x, int y, World world, World passage) 
 	{
@@ -60,8 +62,6 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 		return passage;
 	}
 	
-	
-		
 	@Override
 	public void displayUniqueObject(World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, 
 			float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight) 
@@ -77,57 +77,58 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 		float height = Math.max ( 0 , (float)myWorld.getCellHeight(x, y) );
     	float altitude = (float)height * normalizeHeight ; 
 		/*
-		float[] lightColorAmbient = {0.3f,0.8f,1f,1f};
-		float[] lightColorSpecular = {0.3f,0.8f,1f,1f};
-		float[] lightPos = {x,y,height*normalizeHeight,1};
-		gl.glLightfv(GL2.GL_LIGHT5, GL2.GL_POSITION, lightPos, 0);
-        gl.glLightfv(GL2.GL_LIGHT5, GL2.GL_AMBIENT, lightColorAmbient, 0);
-        gl.glLightfv(GL2.GL_LIGHT5, GL2.GL_SPECULAR, lightColorSpecular, 0);
-		gl.glEnable(GL2.GL_LIGHTING);
-		
-		float[] rgba = {1f, 1f, 1f};
-        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_AMBIENT, rgba, 0);
-        gl.glMaterialfv(GL2.GL_FRONT, GL2.GL_SPECULAR, rgba, 0);
-        gl.glMaterialf(GL2.GL_FRONT, GL2.GL_SHININESS, 0.5f);
-		
-		// ---------  NE MARCHERA PROBABLEMENT JAMAIS ! -----------------------------
-		*/
 		gl.glEnable(GL2.GL_TEXTURE_2D);
-		t = ImageResources.createTexture("/res/portal.png");
-		if(t != null) 
-		{
-			System.out.println("Chargement reussi !");
-			int texture = t.getTextureObject(gl);
-			gl.glBindTexture(GL2.GL_TEXTURE_2D, texture);
-		}
-		//
+		t = ImageResources.createTexture("/res/nightFront.png");
+		texture = t.getTextureObject(gl);
 		
-		gl.glColor3f(0.36f,0.87f,1f);
-	
+		gl.glBindTexture(GL2.GL_TEXTURE_2D, texture);
+		*/
+		gl.glColor3f(0.16f,0.43f,1f);
+		//FRONT
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f( (offset+x2*stepX-lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight);
+		gl.glTexCoord2f(1.0f, 0.0f);
         gl.glVertex3f( (offset+x2*stepX-lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight + 40f);
+		gl.glTexCoord2f(1.0f, 1.0f);
         gl.glVertex3f( (offset+x2*stepX+lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight + 40f);
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f( (offset+x2*stepX+lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight);
 		/*Cote*/
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f( offset+x2*stepX+lenX*6f, offset+y2*stepY+lenY, height*normalizeHeight);
+		gl.glTexCoord2f(1.0f, 1.0f);
         gl.glVertex3f( offset+x2*stepX+lenX*6f, offset+y2*stepY+lenY, height*normalizeHeight + 40.f);
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f( offset+x2*stepX-lenX*6f, offset+y2*stepY+lenY, height*normalizeHeight + 40.f);
+		gl.glTexCoord2f(0.0f, 0.0f);
         gl.glVertex3f( offset+x2*stepX-lenX*6f, offset+y2*stepY+lenY, height*normalizeHeight);
 		/*Cote*/
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight);
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 40.f);
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 40.f);
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight);
+		gl.glTexCoord2f(1.0f, 1.0f);
 		/*Cote */
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight);
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 40.f);
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 40.f);
+		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight);
+		gl.glTexCoord2f(0.0f, 0.0f);
 		/*Chapeau*/
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 20.f);
+		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 20.f);
+		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 20.f);
+		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 20.f);
+		gl.glTexCoord2f(0.0f, 1.0f);
 		
 		gl.glDisable(GL2.GL_TEXTURE_2D);
 		
