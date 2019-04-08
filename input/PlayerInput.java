@@ -102,7 +102,9 @@ public class PlayerInput implements KeyListener, MouseListener, MouseWheelListen
 						"[q/d] rotation wrt landscape\n\t" +
 						"[z/s] increase/decrease height\n\t"+
 						"[crtl]+[z/s] increase/decrease depth\n\t" +
-						"[cursor keys] navigate\n\t"
+						"[cursor keys] navigate\n\t,"
+						+ "Souris : Scrollez et appuyez sur les differents boutons en scrollant"
+						+ " Afin d'activer les fonctions decrites ci dessus"
 						);
 				break;
 			default:

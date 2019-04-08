@@ -23,7 +23,6 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 	private final static int DISTANCEMIN = 2; //utilisé pour definir la distance minimale
 	private static int cpt = 0;
 	private int id;
-	private int texture;
 	private Texture t;
 	
 	public Portail(int x, int y, World world, World passage) 
@@ -85,7 +84,6 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 		*/
 		gl.glColor3f(0.16f,0.43f,1f);
 		//FRONT
-		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f( (offset+x2*stepX-lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight);
 		gl.glTexCoord2f(1.0f, 0.0f);
         gl.glVertex3f( (offset+x2*stepX-lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight + 40f);
@@ -94,43 +92,25 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f( (offset+x2*stepX+lenX*6f), (offset+y2*stepY-lenY), height*normalizeHeight);
 		/*Cote*/
-		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f( offset+x2*stepX+lenX*6f, offset+y2*stepY+lenY, height*normalizeHeight);
-		gl.glTexCoord2f(1.0f, 1.0f);
         gl.glVertex3f( offset+x2*stepX+lenX*6f, offset+y2*stepY+lenY, height*normalizeHeight + 40.f);
-		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f( offset+x2*stepX-lenX*6f, offset+y2*stepY+lenY, height*normalizeHeight + 40.f);
-		gl.glTexCoord2f(0.0f, 0.0f);
         gl.glVertex3f( offset+x2*stepX-lenX*6f, offset+y2*stepY+lenY, height*normalizeHeight);
 		/*Cote*/
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight);
-		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 40.f);
-		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 40.f);
-		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight);
-		gl.glTexCoord2f(1.0f, 1.0f);
 		/*Cote */
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight);
-		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 40.f);
-		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 40.f);
-		gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight);
-		gl.glTexCoord2f(0.0f, 0.0f);
 		/*Chapeau*/
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 20.f);
-		gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX - lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 20.f);
-		gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY + lenY, height * normalizeHeight + 20.f);
-		gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(offset + x2 * stepX + lenX*6f, offset + y2 * stepY - lenY, height * normalizeHeight + 20.f);
-		gl.glTexCoord2f(0.0f, 1.0f);
-		
-		gl.glDisable(GL2.GL_TEXTURE_2D);
 		
 	}
 	

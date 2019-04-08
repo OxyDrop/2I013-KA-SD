@@ -95,15 +95,15 @@ public class Landscape implements GLEventListener{
 	float moduleAltitude;
 	float moduleDepth;
 	
-	int time = 0;
+	double time = 0;
 	//SKYBOX
-	private int skyboxT1 , skyboxT2;
-	private Texture t1, t2;
+	private int skyblueid , moonid, portalid;
+	private Texture skybluetexture, moontexture, portaltexture;
 	float fx;
 	float fy;
 	float fz;
 	float r,g,b,a;
-	boolean daynight = false;
+	boolean daynight = true;
 	//ASTRE
 	static float angle=0.0f;
 	static boolean moonsun=false;
@@ -111,6 +111,12 @@ public class Landscape implements GLEventListener{
 	static float yastre=0.0f;
 	static float zastre=0.0f;
 	private GLU glu = new GLU();
+	
+	static final boolean SKYBOX = false; //ACTIVE OU DESACTIVE LA SKYBOX
+	static final boolean MOON = true;
+	static final String PATH3 = "/res/blueSky.png"; //A CHANGER POUR L'APPLICATION DES TEXTURES;
+	static final String PATH2 = "/res/moon.png";
+	static final String PATH1 = "/res/portal.png";
 		
 	/**
 	 * Initialise landscape à partir du bruit 
@@ -355,24 +361,28 @@ public class Landscape implements GLEventListener{
 		gl.glClearDepth(1.0f);
 		gl.glEnable(GL2.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL2.GL_LEQUAL);
-		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);
-		
+		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);	
 
 		// Culling - display only triangles facing the screen
 		gl.glCullFace(GL2.GL_FRONT);
 		gl.glEnable(GL2.GL_CULL_FACE);
 		gl.glEnable(GL2.GL_DITHER);
-		
-		t1=ImageResources.createTexture("/res/moon.png");
-		t2=ImageResources.createTexture("/res/blueSky.png");
 	
-		t1.enable(gl);
-		t1.bind(gl);
-		t2.enable(gl);
-		t2.bind(gl);
-		
-		skyboxT1=t1.getTextureObject(gl);
-		skyboxT2=t2.getTextureObject(gl);
+		//portaltexture=ImageResources.createTexture(PATH3);
+		if(MOON)
+		{
+			moontexture=ImageResources.createTexture(PATH2);
+			moontexture.bind(gl);
+			moontexture.enable(gl);
+			moonid=moontexture.getTextureObject(gl);
+		}
+		if(SKYBOX)
+		{
+			skybluetexture=ImageResources.createTexture(PATH3);
+			skybluetexture.enable(gl);
+			skybluetexture.bind(gl);
+			skyblueid=skybluetexture.getTextureObject(gl);
+		}
 		
 	}
 	@Override
@@ -525,8 +535,10 @@ public class Landscape implements GLEventListener{
 				// TODO+: diplayObjectAt(x,y,...) ==> on y gagne quoi? les smoothFactors. C'est tout. Donc on externalise?
 				if (DISPLAY_OBJECTS == true) // calls my world with the enough info to display anything at this location.
 				{
+					
 					float normalizeHeight = (smoothFactor[0] + smoothFactor[1] + smoothFactor[2] + smoothFactor[3]) / 4.f * (float) heightBooster * heightFactor;
 					myWorld.displayObjectAt(myWorld, gl, cellState, x, y, height, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+		
 				}
 			} //----FIN FORY ------//
 		} // -------FIN FORX ------//
@@ -535,100 +547,102 @@ public class Landscape implements GLEventListener{
 		// TODO+: displayObjects()
 		if (DISPLAY_OBJECTS == true) // calls my world with enough info to display anything anywhere
 		{
+			
 			float normalizeHeight = (float) heightBooster * heightFactor;
 			myWorld.displayUniqueObjects(myWorld, gl, movingX, movingY, offset, stepX, stepY, lenX, lenY, normalizeHeight);
 		}
-		time+=0.01;
+		//////////GESTION RUDIMENTAIRE DU TEMPS //////////////////////
+		time++;
 		
-		if(daynight)
+		if(time>250)
 		{
-			r-=0.001;
-			g-=0.001;
-			b-=0.001;
+			r -= 0.001f;
+			g -= 0.0008f;
+			b -= 0.0005f;
 		}
-		else
+		if(time>2000)
 		{
-			r+=0.001;
-			g+=0.001;
-			b+=0.001;
-		}
-		if(time>1000)
-		{
-			daynight=!daynight;
+			r=1f;
+			g=1f;
+			b=1f;
 			time=0;
 		}
-		
+		///////////////FIN GESTION TEMPS////////////////
 		//------------------SKYBOX------------------------//
+		if(SKYBOX)
+		{
+			gl.glEnable(GL2.GL_TEXTURE_2D);
+			gl.glBindTexture(GL2.GL_TEXTURE_2D, skyblueid);
+		}
 		gl.glPushMatrix();
 		gl.glTranslatef(0f, 0f, 0f);
 		gl.glColor4f(r,g,b,a);
 		
-		gl.glEnable(GL2.GL_TEXTURE_2D);
 		gl.glBegin(GL2.GL_QUADS);
-		gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
+		
 		// Front Face
-		gl.glTexCoord2f(0.0f, 0.0f);
-		gl.glVertex3f(-fx, -fy, fz);
-		gl.glTexCoord2f(1.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
+		 gl.glVertex3f(-fx, -fy, fz);
+		 if(SKYBOX) gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(fx, -fy, fz);
-		gl.glTexCoord2f(1.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(fx, fy, fz);
-		gl.glTexCoord2f(0.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(-fx, fy, fz);
 
 		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT3);
 		// Back Face
-		gl.glTexCoord2f(1.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(-fx, -fy, -fz);
-		gl.glTexCoord2f(1.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(-fx, fy, -fz);
-		gl.glTexCoord2f(0.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(fx, fy, -fz);
-		gl.glTexCoord2f(0.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(fx, -fy, -fz);
 		
 		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
 		// Top Face
-		gl.glTexCoord2f(0.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(-fx, fy, -fz);
-		gl.glTexCoord2f(0.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(-fx, fy, fz);
-		gl.glTexCoord2f(1.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(fx, fy, fz);
-		gl.glTexCoord2f(1.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(fx, fy, -fz);
 		
 		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT3);
 		// Bottom Face
-		gl.glTexCoord2f(1.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(-fx, -fy, -fz);
-		gl.glTexCoord2f(0.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(fx, -fy, -fz);
-		gl.glTexCoord2f(0.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(fx, -fy, fz);
-		gl.glTexCoord2f(1.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(-fx, -fy, fz);
 
 		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
 		// Right face
-		gl.glTexCoord2f(1.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(fx, -fy, -fz);
-		gl.glTexCoord2f(1.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(fx, fy, -fz);
-		gl.glTexCoord2f(0.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(fx, fy, fz);
-		gl.glTexCoord2f(0.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(fx, -fy, fz);
 
 		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
 		// Left Face
-		gl.glTexCoord2f(0.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(-fx, -fy, -fz);
-		gl.glTexCoord2f(1.0f, 0.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(-fx, -fy, fz);
-		gl.glTexCoord2f(1.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(-fx, fy, fz);
-		gl.glTexCoord2f(0.0f, 1.0f);
+		if(SKYBOX) gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(-fx, fy, -fz);
 	
 		gl.glEnd();
@@ -638,32 +652,32 @@ public class Landscape implements GLEventListener{
 
 		// increasing rotation for the next iteration                   
 		rotateX += rotationVelocity;
-		/*r-=0.005;
+		//r-=0.005;
 		
 		
 		////-------------LUNE ------------------------////
-		/*gl.glPushMatrix();
-		
-		gl.glRotatef(angle,0f,1f,0f);
-		gl.glColor3f(1f,1f,1f);
-		gl.glTranslatef(0, 0, -200f);
-		
-		gl.glEnable(GL2.GL_TEXTURE_2D);
-		gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT1);
-		GLUquadric earth = glu.gluNewQuadric();
-		glu.gluQuadricTexture(earth, true);
-        glu.gluQuadricDrawStyle(earth, GLU.GLU_FILL);
-        glu.gluQuadricNormals(earth, GLU.GLU_FLAT);
-        glu.gluQuadricOrientation(earth, GLU.GLU_OUTSIDE);
-		glu.gluSphere(earth,30f, 40, 40);
-		
-	
-		glu.gluDeleteQuadric(earth);
-		gl.glDisable(GL2.GL_TEXTURE_2D);
-	
-		//change the speeds here
-		angle += .5f;
-		//gl.glPushMatrix();*/
+		if(MOON)
+		{
+			gl.glPushMatrix();
+			gl.glRotatef(angle, 0f, 1f, 0f);
+			gl.glColor3f(1f, 1f, 1f);
+			gl.glTranslatef(0f, 0f, 200f);
+			gl.glEnable(GL2.GL_TEXTURE_2D);
+			gl.glBindTexture(GL2.GL_TEXTURE_2D, moonid);
+			GLUquadric earth = glu.gluNewQuadric();
+			glu.gluQuadricTexture(earth, true);
+			glu.gluQuadricDrawStyle(earth, GLU.GLU_FILL);
+			glu.gluQuadricNormals(earth, GLU.GLU_FLAT);
+			glu.gluQuadricOrientation(earth, GLU.GLU_OUTSIDE);
+			glu.gluSphere(earth, 30f, 40, 40);
+
+			glu.gluDeleteQuadric(earth);
+			gl.glDisable(GL2.GL_TEXTURE_2D);
+
+			//change the speeds here
+			angle += .2f;
+			gl.glPopMatrix();
+		}
 		//////////////////////////////////////////////////////////
 		
 		gLDrawable.swapBuffers(); // GO FAST ???  // should be done at the end (http://stackoverflow.com/questions/1540928/jogl-double-buffering)
