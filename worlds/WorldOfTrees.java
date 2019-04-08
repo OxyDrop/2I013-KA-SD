@@ -204,7 +204,7 @@ public class WorldOfTrees extends World {
 			}
 		}
 		//Accelere la repousse des arbres s'ils sont en sous-nombre
-		if(getNombreGA()<(int)(Math.random()%(20-5+1)+5))
+		if(getNombreGA()<(int)(Math.random()%(20-11+1)+11))
 			pgrowga=0.1;
 		else
 			pgrowga=0.005;
