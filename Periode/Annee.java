@@ -12,4 +12,9 @@ public class Annee //tableau de 12 mois
 			Mois.getMois("septembre"),Mois.getMois("octobre"),Mois.getMois("novembre"),Mois.getMois("decembre")
 		};
 	}
+
+	public int[][] getAnnee() {
+		return annee;
+	}
+	
 }

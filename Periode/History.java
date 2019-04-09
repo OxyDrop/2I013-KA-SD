@@ -8,6 +8,7 @@ public class History //Etendue de temps
 {
 	private final static int INTERVAL = 100;
 	private final Annee[] history; 
+	private int i=0;
 	
 	public History()
 	{
@@ -18,4 +19,10 @@ public class History //Etendue de temps
 			
 		}
 	}
+
+	public int getHistory() 
+	{
+		return i++;
+	}
+	
 }

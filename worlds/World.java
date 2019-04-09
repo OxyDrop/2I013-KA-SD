@@ -17,6 +17,7 @@ import javax.media.opengl.GL2;
 import objects.*;
 import objects.Arbres.GrandArbre;
 import objects.Consommables.Aliment;
+import Periode.*;
 
 public abstract class World {
 	
@@ -51,6 +52,13 @@ public abstract class World {
 	private double minEver = Double.POSITIVE_INFINITY;
 	
 	protected World w1,w2,w3;
+	protected static Mois mois = new Mois();
+	protected static Annee annee = new Annee();
+	protected static int passetemps=0;
+	protected static int histoire = 0;
+	protected static boolean unefois = true;
+	protected static boolean checkunefois = false;
+	protected static final int LIMITE = 12000;
 
     public World( )
     {
@@ -124,6 +132,54 @@ public abstract class World {
     	stepCellularAutomata();
     	stepAgents();
     	iteration++;
+		
+		passetemps++;
+		passetemps%=LIMITE;
+		
+		if(passetemps==0)
+		{
+			System.out.println("L'année"+histoire+" commence !");
+			histoire++;
+		}
+		else if (passetemps >= 0 && passetemps < LIMITE / 12 && unefois) {
+			System.out.println("Le mois de janvier commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 12 && passetemps < LIMITE / 11 && unefois) {
+			System.out.println("Le mois de février commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 11 && passetemps < LIMITE / 10 && unefois) {
+			System.out.println("Le mois de mars commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 10 && passetemps < LIMITE / 9 && unefois) {
+			System.out.println("Le mois de avril commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 9 && passetemps < LIMITE / 8 && unefois) {
+			System.out.println("Le mois de mai commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 8 && passetemps < LIMITE / 7 && unefois) {
+			System.out.println("Le mois de juin commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 7 && passetemps < LIMITE / 6 && unefois) {
+			System.out.println("Le mois de juillet commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 6 && passetemps < LIMITE / 5 && unefois) {
+			System.out.println("Le mois de août commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 5 && passetemps < LIMITE / 4 && unefois) {
+			System.out.println("Le mois de septembre commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 4 && passetemps < LIMITE / 3 && unefois) {
+			System.out.println("Le mois de octobre commence !");
+			unefois=false;
+		} else if (passetemps >= LIMITE / 3 && passetemps < LIMITE / 2 && unefois) {
+			System.out.println("Le mois de novembre commence !");
+			unefois=false;
+		} else if(passetemps >= LIMITE / 2 && passetemps < LIMITE && unefois){
+			System.out.println("Le mois de decembre commence !");
+			unefois=false;
+		}
+		if(passetemps%(LIMITE/12)==0)
+			unefois=true;
     }
     
     public int getIteration()

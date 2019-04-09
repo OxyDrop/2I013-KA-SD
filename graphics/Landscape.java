@@ -569,7 +569,7 @@ public class Landscape implements GLEventListener{
 			g -= 0.0005f;
 			b -= 0.0005f;
 		}
-		if(time>2000)
+		if(time>2500)
 		{
 			r=0.7f;
 			g=0.9f;
@@ -667,34 +667,41 @@ public class Landscape implements GLEventListener{
 		////-------------LUNE ------------------------////
 		if(MOON)
 		{
-			if(time<1000)
-			{
-				bastre=0f;
-			}
-			else if(time>=1000)
-			{
-				gl.glTranslatef(0f,0f,0f);
-				bastre=1f;
-			}
 			gl.glPushMatrix();
 			gl.glRotatef(angle, 0f, 1f, 0f);
-			gl.glColor3f(rastre,gastre,bastre);
-			gl.glTranslatef(xastre, yastre, 0f);
+			gl.glColor3f(rastre,gastre,0f);
+			gl.glTranslatef(-300f, 300f, 0f);
 			//gl.glEnable(GL2.GL_TEXTURE_2D);
-			gl.glBindTexture(GL2.GL_TEXTURE_2D, moonid);
-			GLUquadric earth = glu.gluNewQuadric();
+			//gl.glBindTexture(GL2.GL_TEXTURE_2D, moonid);
+			GLUquadric soleil = glu.gluNewQuadric();
 			//glu.gluQuadricTexture(earth, true);
-			glu.gluQuadricDrawStyle(earth, GLU.GLU_FILL);
-			glu.gluQuadricNormals(earth, GLU.GLU_FLAT);
-			glu.gluQuadricOrientation(earth, GLU.GLU_OUTSIDE);
-			glu.gluSphere(earth, 30f, 40, 40);
+			glu.gluQuadricDrawStyle(soleil, GLU.GLU_FILL);
+			glu.gluQuadricNormals(soleil, GLU.GLU_FLAT);
+			glu.gluQuadricOrientation(soleil, GLU.GLU_OUTSIDE);
+			glu.gluSphere(soleil, 30f, 40, 40);
 
-			glu.gluDeleteQuadric(earth);
-			gl.glDisable(GL2.GL_TEXTURE_2D);
+			glu.gluDeleteQuadric(soleil);
 
 			//change the speeds here
-			angle += .15f;
 			gl.glPopMatrix();
+			gl.glRotatef(angle, 0f, 1f, 0f);
+			gl.glColor3f(rastre,gastre,bastre);
+			gl.glTranslatef(300f, 300f, 0f);
+			//gl.glEnable(GL2.GL_TEXTURE_2D);
+			//gl.glBindTexture(GL2.GL_TEXTURE_2D, moonid);
+			GLUquadric lune = glu.gluNewQuadric();
+			//glu.gluQuadricTexture(earth, true);
+			glu.gluQuadricDrawStyle(lune, GLU.GLU_FILL);
+			glu.gluQuadricNormals(lune, GLU.GLU_FLAT);
+			glu.gluQuadricOrientation(lune, GLU.GLU_OUTSIDE);
+			glu.gluSphere(lune, 30f, 40, 40);
+			glu.gluDeleteQuadric(lune);
+			
+			gl.glDisable(GL2.GL_TEXTURE_2D);
+			gl.glPopMatrix();
+			//change the speeds here
+			angle += .15f;
+			;
 		}
 		//////////////////////////////////////////////////////////
 		
