@@ -5,8 +5,15 @@
 package worlds;
 
 import DynamicObject.Agent;
+import DynamicObject.FAgent;
+import DynamicObject.MAgent;
+import DynamicObject.Zombie;
 import cellularautomata.DesertCA;
+import java.util.Iterator;
+import objects.Arbres.Palmier;
 import javax.media.opengl.GL2;
+import objects.Arbres.Palmier;
+import objects.Arbres.Sapin;
 import objects.Architect.Portail;
 import objects.Architect.Teleporteur;
 import objects.UniqueObject;
@@ -31,6 +38,9 @@ public class WorldOfSand extends World {
 	protected CellularAutomataDouble cellsHeightValuesCA;
 	protected CellularAutomataDouble cellsHeightAmplitudeCA;
 	*/
+	private int xabrand;
+	private int yabrand;
+	private double pgrowga =  0.005;
 	
 	public WorldOfSand(){}
 	
@@ -102,7 +112,57 @@ public class WorldOfSand extends World {
 		for(int i=0;i<POPINI;i++) //AJOUT AGENT ALEATOIREMENT
 				agentListe.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
 		
-    	
+		for (int d = 97; d < 147; d++) 
+		{
+			for (int j = 112; j < 128; j++) 
+			{
+				cellState = this.getCellValue(d, j);
+				if (cellState == 1) 
+				{
+					if (Math.random() < 0.04) 
+					{
+						fagent.add(new FAgent(d, j, this));
+					}
+				}
+			}
+		}
+		for (int v = 0; v < POPINI; v++) 
+		{
+			int dxRand = 0;
+			int dyRand = 0;
+			do {
+				dxRand = (int) (Math.random() * dxCA);
+				dyRand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+
+		agentM.add(new MAgent(dxRand, dyRand, this));
+		}
+		for (int i = 0; i < POPINI; i++) 
+		{
+			int dxRand = 0;
+			int dyRand = 0;
+			do {
+				dxRand = (int) (Math.random() * dxCA);
+				dyRand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+
+		zombie.add(new Zombie(dxRand, dyRand, this));
+		}
+		///////////////////AJOUTS ARBRES//////////////////
+    	for (int i = 0 ; i < dxCA ; i++)
+    		for (int j = 0 ; j < dyCA ; j++)
+    		{
+    			cellState = this.getCellValue(i, j);
+    			if (cellState == 1)
+				{
+					if(Math.random()<0.9)
+					{
+						Palmier pa = new Palmier(i,j,this);
+						pa.init();
+    					LObjects.add(pa);
+					}
+				}
+			}
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }
     
@@ -117,7 +177,36 @@ public class WorldOfSand extends World {
     {
     	if ( iteration%10 == 0 )
     		cellularAutomata.step();
-    }
+		
+		for(UniqueObject abr : LObjects) //Met a jour les arbres
+			if(abr instanceof Palmier)
+				((Palmier)abr).step();
+		
+		for(Iterator<UniqueObject> it = LObjects.iterator(); it.hasNext();)
+		{
+			UniqueObject arbre = it.next();
+			
+			if(arbre instanceof Palmier && ((Palmier) arbre).die())
+			{
+				it.remove();
+				System.out.println("Un palmier est s'est effrité :sob:");
+			}
+		}
+		
+		if(Math.random()<pgrowga)
+		{
+			 do{
+				xabrand = (int)(Math.random()*dx);
+				yabrand = (int)(Math.random()*dy);
+			 }while(this.getCellHeight(xabrand,yabrand)<=0);
+			 
+			Palmier gagrow = new Palmier(xabrand,yabrand,this);
+			gagrow.init();
+			LObjects.add(gagrow);
+			System.out.println("Un nouveau palmier à poussé en ("+xabrand+","+yabrand+")");
+		}
+	}
+ 
     
 	@Override
     protected void stepAgents()

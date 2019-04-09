@@ -35,7 +35,10 @@ public class ForestCA extends CellularAutomataInteger {
     			{
     				if ( Math.random() < DENSITY_TREES ) // was: 0.71
     					this.setCellState(x, y, 1); // tree
-    				else
+					else if(x<40 || x>dx-40 && y<40 || y>dy-40) //sable
+						this.setCellState(x,y,4);
+					else
+						
     					this.setCellState(x, y, 0); // empty
     			}
     			else
@@ -55,7 +58,7 @@ public class ForestCA extends CellularAutomataInteger {
     		{
 				int current = this.getCellState(i, j);
 				double height = this.HeightVal.getCellState(i, j);
-    			if ((current == 0 && height>0) || current == 1 || current == 2 || current == 3 )
+    			if ((current == 0 && height>0) || current == 1 || current == 2 || current == 3 || current==4 )
     			{
 	    			if (current == 1 ) // tree?
 	    			{
@@ -85,7 +88,7 @@ public class ForestCA extends CellularAutomataInteger {
 	    		float color[] = new float[3];
 	    		switch (current)
 	    		{
-	    			case 0:
+	    			case 0: //Accelere la remise en forme du terrain
 						if(this.HeightVal.getCellState(i, j)>0)
 						{
 							color = this.world.getCellColorValue(i, j);
@@ -105,6 +108,11 @@ public class ForestCA extends CellularAutomataInteger {
 						color[0] = 0.f; //0
 						color[1] = 0.f; //0
 						color[2] = 0.f; //0
+						break;
+					case 4 :  //Sable ne propage pas le feu
+						color[0] = 1f;
+						color[1] = 1f;
+						color[2] = 0.8f;
 						break;
 					default:
 						color[0] = 0.5f; //127

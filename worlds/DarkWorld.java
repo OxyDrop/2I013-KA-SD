@@ -5,20 +5,20 @@
 package worlds;
 
 import DynamicObject.Agent;
+import DynamicObject.FAgent;
+import DynamicObject.MAgent;
+import DynamicObject.Zombie;
 import cellularautomata.DarkCA;
 import java.util.Iterator;
 import javax.media.opengl.GL2;
-import objects.Arbres.DarkArbre;
-import objects.Arbres.GrandArbre;
-import objects.Arbres.Sapin;
-import objects.Architect.Portail;
-import objects.Architect.Teleporteur;
+import objects.Arbres.*;
+import objects.Architect.*;
 import objects.UniqueObject;
 
 //Si vous vous retrouvez dans le dark world, il n'y a plus de retour possible!!!!!!!!!!!!/////////////
 public class DarkWorld extends World {
 
-	private static final int POPINI=50;
+	private static final int POPINI=80;
 	private static final int NBMAXPORTAILS=2;
 	private static final int NBMAXTELEPORTEUR = 5;
 	private static final int NOTIFYITERATION = 100; 
@@ -89,6 +89,43 @@ public class DarkWorld extends World {
 		///////////////////AJOUT AGENT ALEATOIREMENT////////////////////
 		for(int i=0;i<POPINI;i++) 
 				agentListe.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
+		
+		for (int d = 97; d < 147; d++) 
+		{
+			for (int j = 112; j < 128; j++) 
+			{
+				cellState = this.getCellValue(d, j);
+				if (cellState == 1) 
+				{
+					if (Math.random() < 0.04) 
+					{
+						fagent.add(new FAgent(d, j, this));
+					}
+				}
+			}
+		}
+		for (int v = 0; v < POPINI; v++) 
+		{
+			int dxRand = 0;
+			int dyRand = 0;
+			do {
+				dxRand = (int) (Math.random() * dxCA);
+				dyRand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+
+		agentM.add(new MAgent(dxRand, dyRand, this));
+		}
+		for (int i = 0; i < POPINI; i++) 
+		{
+			int dxRand = 0;
+			int dyRand = 0;
+			do {
+				dxRand = (int) (Math.random() * dxCA);
+				dyRand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+
+		zombie.add(new Zombie(dxRand, dyRand, this));
+		}
 		////////////////////////ARBRES//////////////////////////////////
 		
     	for (int i = 0 ; i < dxCA ; i++)

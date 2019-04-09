@@ -183,12 +183,12 @@ public class GrandArbre extends UniqueObject implements Eliminable
                 
                 /* Feuillage de l'arbre */
         		gl.glColor3f(0.1f,0.5f-(float)(0.1*Math.random()),0.1f);
-                gl.glVertex3f( offset+x2*stepX-lenX*4.f, offset+y2*stepY-lenY*4.f, height*normalizeHeight + 8.f);
+                gl.glVertex3f( offset+x2*stepX-lenX*4.f, offset+y2*stepY-lenY*4.f, height*normalizeHeight+8f);
                 gl.glVertex3f( offset+x2*stepX-lenX*4.f, offset+y2*stepY-lenY*4.f, height*normalizeHeight + 16.f);
                 gl.glVertex3f( offset+x2*stepX+lenX*4.f, offset+y2*stepY-lenY*4.f, height*normalizeHeight + 16.f);
-                gl.glVertex3f( offset+x2*stepX+lenX*4.f, offset+y2*stepY-lenY*4.f, height*normalizeHeight + 8.f);
+                gl.glVertex3f( offset+x2*stepX+lenX*4.f, offset+y2*stepY-lenY*4.f, height*normalizeHeight+8f);
                 /*Cote */
-                gl.glVertex3f( offset+x2*stepX+lenX*4.f, offset+y2*stepY+lenY*4.f, height*normalizeHeight + 8.f);
+                gl.glVertex3f( offset+x2*stepX+lenX*4.f, offset+y2*stepY+lenY*4.f, height*normalizeHeight + 8f);
                 gl.glVertex3f( offset+x2*stepX+lenX*4.f, offset+y2*stepY+lenY*4.f, height*normalizeHeight + 16.f);
                 gl.glVertex3f( offset+x2*stepX-lenX*4.f, offset+y2*stepY+lenY*4.f, height*normalizeHeight + 16.f);
                 gl.glVertex3f( offset+x2*stepX-lenX*4.f, offset+y2*stepY+lenY*4.f, height*normalizeHeight + 8.f);

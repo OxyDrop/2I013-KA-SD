@@ -29,6 +29,32 @@ public class Zombie extends UniqueDynamicObject {
 	}
 
 	public void step() {
+		if (!stop) {
+			if (world.getIteration() % 20 == 0) {
+				if (distanceAZ(5) && !asec && !istarget) {
+					enchasse = true;
+					chasseZ();
+
+				} else {
+					randomstep();
+					energie = (energie + 1) % 20;
+				}
+				if (energie <= 0) {
+					asec = true;
+					stop = true;
+				}
+			}
+
+		}
+
+		if (asec && stop && world.getIteration() % 20 == 0) {
+			recovery();
+		}
+
+	}
+
+	/*
+	public void step() {
 		if (!stop && !obstacleMur() && !obstacleEau()) {
 			if (world.getIteration() % 20 == 0) {
 				if (distanceAZ(5) && !asec && !istarget) {
@@ -68,8 +94,7 @@ public class Zombie extends UniqueDynamicObject {
 			}
 		}
 
-	}
-
+	}*/
 	public void chasseFZ() {
 
 		FAgent FAgent = world.getFAgentListe().get(AgentPlusProche());
@@ -298,36 +323,37 @@ public class Zombie extends UniqueDynamicObject {
 
 	}
 
-	public void chasseZ() {
+public void chasseZ() {
 
-		MAgent Agent = world.getMAgentListe().get(AgentPlusProche());
+        MAgent Agent = world.getMAgentListe().get(AgentPlusProche());
 
-		if (!combat && !Agent.hide) {
-			Goto(Agent.getX(), Agent.getY());
+        if (!combat && !Agent.hide) {
+            Goto(Agent.getX(), Agent.getY());
 
-			if (distanceTo(Agent, this) <= 1) {
-				stop = true;
-				Agent.stop = true;
-				if (Agent.attaque < this.attaque) {
-					world.getMAgentListe().remove(Agent);
-					world.getZombieListe().add(new Zombie(Agent.getX(), Agent.getY(), world));
-					enchasse = false;
-					stop = false;
-				} else {
-					world.getZombieListe().remove(this);
-					Agent.stop = false;
+            if (distanceTo(Agent, this) <= 1) {
+                stop = true;
+                Agent.stop = true;
+                if (Agent.attaque < this.attaque) {
+                    //world.getMAgentListe().remove(Agent);
+                    Agent.vie=0;
+                    //world.getZombieListe().add(new Zombie(x,y, world));
+                    enchasse = false;
+                    //stop = false;
+                } else {
+                    this.vie=0;
+                    Agent.stop = false;
 
-				}
+                }
 
-			}
+            }
 
-		} else {
-			enchasse = false;
-		}
+        } else {
+            enchasse = false;
+        }
 
-		energie = energie - 1;
+        energie = energie - 1;
 
-	}
+    }
 
 	public void detruitmur() {
 

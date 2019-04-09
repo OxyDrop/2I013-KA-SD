@@ -74,36 +74,36 @@ public class Pomme extends Aliment implements Eliminable{
 		gl.glColor3f(1f,0f,0f);
 		//gl.glBindTexture(GL2.GL_TEXTURE_2D, textureCode);
 		
-		gl.glVertex3f(offX+x2*stepX+lenX,offY+x2*stepY+lenY,altitude+4f); // Top Right Of The Quad (Top)
-		gl.glVertex3f(offX+x2*stepX-lenX,offY+x2*stepY+lenY,altitude+4f); // Top Left Of The Quad (Top)
-		gl.glVertex3f(offX+x2*stepX-lenX, offY+x2*stepY+lenY, altitude+4f); // Bottom Left Of The Quad (Top)
-		gl.glVertex3f(offX+x2*stepX+lenX,offY+x2*stepY+lenY, altitude+4f); // Bottom Right Of The Quad (Top)
+		gl.glVertex3f(offX+x2*stepX+lenX,offY+y2*stepY+lenY,altitude+4f); // Top Right Of The Quad (Top)
+		gl.glVertex3f(offX+x2*stepX-lenX,offY+y2*stepY+lenY,altitude+4f); // Top Left Of The Quad (Top)
+		gl.glVertex3f(offX+x2*stepX-lenX, offY+y2*stepY+lenY, altitude+4f); // Bottom Left Of The Quad (Top)
+		gl.glVertex3f(offX+x2*stepX+lenX,offY+y2*stepY+lenY, altitude+4f); // Bottom Right Of The Quad (Top)
 
-		gl.glVertex3f(offX+x2*stepX+lenX, offX+x2*stepY-lenY, altitude+4f); // Top Right Of The Quad
-		gl.glVertex3f(offX+x2*stepX-lenX, offX+x2*stepY-lenY, altitude+4f); // Top Left Of The Quad
-		gl.glVertex3f(offX+x2*stepX-lenX, offX+x2*stepY-lenY, altitude); // Bottom Left Of The Quad
-		gl.glVertex3f(offX+x2*stepX+lenX, offX+x2*stepY-lenY, altitude); // Bottom Right Of The Quad 
+		gl.glVertex3f(offX+x2*stepX+lenX, offX+y2*stepY-lenY, altitude+4f); // Top Right Of The Quad
+		gl.glVertex3f(offX+x2*stepX-lenX, offX+y2*stepY-lenY, altitude+4f); // Top Left Of The Quad
+		gl.glVertex3f(offX+x2*stepX-lenX, offX+y2*stepY-lenY, altitude); // Bottom Left Of The Quad
+		gl.glVertex3f(offX+x2*stepX+lenX, offX+y2*stepY-lenY, altitude); // Bottom Right Of The Quad 
 
-		gl.glVertex3f(offX+x2*stepX+lenX,offY+x2*stepY+lenY, altitude+4f); // Top Right Of The Quad (Front)
-		gl.glVertex3f(offX+x2*stepX-lenX,offY+x2*stepY+lenY, altitude+4f); // Top Left Of The Quad (Front)
-		gl.glVertex3f(offX+x2*stepX-lenX, offX+x2*stepY-lenY, altitude+4f); // Bottom Left Of The Quad
-		gl.glVertex3f(offX+x2*stepX+lenX, offX+x2*stepY-lenY, altitude+4f); // Bottom Right Of The Quad 
+		gl.glVertex3f(offX+x2*stepX+lenX,offY+y2*stepY+lenY, altitude+4f); // Top Right Of The Quad (Front)
+		gl.glVertex3f(offX+x2*stepX-lenX,offY+y2*stepY+lenY, altitude+4f); // Top Left Of The Quad (Front)
+		gl.glVertex3f(offX+x2*stepX-lenX, offX+y2*stepY-lenY, altitude+4f); // Bottom Left Of The Quad
+		gl.glVertex3f(offX+x2*stepX+lenX, offX+y2*stepY-lenY, altitude+4f); // Bottom Right Of The Quad 
 
-		gl.glColor3f(1f, 1f, 0f); //yellow (red + green)
+		gl.glColor3f(1f, 0.5f, 0f); //orange (red + green)
 		
-		gl.glVertex3f(offX+x2*stepX+lenX, offX+x2*stepY-lenY, altitude); // Bottom Left Of The Quad
-		gl.glVertex3f(offX+x2*stepX-lenX, offX+x2*stepY-lenY, altitude); // Bottom Right Of The Quad
-		gl.glVertex3f(offX+x2*stepX-lenX,offY+x2*stepY+lenY, altitude); // Top Right Of The Quad (Back)
-		gl.glVertex3f(offX+x2*stepX+lenX,offY+x2*stepY+lenY, altitude); // Top Left Of The Quad (Back)
+		gl.glVertex3f(offX+x2*stepX+lenX, offX+y2*stepY-lenY, altitude); // Bottom Left Of The Quad
+		gl.glVertex3f(offX+x2*stepX-lenX, offX+y2*stepY-lenY, altitude); // Bottom Right Of The Quad
+		gl.glVertex3f(offX+x2*stepX-lenX,offY+y2*stepY+lenY, altitude); // Top Right Of The Quad (Back)
+		gl.glVertex3f(offX+x2*stepX+lenX,offY+y2*stepY+lenY, altitude); // Top Left Of The Quad (Back)
 
-		gl.glVertex3f(offX+x2*stepX-lenX,offY+x2*stepY+lenY, altitude+4f); // Top Right Of The Quad (Left)
-		gl.glVertex3f(offX+x2*stepX-lenX,offY+x2*stepY+lenY, altitude); // Top Left Of The Quad (Left)
-		gl.glVertex3f(offX+x2*stepX-lenX, offX+x2*stepY-lenY, altitude); // Bottom Left Of The Quad
-		gl.glVertex3f(offX+x2*stepX-lenX, offX+x2*stepY-lenY, altitude+4f); // Bottom Right Of The Quad 
+		gl.glVertex3f(offX+x2*stepX-lenX,offY+y2*stepY+lenY, altitude+4f); // Top Right Of The Quad (Left)
+		gl.glVertex3f(offX+x2*stepX-lenX,offY+y2*stepY+lenY, altitude); // Top Left Of The Quad (Left)
+		gl.glVertex3f(offX+x2*stepX-lenX, offX+y2*stepY-lenY, altitude); // Bottom Left Of The Quad
+		gl.glVertex3f(offX+x2*stepX-lenX, offX+y2*stepY-lenY, altitude+4f); // Bottom Right Of The Quad 
 
-		gl.glVertex3f(offX+x2*stepX+lenX,offY+x2*stepY+lenY, altitude); // Top Right Of The Quad (Right)
-		gl.glVertex3f(offX+x2*stepX+lenX,offY+x2*stepY+lenY, altitude+4f); // Top Left Of The Quad
-		gl.glVertex3f(offX+x2*stepX+lenX, offX+x2*stepY-lenY, altitude+4f); // Bottom Left Of The Quad
-		gl.glVertex3f(offX+x2*stepX+lenX, offX+x2*stepY-lenY, altitude); // Bottom Right Of The Quad
+		gl.glVertex3f(offX+x2*stepX+lenX,offY+y2*stepY+lenY, altitude); // Top Right Of The Quad (Right)
+		gl.glVertex3f(offX+x2*stepX+lenX,offY+y2*stepY+lenY, altitude+4f); // Top Left Of The Quad
+		gl.glVertex3f(offX+x2*stepX+lenX, offX+y2*stepY-lenY, altitude+4f); // Bottom Left Of The Quad
+		gl.glVertex3f(offX+x2*stepX+lenX, offX+y2*stepY-lenY, altitude); // Bottom Right Of The Quad
 	}
 }

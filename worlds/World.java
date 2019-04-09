@@ -27,8 +27,6 @@ public abstract class World {
 	protected ArrayList<Aliment> alimentListe = new ArrayList<>();
 	protected ArrayList<Agent> agentListe = new ArrayList<>();
 	protected ArrayList<DynamicObject.Home> Home = new ArrayList<>();
-
-	
 	
 	protected ArrayList<MAgent> agentM = new ArrayList<>();
 	protected ArrayList<Zombie> zombie = new ArrayList<>();

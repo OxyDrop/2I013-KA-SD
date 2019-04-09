@@ -148,6 +148,19 @@ public class WorldOfTrees extends World {
 			LObjects.add(new Teleporteur(xportrand,yportrand,(int)(Math.random()*dxCA),(int)(Math.random()*dyCA),this));
 		}
 		/*------------------AJOUTS AGENTS ----------------------*/	
+		
+		for (int i = 0; i < POPINI*6; i++) 
+		{
+			int dxRand = 0;
+			int dyRand = 0;
+			do {
+				dxRand = (int) (Math.random() * dxCA);
+				dyRand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+			
+		agentListe.add(new Agent(dxRand, dyRand, this));
+		}
+		
 		for (int d = 97; d < 147; d++) 
 		{
 			for (int j = 112; j < 128; j++) 
@@ -162,17 +175,6 @@ public class WorldOfTrees extends World {
 				}
 			}
 		}
-		for (int i = 0; i < POPINI*6; i++) 
-		{
-			int dxRand = 0;
-			int dyRand = 0;
-			do {
-				dxRand = (int) (Math.random() * dxCA);
-				dyRand = (int) (Math.random() * dyCA);
-			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
-			
-		agentListe.add(new Agent(dxRand, dyRand, this));
-		}
 		for (int v = 0; v < POPINI; v++) 
 		{
 			int dxRand = 0;
@@ -184,7 +186,7 @@ public class WorldOfTrees extends World {
 
 		agentM.add(new MAgent(dxRand, dyRand, this));
 		}
-		/*for (int i = 0; i < POPINI; i++) 
+		for (int i = 0; i < POPINI; i++) 
 		{
 			int dxRand = 0;
 			int dyRand = 0;
@@ -194,7 +196,7 @@ public class WorldOfTrees extends World {
 			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
 
 		zombie.add(new Zombie(dxRand, dyRand, this));
-		}*/
+		}
 	}
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
 
