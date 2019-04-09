@@ -20,6 +20,14 @@ abstract public class UniqueDynamicObject // UniqueObject are object defined wit
 	}
 	
 	abstract public void step();
+	public boolean getEmplacementAgent(int i, int j) {
+		for(int k=0;k<world.getAgentListe().size();k++) {
+			if ( world.getAgentListe().get(k).getX()==i && world.getAgentListe().get(k).getY()==j) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public int[] getCoordinate()
 	{

@@ -145,7 +145,10 @@ public class Landscape implements GLEventListener{
 		fx=(float)dxView*(float)2;
 		fy=(float)dyView*(float)2;
 		fz = 350f;
-		r=g=b=a=1f;
+		r=0.5f;
+		g=0.8f;
+		b=1f;
+		a=1f;
 
 		System.out.println("Landscape contains " + dxView * dyView + " tiles. (" + dxView + "x" + dyView + ")");
 
@@ -556,14 +559,14 @@ public class Landscape implements GLEventListener{
 		
 		if(time>250)
 		{
-			r -= 0.001f;
-			g -= 0.0008f;
+			r -= 0.0005f;
+			g -= 0.0005f;
 			b -= 0.0005f;
 		}
 		if(time>2000)
 		{
-			r=1f;
-			g=1f;
+			r=0.5f;
+			g=0.8f;
 			b=1f;
 			time=0;
 		}

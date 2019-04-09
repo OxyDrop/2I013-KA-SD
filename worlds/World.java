@@ -5,11 +5,16 @@
 package worlds;
 
 import DynamicObject.Agent;
+import DynamicObject.BebeAgent;
+import DynamicObject.FAgent;
+import DynamicObject.MAgent;
 import DynamicObject.UniqueDynamicObject;
+import DynamicObject.Zombie;
 import cellularautomata.*;
 import java.util.ArrayList;
 import javax.media.opengl.GL2;
 import objects.*;
+import objects.Arbres.GrandArbre;
 import objects.Consommables.Aliment;
 
 public abstract class World {
@@ -20,7 +25,17 @@ public abstract class World {
 	protected ArrayList<UniqueDynamicObject> LDynamicObjects = new ArrayList<>();
 	protected ArrayList<Aliment> alimentListe = new ArrayList<>();
 	protected ArrayList<Agent> agentListe = new ArrayList<>();
-    
+	protected ArrayList<DynamicObject.Home> Home = new ArrayList<>();
+
+	
+	
+	protected ArrayList<MAgent> agentM = new ArrayList<>();
+	protected ArrayList<Zombie> zombie = new ArrayList<>();
+	protected ArrayList<BebeAgent> bebe = new ArrayList<>();
+	protected ArrayList<FAgent> fagent = new ArrayList<>();
+	protected ArrayList<DynamicObject.buisson> buisson = new ArrayList<>();
+	protected ArrayList<GrandArbre> arbreList = new ArrayList<>();
+
 	protected int dx;
 	protected int dy;
 
@@ -166,6 +181,15 @@ public abstract class World {
 	{
 		return agentListe;
 	}
+	public ArrayList<MAgent> getMAgentListe(){return agentM;}
+	public ArrayList<BebeAgent> getbebeAgentListe(){return bebe;}
+	public ArrayList<FAgent> getFAgentListe(){return fagent;}
+	public ArrayList<Zombie> getZombieListe(){return zombie;}
+	public ArrayList<DynamicObject.buisson> getBuissonListe(){return buisson;}
+	public ArrayList<GrandArbre> getArbreListe(){return arbreList;}
+	public ArrayList<DynamicObject.Home> getHome(){return Home;}
+
+
 	
 	abstract public void displayObjectAt(World _myWorld, GL2 gl, int cellState, int x,
 			int y, double height, float offset,
@@ -185,7 +209,29 @@ public abstract class World {
     		agentListe.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
 		
 		for ( int i = 0 ; i < alimentListe.size(); i++ )
-    		alimentListe.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+			alimentListe.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+	
+		for ( int i = 0 ; i < zombie.size(); i++ )
+    		zombie.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+			
+		for ( int i = 0 ; i < agentM.size(); i++ )
+    		agentM.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+		
+		for ( int i = 0 ; i < bebe.size(); i++ )
+    		bebe.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+		
+		for ( int i = 0 ; i < fagent.size(); i++ )
+    		fagent.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+		
+		for ( int i = 0 ; i < buisson.size(); i++ )
+    		buisson.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+		
+		for ( int i = 0 ; i < arbreList.size(); i++ )
+    		arbreList.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+		
+		for ( int i = 0 ; i < Home.size(); i++ )
+    		Home.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
+	
 	}
     
 	public int getWidth() { return dx; }

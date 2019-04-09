@@ -5,12 +5,17 @@
 package worlds;
 
 import DynamicObject.Agent;
+import DynamicObject.FAgent;
+import DynamicObject.Home;
+import DynamicObject.MAgent;
+import DynamicObject.Zombie;
 import cellularautomata.ForestCA;
 import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Arbres.GrandArbre;
 import objects.Arbres.Sapin;
 import objects.Arbres.Tree;
+import objects.Architect.Monolith;
 import objects.Architect.Portail;
 import objects.Architect.Teleporteur;
 import objects.Consommables.Herbe;
@@ -20,7 +25,7 @@ public class WorldOfTrees extends World {
 	
 	
     
-	private static final int POPINI=800;
+	private static final int POPINI=80;
 	private static final int NBMAXPORTAILS=2;
 	private static final int NBMAXTELEPORTEUR = 5;
 	private static final int NOTIFYITERATION = 100; //Used to display messages every number of iteration 
@@ -97,9 +102,13 @@ public class WorldOfTrees extends World {
 						ga.init();
     					LObjects.add(ga);
 					}
+					else if (Math.random() < 0.009)
+    				{
+    						DynamicObject.buisson b = new DynamicObject.buisson(i,j,this);
+        					buisson.add(b);
+    				}
 					else if(Math.random()<0.0005)
 					{
-						
 						Sapin sa = new Sapin(i,j,this);
 						sa.init();
     					LObjects.add(sa);
@@ -109,6 +118,11 @@ public class WorldOfTrees extends World {
 				}
 			}
 		 }
+		  /////////////////CONSTRUCTION//////////////////////
+		  
+		 LObjects.add(new Monolith(120,120,this));
+		 Home.add(new Home(115,122,this));
+		 
 		 /////////////////PORTAILS//////////////////////
 		 for(int port = 0 ; port <NBMAXPORTAILS ; port++)
 		 {
@@ -135,21 +149,58 @@ public class WorldOfTrees extends World {
 	
 			LObjects.add(new Teleporteur(xportrand,yportrand,(int)(Math.random()*dxCA),(int)(Math.random()*dyCA),this));
 		}
-		/*------------------AJOUTS AGENTS ----------------------*/
-		for(int i=0;i<POPINI;i++){
-			int dxRand=0;
-			int dyRand=0;
-			do{
-				dxRand = (int)(Math.random()*dxCA);
-				dyRand = (int)(Math.random()*dyCA);
-			}while(this.getCellHeight(dxRand, dyRand)<=0); //On s'assure que les agentListes ne soient pas generés sur l'eau
-			
-			agentListe.add(new Agent(dxRand, dyRand, this ));
+		/*------------------AJOUTS AGENTS ----------------------*/	
+		for (int d = 97; d < 147; d++) 
+		{
+			for (int j = 112; j < 128; j++) 
+			{
+				cellState = this.getCellValue(d, j);
+				if (cellState == 1) 
+				{
+					if (Math.random() < 0.04) 
+					{
+						fagent.add(new FAgent(d, j, this));
+					}
+				}
+			}
 		}
- 
+		for (int i = 0; i < POPINI*6; i++) 
+		{
+			int dxRand = 0;
+			int dyRand = 0;
+			do {
+				dxRand = (int) (Math.random() * dxCA);
+				dyRand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+			
+		agentListe.add(new Agent(dxRand, dyRand, this));
+		}
+		for (int v = 0; v < POPINI; v++) 
+		{
+			int dxRand = 0;
+			int dyRand = 0;
+			do {
+				dxRand = (int) (Math.random() * dxCA);
+				dyRand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+
+		agentM.add(new MAgent(dxRand, dyRand, this));
+		}
+		/*for (int i = 0; i < POPINI; i++) 
+		{
+			int dxRand = 0;
+			int dyRand = 0;
+			do {
+				dxRand = (int) (Math.random() * dxCA);
+				dyRand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+
+		zombie.add(new Zombie(dxRand, dyRand, this));
+		}*/
+	}
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
 
-	}
+	
     protected void initCellularAutomata(int dx, int dy, double[][] landscape)
     {
     	cellularAutomata = new ForestCA(this,dx,dy,HeightVal);
@@ -163,11 +214,11 @@ public class WorldOfTrees extends World {
     		cellularAutomata.step();
 		
 		//Met a jour les arbres : vielissement, repousse et perte des fruits//////
-			for(UniqueObject abr : LObjects) 
-				if(abr instanceof GrandArbre)
-					((GrandArbre)abr).step();
-				else if(abr instanceof Sapin)
-					((Sapin)abr).step();
+		for(UniqueObject abr : LObjects) 
+			if(abr instanceof GrandArbre)
+				((GrandArbre)abr).step();
+			else if(abr instanceof Sapin)
+				((Sapin)abr).step();
 		
 		//////////Fin de vie des arbres//////////////
 		for(Iterator<UniqueObject> it = LObjects.iterator(); it.hasNext();)
@@ -190,12 +241,15 @@ public class WorldOfTrees extends World {
 			} while (this.getCellHeight(xabrand, yabrand) <= 0);
 
 			switchabrsapin = !switchabrsapin;
-			if (switchabrsapin) {
+			if (switchabrsapin) 
+			{
 				GrandArbre gagrow = new GrandArbre(xabrand, yabrand, this);
 				gagrow.init();
 				LObjects.add(gagrow);
 				System.out.println("Un nouveau Grand Arbre à été ajouté en (" + xabrand + "," + yabrand + ")");
-			} else {
+			} 
+			else 
+			{
 				Sapin sagrow = new Sapin(xabrand, yabrand, this);
 				sagrow.init();
 				LObjects.add(sagrow);
@@ -212,7 +266,16 @@ public class WorldOfTrees extends World {
 	@Override
     protected void stepAgents()
     {
-    	// nothing to do.
+    	for(MAgent a1 : agentM)
+    		a1.step();
+    	for ( int i = 0 ; i < this.zombie.size() ; i++ ){this.zombie.get(i).step();}
+    	for ( int i = 0 ; i < this.fagent.size() ; i++ ){this.fagent.get(i).step();}
+    	for ( int i = 0 ; i < this.bebe.size() ; i++ ){this.bebe.get(i).step();}
+    	for ( int i = 0 ; i < this.buisson.size() ; i++ ){this.buisson.get(i).step();}
+    	for ( int i = 0 ; i < this.arbreList.size() ; i++ ){this.arbreList.get(i).step();}
+    	for ( int i = 0 ; i < this.arbreList.size() ; i++ ){this.arbreList.get(i).step();}
+    	for ( int i = 0 ; i < this.Home.size() ; i++ ){this.Home.get(i).step();}
+		
     	for (Agent a : agentListe)
 			a.step();
 		
