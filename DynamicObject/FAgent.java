@@ -3,6 +3,8 @@
 // date of creation: 2013-1-12
 package DynamicObject;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Arbres.GrandArbre;
 import worlds.World;
@@ -96,18 +98,19 @@ public class FAgent extends UniqueDynamicObject {
 
 	public void Decideaction() {
 
-        if (Math.random() < 0.2) // reproduction
-        {
-            action2 = 1;
-        } else if (Math.random() < 0) // recolte arbre
-        {
-            action2 = 2;
-        } else {
-            action2 = 0; //sinon, marche alÃ©atoire
-        }
-        var2 = false;
+		if (Math.random() < 0.2) // reproduction
+		{
+			action2 = 1;
+		} else if (Math.random() < 0) // recolte arbre
+		{
+			action2 = 2;
+		} else {
+			action2 = 0; //sinon, marche alÃ©atoire
+		}
+		var2 = false;
 
-    }
+	}
+
 	public int getBois() {
 
 		return this.Bois;
@@ -124,42 +127,42 @@ public class FAgent extends UniqueDynamicObject {
 
 	public boolean EnFeu() {
 
-		int dx = world.getWidth();
-		int dy = +world.getHeight();
+		int dx = world.getWidth() - 1;
+		int dy = world.getHeight() - 1;
 
 		if (world.getCellValue((x + dx) % dx, (y - 1 + dy) % dy) == 2 && Math.random() > 0) {
-			x = (x) % world.getWidth();
-			y = (y + 1) % world.getHeight();
+			x = (x) % dx;
+			y = (y + 1) % dy;
 			return false;
 		}
 		if (world.getCellValue((x - 1 + dx) % dx, (y - 1 + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x + 1) % world.getWidth();
-			y = (y + 1) % world.getHeight();
+			x = (x + 1) % dx;
+			y = (y + 1) % dy;
 			return false;
 
 		}
 		if (world.getCellValue((x + 1 + dx) % dx, (y - 1 + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x - 1) % world.getWidth();
-			y = (y + 1) % world.getHeight();
+			x = (x - 1) % dx;
+			y = (y + 1) % dy;
 			return false;
 
 		}
 
 		if (world.getCellValue((x - 1 + dx) % dx, (y + 1 + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x + 1) % world.getWidth();
-			y = (y - 1) % world.getHeight();
+			x = (x + 1) % dx;
+			y = (y - 1) % dy;
 			return false;
 
 		}
 		if (world.getCellValue((x - 1 + dx) % dx, (y + 1 + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x + 1) % world.getWidth();
-			y = (y - 1) % world.getHeight();
+			x = (x + 1) % dx;
+			y = (y - 1) % dy;
 			return false;
 
 		}
 		if (world.getCellValue((x + 1 + dx) % dx, (y + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x - 1) % world.getWidth();
-			y = (y) % world.getHeight();
+			x = (x - 1) % dx;
+			y = (y) % dy;
 			return false;
 
 		}
@@ -181,14 +184,13 @@ public class FAgent extends UniqueDynamicObject {
 
 	public void recoltebois() {
 
-		for (int i = 0; i < world.getArbreListe().size(); i++) {
+		for (Iterator<GrandArbre> it = world.getArbreList().iterator(); it.hasNext();) {
+			GrandArbre ga = it.next();
+			if (x == ga.getX() && y == ga.getY()) {
 
-			if (x == world.getArbreListe().get(i).getX() && y == world.getArbreListe().get(i).getY()) {
-
-				world.getArbreListe().remove(i);
+				it.remove();
 				Bois = Bois + 10;
 				var2 = true;
-
 			}
 		}
 
@@ -214,128 +216,134 @@ public class FAgent extends UniqueDynamicObject {
 
 	public void Fuite(int i, int j) {
 
+		int dx = world.getWidth() - 1;
+		int dy = world.getHeight() - 1;
+
 		if (i > this.x && j > this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 		}
 		if (i == this.x && j > this.y) {
 
-			this.y = (this.y - 1) % world.getHeight();
+			this.y = (this.y - 1) % dy;
 
 			if (Math.random() < 0.4) {
-				this.x = (this.x - 1) % world.getWidth();
+				this.x = (this.x - 1) % dx;
 			} else if (Math.random() < 0.2) {
-				this.x = (this.x + 1) % world.getWidth();
+				this.x = (this.x + 1) % dx;
 			}
 		}
 		if (i > this.x && j == this.y) {
 
-			this.x = (this.x - 1) % this.world.getWidth();
+			this.x = (this.x - 1) % dx;
 			if (Math.random() < 0.3) {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			} else if (Math.random() < 0.3) {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 		if (i < this.x && j > this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 		}
 		if (i < this.x && j == this.y) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 
 			if (Math.random() < 0.3) {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dx;
 			} else if (Math.random() < 0.3) {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 
 		}
 		if (i < this.x && j < this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 		if (i == this.x && j < this.y) {
-			this.y = (this.y + 1) % world.getHeight();
+			this.y = (this.y + 1) % dy;
 			if (Math.random() < 0.3) {
-				this.x = (this.x - 1) % world.getWidth();
+				this.x = (this.x - 1) % dx;
 			} else if (Math.random() < 0.3) {
-				this.x = (this.x + 1) % world.getWidth();
+				this.x = (this.x + 1) % dx;
 			}
 		}
 		if (i > this.x && j < this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 
 	}
 
 	public void FuiteFZ() {
-		if (world.getZombieListe().size() > 0) {
-			Fuite(world.getZombieListe().get(ZombiePlusProche()).getX(), world.getZombieListe().get(ZombiePlusProche()).getY());
+		ArrayList<Zombie> zl = world.getZombieListe();
+		if (zl.size() > 0) {
+			Fuite(zl.get(ZombiePlusProche()).getX(), zl.get(ZombiePlusProche()).getY());
 
 		}
-
 	}
 
 	public void Goto(int i, int j) {
+
+		int dx = world.getWidth() - 1;
+		int dy = world.getHeight() - 1;
 		if (i > this.x && j > this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 		if (i == this.x && j > this.y) {
-			this.y = (this.y + 1) % world.getHeight();
+			this.y = (this.y + 1) % dy;
 		}
 		if (i > this.x && j == this.y) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		}
 		if (i < this.x && j > this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 
 		}
 		if (i < this.x && j == this.y) {
-			this.x = (this.x - 1) % this.world.getWidth();
+			this.x = (this.x - 1) % dx;
 		}
 		if (i < this.x && j < this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 		}
 		if (i == this.x && j < this.y) {
-			this.y = (this.y - 1) % world.getHeight();
+			this.y = (this.y - 1) % dy;
 		}
 		if (i > this.x && j < this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 		}
 
@@ -495,14 +503,16 @@ public class FAgent extends UniqueDynamicObject {
 	public void randomstep() {
 		var2 = true;
 		double dice = Math.random();
+		int dx = world.getWidth() - 1;
+		int dy = world.getHeight() - 1;
 		if (dice < 0.25) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		} else if (dice < 0.5) {
-			this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+			this.x = (this.x - 1 + dx) % dx;
 		} else if (dice < 0.75) {
-			this.y = (this.y + 1) % this.world.getHeight();
+			this.y = (this.y + 1) % dy;
 		} else {
-			this.y = (this.y - 1 + this.world.getHeight()) % this.world.getHeight();
+			this.y = (this.y - 1 + dy) % dy;
 		}
 	}
 

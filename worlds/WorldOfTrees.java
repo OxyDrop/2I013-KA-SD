@@ -292,9 +292,19 @@ public class WorldOfTrees extends World {
 		
 		for(UniqueObject portal : LObjects)
 			if(portal instanceof Portail)
+			{
 				((Portail) portal).passePortail(agentListe);
+				((Portail) portal).passePortailM(agentM);
+				((Portail) portal).passePortailF(fagent);
+				((Portail) portal).passePortailZ(zombie);
+			}
 			else if(portal instanceof Teleporteur)
+			{
 				((Teleporteur)portal).passeTeleporteur(agentListe);
+				((Teleporteur)portal).passeTeleporteurM(agentM);
+				((Teleporteur)portal).passeTeleporteurF(fagent);
+				((Teleporteur)portal).passeTeleporteurZ(zombie);
+			}
 		
 		if(iteration%NOTIFYITERATION==0)
 			System.out.println("Nombre agent = "+agentListe.size());

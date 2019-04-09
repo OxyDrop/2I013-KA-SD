@@ -116,11 +116,12 @@ public class Zombie extends UniqueDynamicObject {
 
 	}
 
-	public void Contamination(MAgent a) {
+	public void Contamination(MAgent a) 
+	{
 
 		if (world.getMAgentListe().size() > 0) {
 
-			world.getFAgentListe().remove(a);
+			world.getMAgentListe().remove(a);
 			world.getZombieListe().add(new Zombie(a.getX(), a.getY(), world));
 			chassef = false;
 
@@ -128,20 +129,18 @@ public class Zombie extends UniqueDynamicObject {
 
 	}
 
-	public void Contamination(FAgent f) {
+	public void Contamination(FAgent f) 
+	{
 
-		if (world.getFAgentListe().size() > 0) {
-			for (FAgent f2 : world.getFAgentListe()) {
-				if (f == f2) {
-					world.getFAgentListe().remove(f2);
-					world.getZombieListe().add(new Zombie(f2.getX(), f2.getY(), world));
-					chassef = false;
+		if (world.getFAgentListe().size() > 0) 
+		{
+			world.getFAgentListe().remove(f);
+			world.getZombieListe().add(new Zombie(f.getX(), f.getY(), world));
+				chassef = false;
 
-				}
 			}
-		}
-
 	}
+		
 
 	public void fuiteZ() {
 
@@ -155,11 +154,62 @@ public class Zombie extends UniqueDynamicObject {
 
 	}
 
-	public void Fuite(int i, int j) {
+	public void Fuite(int i, int j) 
+	{
+		int dx=world.getWidth()-1;
+		int dy=world.getHeight()-1;
+		if (i > this.x && j > this.y) {
+			if (Math.random() < 0.5) {
+				this.x = (this.x - 1 + dx) % dx;
+			} else {
+				this.y = (this.y - 1 + dy) % dy;
+			}
+		}
+		if (i == this.x && j > this.y) {
+			this.y = (this.y - 1 + dy) % dy;
+		}
+		if (i > this.x && j == this.y) {
+			this.x = (this.x - 1 + dx) % dx;
+		}
+		if (i < this.x && j > this.y) {
+			if (Math.random() < 0.5) {
+				this.x = (this.x + 1) % dx;
+
+			} else {
+				this.y = (this.y - 1 + dy) % dy;
+			}
+
+		}
+		if (i < this.x && j == this.y) {
+			this.x = (this.x + 1) % dx;
+		}
+		if (i < this.x && j < this.y) {
+			if (Math.random() < 0.5) {
+				this.x = (this.x + 1) % dx;
+
+			} else {
+				this.y = (this.y + 1) % dy;
+			}
+		}
+		if (i == this.x && j < this.y) {
+			this.y = (this.y + 1) % dy;
+		}
+		if (i > this.x && j < this.y) {
+			if (Math.random() < 0.5) {
+				this.x = (this.x - 1 + dx) % dx;
+
+			} else {
+				this.y = (this.y + 1) % dy;
+			}
+		}
+
+	}
+
+	/**public void Combat() {public void Fuite(int i, int j) {
 
 		if (i > this.x && j > this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+				this.x = (this.x - 1 + dx) % dx;
 			} else {
 				this.y = (this.y - 1 + world.getHeight()) % world.getHeight();
 			}
@@ -168,11 +218,11 @@ public class Zombie extends UniqueDynamicObject {
 			this.y = (this.y - 1 + world.getHeight()) % world.getHeight();
 		}
 		if (i > this.x && j == this.y) {
-			this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+			this.x = (this.x - 1 + dx) % dx;
 		}
 		if (i < this.x && j > this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
 				this.y = (this.y - 1 + world.getHeight()) % world.getHeight();
@@ -180,11 +230,11 @@ public class Zombie extends UniqueDynamicObject {
 
 		}
 		if (i < this.x && j == this.y) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		}
 		if (i < this.x && j < this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
 				this.y = (this.y + 1) % world.getHeight();
@@ -195,7 +245,7 @@ public class Zombie extends UniqueDynamicObject {
 		}
 		if (i > this.x && j < this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+				this.x = (this.x - 1 + dx) % dx;
 
 			} else {
 				this.y = (this.y + 1) % world.getHeight();
@@ -203,8 +253,6 @@ public class Zombie extends UniqueDynamicObject {
 		}
 
 	}
-
-	/*public void Combat() {
 		
 		
 		for(int i=0;i<world.getAgentListe().size();i++) {
@@ -262,49 +310,52 @@ public class Zombie extends UniqueDynamicObject {
 
 	}
 
-	public void Goto(int i, int j) {
+	public void Goto(int i, int j) 
+	{
+		int dx=world.getWidth()-1;
+		int dy=world.getHeight()-1;
 		if (i > this.x && j > this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 		if (i == this.x && j > this.y) {
-			this.y = (this.y + 1) % world.getHeight();
+			this.y = (this.y + 1) % dy;
 		}
 		if (i > this.x && j == this.y) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		}
 		if (i < this.x && j > this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+				this.x = (this.x - 1 + dx) % dx;
 
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 
 		}
 		if (i < this.x && j == this.y) {
-			this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+			this.x = (this.x - 1 + dx) % dx;
 		}
 		if (i < this.x && j < this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+				this.x = (this.x - 1 + dx) % dx;
 
 			} else {
-				this.y = (this.y - 1 + world.getHeight()) % world.getHeight();
+				this.y = (this.y - 1 + dy ) % dy;
 			}
 		}
 		if (i == this.x && j < this.y) {
-			this.y = (this.y - 1 + world.getHeight()) % world.getHeight();
+			this.y = (this.y - 1 + dy) % dy;
 		}
 		if (i > this.x && j < this.y) {
 			if (Math.random() < 0.5) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
-				this.y = (this.y - 1 + world.getHeight()) % world.getHeight();
+				this.y = (this.y - 1 + dy) % dy ;
 			}
 		}
 
@@ -454,21 +505,24 @@ public void chasseZ() {
 		return false;
 	}
 
-	public void move() {
+	public void move()
+	{
+		int dx=world.getWidth()-1;
+		int dy=world.getHeight()-1;
 		if (move == 0) {
-			this.y = (this.y - 1 + this.world.getHeight()) % this.world.getHeight();
+			this.y = (this.y - 1 + dy) % dy;
 
 		}
 		if (move == 1) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 
 		}
 		if (move == 2) {
-			this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+			this.x = (this.x - 1 + dx) % dx;
 
 		}
 		if (move == 3) {
-			this.y = (this.y + 1) % this.world.getHeight();
+			this.y = (this.y + 1) % dy;
 		}
 	}
 
@@ -588,14 +642,16 @@ public void chasseZ() {
 
 	public void randomstep() {
 		double dice = Math.random();
+		int dx=world.getWidth()-1;
+		int dy=world.getHeight()-1;
 		if (dice < 0.25) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		} else if (dice < 0.5) {
-			this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+			this.x = (this.x - 1 + dx) % dx;
 		} else if (dice < 0.75) {
-			this.y = (this.y + 1) % this.world.getHeight();
+			this.y = (this.y + 1) % dy;
 		} else {
-			this.y = (this.y - 1 + this.world.getHeight()) % this.world.getHeight();
+			this.y = (this.y - 1 + dy) % dy;
 		}
 	}
 
@@ -605,9 +661,9 @@ public void chasseZ() {
 		// display a monolith
 		//gl.glColor3f(0.f+(float)(0.5*Math.random()),0.f+(float)(0.5*Math.random()),0.f+(float)(0.5*Math.random()));
 		if (vie > 0) {
-			int x2 = (x - (offsetCA_x % myWorld.getWidth()));
+			int x2 = (x - (offsetCA_x % world.getWidth()));
 			if (x2 < 0) {
-				x2 += myWorld.getWidth();
+				x2 += world.getWidth();
 			}
 			int y2 = (y - (offsetCA_y % myWorld.getHeight()));
 			if (y2 < 0) {

@@ -9,7 +9,7 @@ import com.jogamp.newt.event.KeyListener;
  */
 public class KeyInput implements KeyListener {
 
-	private static boolean[] keys = new boolean[256];
+	private static final boolean[] keys = new boolean[256];
 
 	@Override
 	public void keyPressed(KeyEvent e) 

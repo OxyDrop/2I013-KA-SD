@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class PlayerInput implements KeyListener, MouseListener, MouseWheelListener { //Ajouter les actions de landscape ici
 
-		private Landscape land;
+		private final Landscape land;
 		public PlayerInput(Landscape land)
 		{
 			this.land=land;
@@ -148,7 +148,13 @@ public class PlayerInput implements KeyListener, MouseListener, MouseWheelListen
 		    switch (mouse.getButton()) 
 			{
 		      case MouseEvent.BUTTON1:
-		        land.setRotationVelocity(land.getRotationVelocity()+0.1f);
+				  if (mouse.getClickCount() == 2 && !mouse.isConsumed()) 
+				{
+					land.setRotationVelocity(0f);
+					mouse.consume();
+				}
+		        if(!mouse.isConsumed())
+					land.setRotationVelocity(land.getRotationVelocity()+0.2f);
 		        break;
 				
 		      case MouseEvent.BUTTON2:break;
@@ -159,7 +165,8 @@ public class PlayerInput implements KeyListener, MouseListener, MouseWheelListen
 					Landscape.setVIEW_FROM_ABOVE(!Landscape.isVIEW_FROM_ABOVE()) ;
 					mouse.consume();
 				}
-				land.setRotationVelocity(0f);
+				 if(!mouse.isConsumed())
+					 land.setRotationVelocity(land.getRotationVelocity()-0.2f);
 		        break;
 		    }
 		    /**/

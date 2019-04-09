@@ -14,9 +14,9 @@ import javax.swing.ImageIcon;
  
 public class ImageResources {
      
-    private int width;
-    private int height;
-    private ByteBuffer buffer;
+    private final int width;
+    private final int height;
+    private final ByteBuffer buffer;
      
     public ImageResources(ByteBuffer buffer, int width, int height){
         this.buffer = buffer;

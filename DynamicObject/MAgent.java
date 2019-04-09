@@ -11,7 +11,7 @@ public class MAgent extends UniqueDynamicObject {
 
 	public int Bois = 0;
 	public int vie = 100;
-	public int attaque = (int) Math.random() * 20;
+	public int attaque = (int) (Math.random() * 20);
 	public boolean arme = false;
 	public int energie = 20;
 	public boolean endanger = false;
@@ -34,6 +34,8 @@ public class MAgent extends UniqueDynamicObject {
 	public boolean eat = false;
 	public boolean swim = false;
 	public boolean burn = false;
+	private final int dx=world.getWidth();
+	private final int dy=world.getHeight();
 
 	public void step() {
 		UdpadeAtck();
@@ -157,13 +159,13 @@ public class MAgent extends UniqueDynamicObject {
 
 		double dice = Math.random();
 		if (dice < 0.25) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		} else if (dice < 0.5) {
-			this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+			this.x = (this.x - 1 + dx) % dx;
 		} else if (dice < 0.75) {
-			this.y = (this.y + 1) % this.world.getHeight();
+			this.y = (this.y + 1) % dy;
 		} else {
-			this.y = (this.y - 1 + this.world.getHeight()) % this.world.getHeight();
+			this.y = (this.y - 1 + dy) % dy;
 		}
 	}
 
@@ -238,42 +240,39 @@ public class MAgent extends UniqueDynamicObject {
 
 	public boolean EnFeu() {
 
-		int dx = world.getWidth();
-		int dy = +world.getHeight();
-
 		if (world.getCellValue((x + dx) % dx, (y - 1 + dy) % dy) == 2 && Math.random() > 0) {
-			x = (x) % world.getWidth();
-			y = (y + 1) % world.getHeight();
+			x = (x) % dx;
+			y = (y + 1) % dy;
 			return false;
 		}
 		if (world.getCellValue((x - 1 + dx) % dx, (y - 1 + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x + 1) % world.getWidth();
-			y = (y + 1) % world.getHeight();
+			x = (x + 1) % dx;
+			y = (y + 1) % dy;
 			return false;
 
 		}
 		if (world.getCellValue((x + 1 + dx) % dx, (y - 1 + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x - 1) % world.getWidth();
-			y = (y + 1) % world.getHeight();
+			x = (x - 1) % dx;
+			y = (y + 1) % dy;
 			return false;
 
 		}
 
 		if (world.getCellValue((x - 1 + dx) % dx, (y + 1 + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x + 1) % world.getWidth();
-			y = (y - 1) % world.getHeight();
+			x = (x + 1) % dx;
+			y = (y - 1) % dy;
 			return false;
 
 		}
 		if (world.getCellValue((x - 1 + dx) % dx, (y + 1 + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x + 1) % world.getWidth();
-			y = (y - 1) % world.getHeight();
+			x = (x + 1) % dx;
+			y = (y - 1) % dy;
 			return false;
 
 		}
 		if (world.getCellValue((x + 1 + dx) % dx, (y + dy) % dy) == 2 && Math.random() < 0) {
-			x = (x - 1) % world.getWidth();
-			y = (y) % world.getHeight();
+			x = (x - 1) % dx;
+			y = (y) % dy;
 			return false;
 
 		}
@@ -307,74 +306,74 @@ public class MAgent extends UniqueDynamicObject {
 
 		if (this.energie > 0) {
 
-			energie = energie - (int) Math.random() * 3;
+			energie = (int) (energie - Math.random() * 3);
 
 			if (i > this.x && j > this.y) {
 				if (Math.random() < 0.4) {
-					this.x = (this.x - 1) % this.world.getWidth();
+					this.x = (this.x - 1) % dx;
 				} else {
-					this.y = (this.y - 1) % world.getHeight();
+					this.y = (this.y - 1) % dy;
 				}
 			}
 			if (i == this.x && j > this.y) {
 
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 
 				if (Math.random() < 0.4) {
-					this.x = (this.x - 1) % world.getWidth();
+					this.x = (this.x - 1) % dx;
 				} else if (Math.random() < 0.2) {
-					this.x = (this.x + 1) % world.getWidth();
+					this.x = (this.x + 1) % dx;
 				}
 			}
 			if (i > this.x && j == this.y) {
 
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 				if (Math.random() < 0.3) {
-					this.y = (this.y - 1) % world.getHeight();
+					this.y = (this.y - 1) % dy;
 				} else if (Math.random() < 0.3) {
-					this.y = (this.y + 1) % world.getHeight();
+					this.y = (this.y + 1) % dy;
 				}
 			}
 			if (i < this.x && j > this.y) {
 				if (Math.random() < 0.4) {
-					this.x = (this.x + 1) % this.world.getWidth();
+					this.x = (this.x + 1) % dx;
 
 				} else {
-					this.y = (this.y - 1) % world.getHeight();
+					this.y = (this.y - 1) % dy;
 				}
 			}
 			if (i < this.x && j == this.y) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 				if (Math.random() < 0.3) {
-					this.y = (this.y - 1) % world.getHeight();
+					this.y = (this.y - 1) % dy;
 				} else if (Math.random() < 0.3) {
-					this.y = (this.y + 1) % world.getHeight();
+					this.y = (this.y + 1) % dy;
 				}
 
 			}
 			if (i < this.x && j < this.y) {
 				if (Math.random() < 0.4) {
-					this.x = (this.x + 1) % this.world.getWidth();
+					this.x = (this.x + 1) % dx;
 
 				} else {
-					this.y = (this.y + 1) % world.getHeight();
+					this.y = (this.y + 1) % dy;
 				}
 			}
 			if (i == this.x && j < this.y) {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 				if (Math.random() < 0.3) {
-					this.x = (this.x - 1) % world.getWidth();
+					this.x = (this.x - 1) % dx;
 				} else if (Math.random() < 0.3) {
-					this.x = (this.x + 1) % world.getWidth();
+					this.x = (this.x + 1) % dx;
 				}
 			}
 			if (i > this.x && j < this.y) {
 				if (Math.random() < 0.4) {
-					this.x = (this.x - 1) % this.world.getWidth();
+					this.x = (this.x - 1) % dx;
 
 				} else {
-					this.y = (this.y + 1) % world.getHeight();
+					this.y = (this.y + 1) % dy;
 				}
 			}
 		} else {
@@ -446,45 +445,45 @@ public class MAgent extends UniqueDynamicObject {
 
 		if (i > this.x && j > this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 		if (i == this.x && j > this.y) {
-			this.y = (this.y + 1) % world.getHeight();
+			this.y = (this.y + 1) % dy;
 		}
 		if (i > this.x && j == this.y) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		}
 		if (i < this.x && j > this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 		if (i < this.x && j == this.y) {
-			this.x = (this.x - 1) % this.world.getWidth();
+			this.x = (this.x - 1) % dx;
 		}
 		if (i < this.x && j < this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 		}
 		if (i == this.x && j < this.y) {
-			this.y = (this.y - 1) % world.getHeight();
+			this.y = (this.y - 1) % dy;
 		}
 		if (i > this.x && j < this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 
 		}
@@ -632,24 +631,25 @@ public class MAgent extends UniqueDynamicObject {
 
 	public void eatbaie() {
 
-		buisson cible = world.getBuissonListe().get(BaiePlusProche());
+		if (world.getBuissonListe().size()>0) {
+			buisson cible = world.getBuissonListe().get(BaiePlusProche());
 
-		if (cible.getnbBaie() != 0) {
+			if (cible.getnbBaie() != 0) {
 
-			if (distanceTo(this, cible) < 50 && cible != null) {
-				Goto(cible.getX(), cible.getY());
-				if (x == cible.getX() && y == cible.getY()) {
-					eat = false;
+				if (distanceTo(this, cible) < 50 && cible != null) {
+					Goto(cible.getX(), cible.getY());
+					if (x == cible.getX() && y == cible.getY()) {
+						eat = false;
 
-					faim = faim - cible.getnbBaie();
-					cible.a = true;
-					cible.it = world.getIteration();
+						faim = faim - cible.getnbBaie();
+						cible.a = true;
+						cible.it = world.getIteration();
+					}
 				}
+			} else {
+				eat = false;
 			}
-		} else {
-			eat = false;
 		}
-
 	}
 
 	public void Gohorsvision() {
@@ -676,16 +676,17 @@ public class MAgent extends UniqueDynamicObject {
 		return new MAgent(x, y, world);
 	}
 
-	public double distanceTo(MAgent a, UniqueDynamicObject a2) {
-		return Math.sqrt(Math.pow(a.x - a2.getX() + this.world.getWidth() % this.world.getWidth(), 2) + Math.pow(a.y - a2.getY() + this.world.getHeight() % this.world.getHeight(), 2));
+	public double distanceTo(MAgent a, UniqueDynamicObject a2) 
+	{
+		return Math.sqrt(Math.pow(a.x - a2.getX() + dx % dx, 2) + Math.pow(a.y - a2.getY() + dy % dy, 2));
 	}
 
 	public double distanceTo(MAgent a, GrandArbre grandArbre) {
-		return Math.sqrt(Math.pow(a.x - grandArbre.getX() + this.world.getWidth() % this.world.getWidth(), 2) + Math.pow(a.y - grandArbre.getY() + this.world.getHeight() % this.world.getHeight(), 2));
+		return Math.sqrt(Math.pow(a.x - grandArbre.getX() + dx % dx, 2) + Math.pow(a.y - grandArbre.getY() + dy % dy, 2));
 	}
 
 	public double distanceTo(Zombie a, UniqueDynamicObject a2) {
-		return Math.sqrt(Math.pow(a.getX() - a2.getX() + this.world.getWidth() % this.world.getWidth(), 2) + Math.pow(a.getY() - a2.getY() + this.world.getHeight() % this.world.getHeight(), 2));
+		return Math.sqrt(Math.pow(a.getX() - a2.getX() + dx % dx, 2) + Math.pow(a.getY() - a2.getY() + dy % dy, 2));
 	}
 
 	public int getVie() {

@@ -186,14 +186,39 @@ public class DarkWorld extends World {
 	@Override
     protected void stepAgents()
     {
+		
+		for(MAgent a1 : agentM)
+    		a1.step();
+    	for (int i = 0; i < this.zombie.size(); i++) {
+			this.zombie.get(i).step();
+		}
+		for (int i = 0; i < this.fagent.size(); i++) {
+			this.fagent.get(i).step();
+		}
+		for (int i = 0; i < this.bebe.size(); i++) {
+			this.bebe.get(i).step();
+		}
+		for (int i = 0; i < this.buisson.size(); i++) {
+			this.buisson.get(i).step();
+		}
+		for (int i = 0; i < this.arbreList.size(); i++) {
+			this.arbreList.get(i).step();
+		}
+		for (int i = 0; i < this.Home.size(); i++) {
+			this.Home.get(i).step();
+		}
+		
     	for (Agent a : agentListe)
 			a.step();
 		
 		for(UniqueObject portal : LObjects)
-			if(portal instanceof Portail)
-				((Portail) portal).passePortail(agentListe);
-			else if(portal instanceof Teleporteur)
+			if(portal instanceof Teleporteur)
+			{
 				((Teleporteur)portal).passeTeleporteur(agentListe);
+				((Teleporteur)portal).passeTeleporteurM(agentM);
+				((Teleporteur)portal).passeTeleporteurF(fagent);
+				((Teleporteur)portal).passeTeleporteurZ(zombie);
+			}
 		
 		if(iteration%NOTIFYITERATION==0)
 			System.out.println("Nombre agent = "+agentListe.size());

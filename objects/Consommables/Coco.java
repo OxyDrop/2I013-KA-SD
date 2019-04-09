@@ -11,13 +11,13 @@ import worlds.World;
  * @author Serero
  */
 public class Coco extends Aliment implements Eliminable{
-	private boolean isConsommable;
-	private int vie;
+	private final boolean isConsommable;
+	private final int vie;
 	private int age;
 	private double pdrop;
 	
-	private static GLU glu = new GLU();
-	private static GLUT glut = new GLUT();
+	private static final GLU glu = new GLU();
+	private static final GLUT glut = new GLUT();
 	
 	public Coco(int x, int y, World world)
 	{	

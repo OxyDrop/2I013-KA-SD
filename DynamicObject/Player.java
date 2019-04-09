@@ -18,11 +18,11 @@ import worlds.World;
  * Agent deplaçable par l'utilisateur
  */
 public class Player extends Agent implements GLEventListener {
-	private static GLU glu = new GLU();
-	private float angle = 0.0f;
+	private static final GLU glu = new GLU();
+	private final float angle = 0.0f;
 	public static DisplayMode dm, dm_old;
  
-   private float runSpeed = 2.0f;
+   private final float runSpeed = 2.0f;
    private int texture;
    
 	public Player(int x, int y, World world) {

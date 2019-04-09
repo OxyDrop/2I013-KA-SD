@@ -269,7 +269,9 @@ public class Landscape implements GLEventListener{
 			canvas.getActionMap().put("Left", new LeftAction(landscape[i]));
 			
 			canvas.requestFocus();
+					
 			canvas.setAnimator(animator);
+			//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
 			canvas.getAnimator().start();
 			
 			worldPanel.add(canvas);
@@ -292,8 +294,6 @@ public class Landscape implements GLEventListener{
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		frame.setVisible(true);
-		//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
-		//animator.start();
 
 		return landscape;
 	}
@@ -326,8 +326,8 @@ public class Landscape implements GLEventListener{
 			canvas.addMouseWheelListener(play);
 			
 			canvas.setAnimator(animator);
+			//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK
 			canvas.getAnimator().start();
-			
 			worldPanel.add(canvas);
 			
 			switch(i)
@@ -348,11 +348,7 @@ public class Landscape implements GLEventListener{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		frame.setVisible(true);
-		//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
-		//animator.start();
-		//frame.setAlwaysOnTop(true);
-		//frame.toFront();
-
+	
 		return landscape;
 	}
 	

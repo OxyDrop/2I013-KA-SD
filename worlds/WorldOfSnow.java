@@ -21,7 +21,7 @@ public class WorldOfSnow extends World {
 	
 	
     
-	private static final int POPINI				=500;
+	private static final int POPINI				=80;
 	private static final int NBMAXPORTAILS		=3;
 	private static final int NBMAXTELEPORTEUR	= 5;
 	private static final int NOTIFYITERATION	= 100; 
@@ -223,15 +223,45 @@ public class WorldOfSnow extends World {
 	@Override
     protected void stepAgents()
     {
+		for(MAgent a1 : agentM)
+    		a1.step();
+    	for (int i = 0; i < this.zombie.size(); i++) {
+			this.zombie.get(i).step();
+		}
+		for (int i = 0; i < this.fagent.size(); i++) {
+			this.fagent.get(i).step();
+		}
+		for (int i = 0; i < this.bebe.size(); i++) {
+			this.bebe.get(i).step();
+		}
+		for (int i = 0; i < this.buisson.size(); i++) {
+			this.buisson.get(i).step();
+		}
+		for (int i = 0; i < this.arbreList.size(); i++) {
+			this.arbreList.get(i).step();
+		}
+		for (int i = 0; i < this.Home.size(); i++) {
+			this.Home.get(i).step();
+		}
+		
     	for (Agent a : agentListe)
 			a.step();
 		
-		for(UniqueObject portal : LObjects)
+	for(UniqueObject portal : LObjects)
 			if(portal instanceof Portail)
+			{
 				((Portail) portal).passePortail(agentListe);
+				((Portail) portal).passePortailM(agentM);
+				((Portail) portal).passePortailF(fagent);
+				((Portail) portal).passePortailZ(zombie);
+			}
 			else if(portal instanceof Teleporteur)
+			{
 				((Teleporteur)portal).passeTeleporteur(agentListe);
-		
+				((Teleporteur)portal).passeTeleporteurM(agentM);
+				((Teleporteur)portal).passeTeleporteurF(fagent);
+				((Teleporteur)portal).passeTeleporteurZ(zombie);
+			}
 		if(iteration%NOTIFYITERATION==0)
 			System.out.println("Nombre agent = "+agentListe.size());
     }

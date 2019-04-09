@@ -1,6 +1,9 @@
 package objects.Architect;
 
 import DynamicObject.Agent;
+import DynamicObject.FAgent;
+import DynamicObject.MAgent;
+import DynamicObject.Zombie;
 import java.util.ArrayList;
 import javax.media.opengl.GL2;
 import objects.UniqueObject;
@@ -16,7 +19,7 @@ public class Teleporteur extends UniqueObject{ //Lie deux mondes entre eux;
 	private final int xdest;
 	private final int ydest;
 	private static int cpt = 0;
-	private int id;
+	private final int id;
 	
 	public Teleporteur(int x, int y, int xdest, int ydest, World world) 
 	{
@@ -31,6 +34,21 @@ public class Teleporteur extends UniqueObject{ //Lie deux mondes entre eux;
 		return (Math.sqrt(Math.pow( a.getX() - x , 2 ) + Math.pow( a.getY() - y , 2 )) <= DISTANCEMIN);
 		
 	}
+	public boolean distanceSuffisante(MAgent a)
+	{
+		return (Math.sqrt(Math.pow( a.getX() - x , 2 ) + Math.pow( a.getY() - y , 2 )) <= DISTANCEMIN);
+		
+	}
+	public boolean distanceSuffisante(FAgent a)
+	{
+		return (Math.sqrt(Math.pow( a.getX() - x , 2 ) + Math.pow( a.getY() - y , 2 )) <= DISTANCEMIN);
+		
+	}
+	public boolean distanceSuffisante(Zombie a)
+	{
+		return (Math.sqrt(Math.pow( a.getX() - x , 2 ) + Math.pow( a.getY() - y , 2 )) <= DISTANCEMIN);
+		
+	}
 	
 	public void passeTeleporteur(ArrayList<Agent> agentList)
 	{	
@@ -40,6 +58,39 @@ public class Teleporteur extends UniqueObject{ //Lie deux mondes entre eux;
 				a.setX(xdest);
 				a.setY(ydest);
 				System.out.println("Un agent a emprunté le teleporteur " +id
+					+ " en (" + x + "," + y + ") menant à ("+xdest+","+ydest+")");
+			}
+	}
+	public void passeTeleporteurM(ArrayList<MAgent> agentList)
+	{	
+		for(MAgent a : agentList)
+			if (distanceSuffisante(a)) 
+			{
+				a.setX(xdest);
+				a.setY(ydest);
+				System.out.println("Un Magent a emprunté le teleporteur " +id
+					+ " en (" + x + "," + y + ") menant à ("+xdest+","+ydest+")");
+			}
+	}
+	public void passeTeleporteurF(ArrayList<FAgent> agentList)
+	{	
+		for(FAgent a : agentList)
+			if (distanceSuffisante(a)) 
+			{
+				a.setX(xdest);
+				a.setY(ydest);
+				System.out.println("Un FAgent a emprunté le teleporteur " +id
+					+ " en (" + x + "," + y + ") menant à ("+xdest+","+ydest+")");
+			}
+	}
+	public void passeTeleporteurZ(ArrayList<Zombie> agentList)
+	{	
+		for(Zombie a : agentList)
+			if (distanceSuffisante(a)) 
+			{
+				a.setX(xdest);
+				a.setY(ydest);
+				System.out.println("Un zombie a emprunté le teleporteur " +id
 					+ " en (" + x + "," + y + ") menant à ("+xdest+","+ydest+")");
 			}
 	}

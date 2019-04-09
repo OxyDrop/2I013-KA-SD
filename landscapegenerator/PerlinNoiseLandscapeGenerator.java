@@ -13,8 +13,8 @@ public class PerlinNoiseLandscapeGenerator {
 		private static final int OCTAVES = 3;
 		private static final float ROUGHNESS = 0.3f;
 		
-		private static Random random = new Random();
-		private static int seed =  random.nextInt(1000000000);
+		private static final Random random = new Random();
+		private static final int seed =  random.nextInt(1000000000);
 	
 		/************************************************************
 		 *  DEBUT TENTATIVE ECRITURE GENERATEUR ALEATOIRE 

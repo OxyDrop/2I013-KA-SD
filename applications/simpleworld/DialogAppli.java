@@ -17,11 +17,16 @@ import worlds.WorldOfTrees;
  */
 public class DialogAppli extends JDialog implements ActionListener
 {
-	private JLabel altitude, waterlevel, explication;
-	private JTextField inputalt, inputwater;
-	private JButton ok, annuler;
-	private JCheckBox cbFile, cbRandom;
-	private JList chooseWorld;
+
+	private final JLabel altitude;
+	private JLabel waterlevel, explication;
+	private final JTextField inputalt;
+	private JTextField inputwater;
+	private final JButton ok;
+	private JButton annuler;
+	private final JCheckBox cbFile;
+	private JCheckBox cbRandom;
+	private final JList chooseWorld;
 	
 	private static final World[] WORLD = {new WorldOfTrees(),new WorldOfSand(),new WorldOfSnow()};
 	private static JComponent[] auto;
