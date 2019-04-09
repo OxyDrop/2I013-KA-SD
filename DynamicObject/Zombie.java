@@ -4,10 +4,8 @@
 package DynamicObject;
 
 import javax.media.opengl.GL2;
-import java.util.ArrayList;
-
-import objects.UniqueObject;
 import objects.Architect.Mur3;
+import objects.UniqueObject;
 import worlds.World;
 
 public class Zombie extends UniqueDynamicObject {

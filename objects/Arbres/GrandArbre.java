@@ -3,7 +3,6 @@ package objects.Arbres;
 
 import Interfaces.*;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Consommables.Pomme;

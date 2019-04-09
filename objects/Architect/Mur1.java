@@ -4,7 +4,6 @@
 package objects.Architect;
 
 import javax.media.opengl.GL2;
-
 import objects.UniqueObject;
 import worlds.World;
 

@@ -3,16 +3,11 @@
 // date of creation: 2013-1-12
 package DynamicObject;
 
-import javax.media.opengl.GL2;
-
 import cellularautomata.CellularAutomata;
-import cellularautomata.CellularAutomataInteger;
-
-import java.util.ArrayList;
-
-import objects.UniqueObject;
+import javax.media.opengl.GL2;
 import objects.Architect.Mur1;
 import objects.Architect.Mur2;
+import objects.UniqueObject;
 import worlds.World;
 
 public class BebeAgent extends UniqueDynamicObject {

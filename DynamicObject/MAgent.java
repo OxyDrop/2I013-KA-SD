@@ -4,12 +4,7 @@
 package DynamicObject;
 
 import javax.media.opengl.GL2;
-
-import cellularautomata.CellularAutomata;
 import objects.Arbres.GrandArbre;
-
-import java.util.ArrayList;
-
 import worlds.World;
 
 public class MAgent extends UniqueDynamicObject {
@@ -147,16 +142,16 @@ public class MAgent extends UniqueDynamicObject {
 
 	public void Decideaction() {
 
-		if (Math.random() < 0.3) //arbre pour armes
-		{
-			action2 = 1;
-		} else {
-			action2 = 0;
-		}
+        if (Math.random() < 0) //arbre pour armes
+        {
+            action2 = 1;
+        } else {
+            action2 = 0;
+        }
 
-		var2 = false;
+        var2 = false;
 
-	}
+    }
 
 	public void randomstep() {
 

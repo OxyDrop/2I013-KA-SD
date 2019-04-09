@@ -4,14 +4,6 @@
 package DynamicObject;
 
 import javax.media.opengl.GL2;
-
-import com.jogamp.opengl.util.gl2.GLUT;
-
-import cellularautomata.CellularAutomata;
-import cellularautomata.CellularAutomataInteger;
-
-import java.util.ArrayList;
-
 import objects.Arbres.GrandArbre;
 import worlds.World;
 
@@ -104,19 +96,18 @@ public class FAgent extends UniqueDynamicObject {
 
 	public void Decideaction() {
 
-		if (Math.random() < 0.2) // reproduction
-		{
-			action2 = 1;
-		} else if (Math.random() < 0.15) // recolte arbre
-		{
-			action2 = 2;
-		} else {
-			action2 = 0; //sinon, marche aléatoire
-		}
-		var2 = false;
+        if (Math.random() < 0.2) // reproduction
+        {
+            action2 = 1;
+        } else if (Math.random() < 0) // recolte arbre
+        {
+            action2 = 2;
+        } else {
+            action2 = 0; //sinon, marche alÃ©atoire
+        }
+        var2 = false;
 
-	}
-
+    }
 	public int getBois() {
 
 		return this.Bois;

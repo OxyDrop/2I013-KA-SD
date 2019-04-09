@@ -2,7 +2,6 @@ package objects.Architect;
 
 import DynamicObject.Agent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.UniqueObject;
 import worlds.World;

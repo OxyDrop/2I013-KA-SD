@@ -107,9 +107,12 @@ public class Landscape implements GLEventListener{
 	//ASTRE
 	static float angle=0.0f;
 	static boolean moonsun=false;
-	static float xastre=0.0f;
+	static float xastre=-260f;
 	static float yastre=0.0f;
 	static float zastre=0.0f;
+	static float gastre = 1f;
+	static float bastre = 1f;
+	static float rastre = 1f;
 	private GLU glu = new GLU();
 	
 	static final boolean SKYBOX = false; //ACTIVE OU DESACTIVE LA SKYBOX
@@ -145,8 +148,8 @@ public class Landscape implements GLEventListener{
 		fx=(float)dxView*(float)2;
 		fy=(float)dyView*(float)2;
 		fz = 350f;
-		r=0.5f;
-		g=0.8f;
+		r=0.7f;
+		g=0.9f;
 		b=1f;
 		a=1f;
 
@@ -565,8 +568,8 @@ public class Landscape implements GLEventListener{
 		}
 		if(time>2000)
 		{
-			r=0.5f;
-			g=0.8f;
+			r=0.7f;
+			g=0.9f;
 			b=1f;
 			time=0;
 		}
@@ -661,14 +664,23 @@ public class Landscape implements GLEventListener{
 		////-------------LUNE ------------------------////
 		if(MOON)
 		{
+			if(time<1000)
+			{
+				bastre=0f;
+			}
+			else if(time>=1000)
+			{
+				gl.glTranslatef(0f,0f,0f);
+				bastre=1f;
+			}
 			gl.glPushMatrix();
 			gl.glRotatef(angle, 0f, 1f, 0f);
-			gl.glColor3f(1f, 1f, 1f);
-			gl.glTranslatef(0f, 0f, 200f);
-			gl.glEnable(GL2.GL_TEXTURE_2D);
+			gl.glColor3f(rastre,gastre,bastre);
+			gl.glTranslatef(xastre, yastre, 0f);
+			//gl.glEnable(GL2.GL_TEXTURE_2D);
 			gl.glBindTexture(GL2.GL_TEXTURE_2D, moonid);
 			GLUquadric earth = glu.gluNewQuadric();
-			glu.gluQuadricTexture(earth, true);
+			//glu.gluQuadricTexture(earth, true);
 			glu.gluQuadricDrawStyle(earth, GLU.GLU_FILL);
 			glu.gluQuadricNormals(earth, GLU.GLU_FLAT);
 			glu.gluQuadricOrientation(earth, GLU.GLU_OUTSIDE);
@@ -678,7 +690,7 @@ public class Landscape implements GLEventListener{
 			gl.glDisable(GL2.GL_TEXTURE_2D);
 
 			//change the speeds here
-			angle += .2f;
+			angle += .15f;
 			gl.glPopMatrix();
 		}
 		//////////////////////////////////////////////////////////

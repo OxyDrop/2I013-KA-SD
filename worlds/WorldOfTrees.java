@@ -4,20 +4,12 @@
 
 package worlds;
 
-import DynamicObject.Agent;
-import DynamicObject.FAgent;
-import DynamicObject.Home;
-import DynamicObject.MAgent;
-import DynamicObject.Zombie;
+import DynamicObject.*;
 import cellularautomata.ForestCA;
 import java.util.Iterator;
 import javax.media.opengl.GL2;
-import objects.Arbres.GrandArbre;
-import objects.Arbres.Sapin;
-import objects.Arbres.Tree;
-import objects.Architect.Monolith;
-import objects.Architect.Portail;
-import objects.Architect.Teleporteur;
+import objects.Arbres.*;
+import objects.Architect.*;
 import objects.Consommables.Herbe;
 import objects.UniqueObject;
 
@@ -122,6 +114,10 @@ public class WorldOfTrees extends World {
 		  
 		 LObjects.add(new Monolith(120,120,this));
 		 Home.add(new Home(115,122,this));
+		 LObjects.add(new Mur4(134, 120, this));
+         LObjects.add(new Mur1(122, 128, this));
+         LObjects.add(new Mur3(122, 112, this));
+         LObjects.add(new Mur2(110, 120, this));
 		 
 		 /////////////////PORTAILS//////////////////////
 		 for(int port = 0 ; port <NBMAXPORTAILS ; port++)

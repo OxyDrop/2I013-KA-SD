@@ -1,13 +1,11 @@
 package DynamicObject;
 
 import Interfaces.*;
+import javax.media.opengl.GL2;
 import objects.Architect.Mur1;
 import objects.Architect.Mur2;
 import objects.Architect.Mur3;
 import objects.Architect.Mur4;
-
-import javax.media.opengl.GL2;
-
 import worlds.World;
 
 public class Home extends MAgent implements Eliminable {

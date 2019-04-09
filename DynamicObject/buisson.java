@@ -1,9 +1,7 @@
 package DynamicObject;
 
 import Interfaces.*;
-
 import javax.media.opengl.GL2;
-
 import worlds.World;
 
 public class buisson extends MAgent implements Eliminable {
