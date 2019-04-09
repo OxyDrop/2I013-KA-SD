@@ -18,7 +18,7 @@ public class WorldOfTrees extends World {
 	
     
 	private static final int POPINI=80;
-	private static final int NBMAXPORTAILS=2;
+	private static final int NBMAXPORTAILS=3;
 	private static final int NBMAXTELEPORTEUR = 5;
 	private static final int NOTIFYITERATION = 100; //Used to display messages every number of iteration 
 	private  double pgrowga = 0.005;
@@ -28,7 +28,7 @@ public class WorldOfTrees extends World {
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
 	private boolean switchabrsapin=false;
-	private World w1,w2;
+	private World w1,w2,w3;
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -131,8 +131,10 @@ public class WorldOfTrees extends World {
 			{ 
 			 if(port==0)
 				LObjects.add(new Portail(xportrand,yportrand,this,w1));
-			 else
+			 else if(port==1)
 				LObjects.add(new Portail(xportrand,yportrand,this,w2));
+			 else
+				LObjects.add(new Portail(xportrand,yportrand,this,w3));
 			}
 		 }
 		 ///////////////TELEPORTEURS/////////////////////
@@ -242,14 +244,14 @@ public class WorldOfTrees extends World {
 				GrandArbre gagrow = new GrandArbre(xabrand, yabrand, this);
 				gagrow.init();
 				LObjects.add(gagrow);
-				System.out.println("Un nouveau Grand Arbre à été ajouté en (" + xabrand + "," + yabrand + ")");
+				System.out.println("Un nouveau Grand Arbre à poussé en (" + xabrand + "," + yabrand + ")");
 			} 
 			else 
 			{
 				Sapin sagrow = new Sapin(xabrand, yabrand, this);
 				sagrow.init();
 				LObjects.add(sagrow);
-				System.out.println("Un nouveau Sapin à été ajouté en (" + xabrand + "," + yabrand + ")");
+				System.out.println("Un nouveau Sapin à poussé en (" + xabrand + "," + yabrand + ")");
 			}
 		}
 		//Accelere la repousse des arbres s'ils sont en sous-nombre
@@ -264,13 +266,24 @@ public class WorldOfTrees extends World {
     {
     	for(MAgent a1 : agentM)
     		a1.step();
-    	for ( int i = 0 ; i < this.zombie.size() ; i++ ){this.zombie.get(i).step();}
-    	for ( int i = 0 ; i < this.fagent.size() ; i++ ){this.fagent.get(i).step();}
-    	for ( int i = 0 ; i < this.bebe.size() ; i++ ){this.bebe.get(i).step();}
-    	for ( int i = 0 ; i < this.buisson.size() ; i++ ){this.buisson.get(i).step();}
-    	for ( int i = 0 ; i < this.arbreList.size() ; i++ ){this.arbreList.get(i).step();}
-    	for ( int i = 0 ; i < this.arbreList.size() ; i++ ){this.arbreList.get(i).step();}
-    	for ( int i = 0 ; i < this.Home.size() ; i++ ){this.Home.get(i).step();}
+    	for (int i = 0; i < this.zombie.size(); i++) {
+			this.zombie.get(i).step();
+		}
+		for (int i = 0; i < this.fagent.size(); i++) {
+			this.fagent.get(i).step();
+		}
+		for (int i = 0; i < this.bebe.size(); i++) {
+			this.bebe.get(i).step();
+		}
+		for (int i = 0; i < this.buisson.size(); i++) {
+			this.buisson.get(i).step();
+		}
+		for (int i = 0; i < this.arbreList.size(); i++) {
+			this.arbreList.get(i).step();
+		}
+		for (int i = 0; i < this.Home.size(); i++) {
+			this.Home.get(i).step();
+		}
 		
     	for (Agent a : agentListe)
 			a.step();
@@ -348,6 +361,16 @@ public class WorldOfTrees extends World {
 	public void setW1(World w1)
 	{
 		this.w1=w1;
+	}
+	@Override
+	public World getW3()
+	{
+		return w3;
+	}
+	@Override
+	public void setW3(World w3)
+	{
+		this.w3=w3;
 	}
 	
 	public int getNombreGA(){ //retourne le nombre de grand arbres

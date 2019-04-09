@@ -26,6 +26,7 @@ public class MyEcosystem {
 		WorldOfTrees wTree = new WorldOfTrees();
 		WorldOfSand wSand = new WorldOfSand();
 		WorldOfSnow wSnow = new WorldOfSnow();
+		DarkWorld wDark = new DarkWorld();
 		
 		try {
 			BufferedImage bi = ImageIO.read(new File("earthmap1k.png"));
@@ -116,7 +117,7 @@ public class MyEcosystem {
 				break;
 				
 			case 3: 
-				Landscape.run(new Landscape(wTree,200,200,ALTITUDE,WATERLVL)); 
+				Landscape.run(new Landscape(wDark,200,200,ALTITUDE,WATERLVL)); 
 				break;
 				
 			case 4: //Works only in debug mode
@@ -141,12 +142,19 @@ public class MyEcosystem {
 			case 5:
 				wTree.setW1(wSand);
 				wTree.setW2(wSnow);
+				wTree.setW3(wDark);
 				
 				wSand.setW1(wTree);
 				wSand.setW2(wSand);
+				wSand.setW3(wDark);
 				
 				wSnow.setW1(wTree);
 				wSnow.setW2(wSand);
+				wSnow.setW3(wDark);
+				
+				wDark.setW1(wTree);
+				wDark.setW2(wSand);
+				wDark.setW3(wSnow);
 				
 				int choixMultipleRF =	Integer.parseInt(JOptionPane.showInputDialog(null,
 										"Landscape en : \n\t1>Fichier\n2>Bruit de Perlin",
@@ -165,7 +173,8 @@ public class MyEcosystem {
 						
 						Landscape[] landListeTabFile = {new Landscape(wTree,fileMultiple,ALTITUDE,WATERLVL),
 														new Landscape(wSand,fileMultiple,ALTITUDE,WATERLVL/2),
-														new Landscape(wSnow,fileMultiple,ALTITUDE,WATERLVL/2)};
+														new Landscape(wSnow,fileMultiple,ALTITUDE,WATERLVL/2),
+														new Landscape(wDark,fileMultiple,ALTITUDE,WATERLVL)};
 						
 						Landscape.runAll(landListeTabFile);
 						break;
@@ -173,7 +182,8 @@ public class MyEcosystem {
 					case 2:
 						Landscape[] landListeTab = {new Landscape(wTree,200,200,ALTITUDE,WATERLVL),
 													new Landscape(wSand,200,200,ALTITUDE,WATERLVL/2),
-													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2)};
+													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2),
+													new Landscape(wDark,200,200,ALTITUDE,WATERLVL)};
 						
 						Landscape.runAll(landListeTab);
 						break;
@@ -187,12 +197,19 @@ public class MyEcosystem {
 			case 6 :
 				wTree.setW1(wSand);
 				wTree.setW2(wSnow);
+				wTree.setW3(wDark);
 				
 				wSand.setW1(wTree);
 				wSand.setW2(wSand);
+				wSand.setW3(wDark);
 				
 				wSnow.setW1(wTree);
 				wSnow.setW2(wSand);
+				wSnow.setW3(wDark);
+				
+				wDark.setW1(wTree);
+				wDark.setW2(wSand);
+				wDark.setW3(wSnow);
 				
 				int choixMultipleRFTab =	Integer.parseInt(JOptionPane.showInputDialog(null,
 											"Landscape en : \n\t1>Fichier\n2>Bruit de Perlin",
@@ -211,7 +228,8 @@ public class MyEcosystem {
 						
 						Landscape[] landListeTabFile = {new Landscape(wTree,fileMultipleTab,ALTITUDE,WATERLVL),
 														new Landscape(wSand,fileMultipleTab,ALTITUDE,WATERLVL/2),
-														new Landscape(wSnow,fileMultipleTab,ALTITUDE,WATERLVL/2)};
+														new Landscape(wSnow,fileMultipleTab,ALTITUDE,WATERLVL/2),
+														new Landscape(wDark,fileMultipleTab,ALTITUDE,WATERLVL)};
 						
 						Landscape.runAllTabbedPane(landListeTabFile);
 						break;
@@ -219,7 +237,8 @@ public class MyEcosystem {
 					case 2:
 						Landscape[] landListeTab = {new Landscape(wTree,200,200,ALTITUDE,WATERLVL),
 													new Landscape(wSand,200,200,ALTITUDE,WATERLVL/2),
-													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2)};
+													new Landscape(wSnow,200,200,ALTITUDE,WATERLVL/2),
+													new Landscape(wDark,200,200,ALTITUDE,WATERLVL)};
 						
 						Landscape.runAllTabbedPane(landListeTab);
 						break;

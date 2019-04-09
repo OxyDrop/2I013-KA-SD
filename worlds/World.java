@@ -10,6 +10,7 @@ import DynamicObject.FAgent;
 import DynamicObject.MAgent;
 import DynamicObject.UniqueDynamicObject;
 import DynamicObject.Zombie;
+import DynamicObject.buisson;
 import cellularautomata.*;
 import java.util.ArrayList;
 import javax.media.opengl.GL2;
@@ -51,7 +52,7 @@ public abstract class World {
 	private double maxEver = Double.NEGATIVE_INFINITY;
 	private double minEver = Double.POSITIVE_INFINITY;
 	
-	protected World w1,w2;
+	protected World w1,w2,w3;
 
     public World( )
     {
@@ -179,7 +180,7 @@ public abstract class World {
 	
 	public ArrayList<Agent> getAgentListe()
 	{
-		return agentListe;
+		return this.agentListe;
 	}
 	public ArrayList<MAgent> getMAgentListe(){return agentM;}
 	public ArrayList<BebeAgent> getbebeAgentListe(){return bebe;}
@@ -246,6 +247,130 @@ public abstract class World {
 	abstract public void setW2(World w2);
 
 	abstract public void setW1(World w1);
+
+	public ArrayList<UniqueDynamicObject> getLDynamicObjects() {
+		return LDynamicObjects;
+	}
+
+	public void setLDynamicObjects(ArrayList<UniqueDynamicObject> LDynamicObjects) {
+		this.LDynamicObjects = LDynamicObjects;
+	}
+
+	public ArrayList<MAgent> getAgentM() {
+		return agentM;
+	}
+
+	public void setAgentM(ArrayList<MAgent> agentM) {
+		this.agentM = agentM;
+	}
+
+	public ArrayList<Zombie> getZombie() {
+		return zombie;
+	}
+
+	public void setZombie(ArrayList<Zombie> zombie) {
+		this.zombie = zombie;
+	}
+
+	public ArrayList<BebeAgent> getBebe() {
+		return bebe;
+	}
+
+	public void setBebe(ArrayList<BebeAgent> bebe) {
+		this.bebe = bebe;
+	}
+
+	public ArrayList<FAgent> getFagent() {
+		return fagent;
+	}
+
+	public void setFagent(ArrayList<FAgent> fagent) {
+		this.fagent = fagent;
+	}
+
+	public ArrayList<buisson> getBuisson() {
+		return buisson;
+	}
+
+	public void setBuisson(ArrayList<buisson> buisson) {
+		this.buisson = buisson;
+	}
+
+	public ArrayList<GrandArbre> getArbreList() {
+		return arbreList;
+	}
+
+	public void setArbreList(ArrayList<GrandArbre> arbreList) {
+		this.arbreList = arbreList;
+	}
+
+	public int getDx() {
+		return dx;
+	}
+
+	public void setDx(int dx) {
+		this.dx = dx;
+	}
+
+	public int getDy() {
+		return dy;
+	}
+
+	public void setDy(int dy) {
+		this.dy = dy;
+	}
+
+	public int getIndexCA() {
+		return indexCA;
+	}
+
+	public void setIndexCA(int indexCA) {
+		this.indexCA = indexCA;
+	}
+
+	public CellularAutomataDouble getHeightVal() {
+		return HeightVal;
+	}
+
+	public void setHeightVal(CellularAutomataDouble HeightVal) {
+		this.HeightVal = HeightVal;
+	}
+
+	public CellularAutomataDouble getHeightAmpli() {
+		return HeightAmpli;
+	}
+
+	public void setHeightAmpli(CellularAutomataDouble HeightAmpli) {
+		this.HeightAmpli = HeightAmpli;
+	}
+
+	public CellularAutomataColor getColorVal() {
+		return ColorVal;
+	}
+
+	public void setColorVal(CellularAutomataColor ColorVal) {
+		this.ColorVal = ColorVal;
+	}
+
+	public double getMaxEver() {
+		return maxEver;
+	}
+
+	public void setMaxEver(double maxEver) {
+		this.maxEver = maxEver;
+	}
+
+	public double getMinEver() {
+		return minEver;
+	}
+
+	public void setMinEver(double minEver) {
+		this.minEver = minEver;
+	}
+
+	abstract public World getW3();
+
+	abstract public void setW3(World w3);
 
 	
 

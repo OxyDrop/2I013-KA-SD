@@ -5,29 +5,29 @@
 package worlds;
 
 import DynamicObject.Agent;
-import cellularautomata.SnowyCA;
+import cellularautomata.DarkCA;
 import java.util.Iterator;
 import javax.media.opengl.GL2;
+import objects.Arbres.DarkArbre;
 import objects.Arbres.GrandArbre;
 import objects.Arbres.Sapin;
 import objects.Architect.Portail;
 import objects.Architect.Teleporteur;
 import objects.UniqueObject;
 
-public class WorldOfSnow extends World {
-	
-	
-    
-	private static final int POPINI				=500;
-	private static final int NBMAXPORTAILS		=3;
-	private static final int NBMAXTELEPORTEUR	= 5;
-	private static final int NOTIFYITERATION	= 100; 
+//Si vous vous retrouvez dans le dark world, il n'y a plus de retour possible!!!!!!!!!!!!/////////////
+public class DarkWorld extends World {
+
+	private static final int POPINI=50;
+	private static final int NBMAXPORTAILS=2;
+	private static final int NBMAXTELEPORTEUR = 5;
+	private static final int NOTIFYITERATION = 100; 
 	private double pgrowga = 0.005;
 	
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
 	private int xabrand, yabrand;
-	protected SnowyCA cellularAutomata;
+	protected DarkCA cellularAutomata;
 	private boolean switchabrsapin=false;
 	private World w1,w2,w3;
 	
@@ -40,12 +40,13 @@ public class WorldOfSnow extends World {
 	protected CellularAutomataDouble cellsHeightValuesCA;
 	protected CellularAutomataDouble cellsHeightAmplitudeCA;
 	*/
-	public WorldOfSnow(){}
+	public DarkWorld(){}
 	
-	public WorldOfSnow(World w1, World w2)
+	public DarkWorld(World w1, World w2, World w3)
 	{
 		this.w1=w1;
 		this.w2=w2;
+		this.w3=w3;
 	}
     public void init ( int dxCA, int dyCA, double[][] landscape )
     {
@@ -61,38 +62,21 @@ public class WorldOfSnow extends World {
 		    	
 		        if ( height >= 0 )
 				{	
-					//snowy mountain
-		        	color[0] = 0.9f;//height / (float)this.getMaxEverHeight();
-					color[1] = 0.99f;//height / (float)this.getMaxEverHeight();
-					color[2] = 1f;//height / (float)this.getMaxEverHeight();
+		        	color[0] = 0.1f;//height / (float)this.getMaxEverHeight();
+					color[1] = 0f;//height / (float)this.getMaxEverHeight();
+					color[2] = 0f;//height / (float)this.getMaxEverHeight();
 					
 		        }
 		        else
-		        {	// water
-					color[0] = 0.2f;
-					color[1] = 0.2f;
-					color[2] = 1f;
+		        {	//lava
+					color[0] = 1f;
+					color[1] = 0.5f;
+					color[2] = 0f;
 		        }
 		        this.ColorVal.setCellState(x, y, color);
     		}
 		/*-------------------FIN COULEUR--------------------*/
     	/*-----------------AJOUT OBJETS--------------------*/
-		 for(int port = 0 ; port <NBMAXPORTAILS ; port++)
-		 {
-			 do{
-				xportrand = (int)(Math.random()*dxCA);
-				yportrand = (int)(Math.random()*dyCA);
-			 }while(this.getCellHeight(xportrand, yportrand)<=0);
-			 
-			 if(w1 != null && w2 != null){ 
-				 if(port==0)
-					LObjects.add(new Portail(xportrand,yportrand,this,w1));
-				 else if(port==1)
-					LObjects.add(new Portail(xportrand,yportrand,this,w2));
-				 else
-					 LObjects.add(new Portail(xportrand,yportrand,this,w3));
-			 }
-		 }
 		 
 		for (int port = 0; port < NBMAXTELEPORTEUR; port++) {
 			do {
@@ -114,23 +98,18 @@ public class WorldOfSnow extends World {
     			if (cellState == 1)
 				{
 					if(Math.random()<0.05){
-						Sapin sa = new Sapin(i,j,this);
-						sa.init();
-    					LObjects.add(sa);
-					}
-					else if(Math.random()<0.05){
-						GrandArbre ga = new GrandArbre(i,j,this);
-						ga.init();
-    					LObjects.add(ga);
-					}
+						DarkArbre da = new DarkArbre(i,j,this);
+						da.init();
+    					LObjects.add(da);
 				}
     		}
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }
+	}
     
     protected void initCellularAutomata(int dx, int dy, double[][] landscape)
     {
-    	cellularAutomata = new SnowyCA(this,dx,dy,HeightVal);
+    	cellularAutomata = new DarkCA(this,dx,dy,HeightVal);
     	cellularAutomata.init();
     }
     
@@ -140,21 +119,16 @@ public class WorldOfSnow extends World {
     	if ( iteration%10 == 0 )
     		cellularAutomata.step();
 		for(UniqueObject abr : LObjects) //Met a jour les arbres
-			if(abr instanceof Sapin)
-				((Sapin)abr).step();
-			else if(abr instanceof GrandArbre)
-				((GrandArbre)abr).step();
+			if(abr instanceof DarkArbre)
+				((DarkArbre)abr).step();
 		
 		for(Iterator<UniqueObject> it = LObjects.iterator(); it.hasNext();)
 		{
 			UniqueObject arbre = it.next();
 			
-			if(arbre instanceof GrandArbre && ((GrandArbre) arbre).die()){
+			if(arbre instanceof DarkArbre && ((DarkArbre) arbre).die()){
 				it.remove();
-				System.out.println("Un grand arbre est mort :sob:");
-			}else if(arbre instanceof Sapin && ((Sapin) arbre).die() ){
-				System.out.println("Un sapin est mort :sob:");
-				it.remove();
+				System.out.println("Un arbre du mal n'est plus");
 			}
 		}
 		
@@ -165,18 +139,10 @@ public class WorldOfSnow extends World {
 				yabrand = (int)(Math.random()*dy);
 			 }while(this.getCellHeight(xabrand,yabrand)<=0);
 			 
-		switchabrsapin=!switchabrsapin;
-			if(switchabrsapin){
-				GrandArbre gagrow = new GrandArbre(xabrand,yabrand,this);
-				gagrow.init();
-				LObjects.add(gagrow);
-				System.out.println("Un nouveau Grand Arbre à été ajouté en ("+xabrand+","+yabrand+")");
-			}else{
-				Sapin sagrow = new Sapin(xabrand,yabrand,this);
-				sagrow.init();
-				LObjects.add(sagrow);
-				System.out.println("Un nouveau Sapin à été ajouté en ("+xabrand+","+yabrand+")");
-			}
+			DarkArbre gagrow = new DarkArbre(xabrand,yabrand,this);
+			gagrow.init();
+			LObjects.add(gagrow);
+			System.out.println("Un arbre des tenebres à pris racine en ("+xabrand+","+yabrand+")");
 		}
     }
     
@@ -237,7 +203,7 @@ public class WorldOfSnow extends World {
 	}
 	 public String getNom()
 	{
-		return "WorldOfSnow";
+		return "DarkWorld";
 	}
 
 	@Override
@@ -271,6 +237,8 @@ public class WorldOfSnow extends World {
 	public void setW3(World w3) {
 		this.w3 = w3;
 	}
+	
     
 
 }
+

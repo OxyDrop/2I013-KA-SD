@@ -32,7 +32,7 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 		return (Math.sqrt(Math.pow( a.getX() - x , 2 ) + Math.pow( a.getY() - y , 2 )) <= DISTANCEMIN);
 		
 	}
-	public void passePortail(ArrayList<Agent> agentList)
+	public void passePortail(ArrayList<Agent> agentList) //Methode principale pour la transition entre monde
 	{
 		for (Iterator<Agent> it = agentList.iterator() ; it.hasNext();)
     	{
@@ -40,15 +40,28 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 			if (distanceSuffisante(a)) 
 			{
 				Agent clone = a.clone();
+				//Agent clone = new Agent(a.getX(),a.getX(),a.getWorld());
+				
+				if(clone!=null)
+				{
 				//Propulse a un point aleatoire en dehors du portail
-				clone.setX(a.getX() + (int) (Math.random() % (10 - 5 + 1) + 5));
-				clone.setY(a.getY() + (int) (Math.random() % (10 - 5 + 1) + 5));
+					clone.setX(a.getX() + (int) (Math.random() % (10 - 5 + 1) + 5));
+					clone.setY(a.getY() + (int) (Math.random() % (10 - 5 + 1) + 5));
+					try{
+						Thread.sleep(100);
+						passage.getAgentListe().add(clone);
+					}catch(InterruptedException | NullPointerException ex){
+						ex.printStackTrace();
+						System.err.println("Problème survenu lors d'un voyage interdimensionnel");
+					} 
+				}
 				it.remove();
-				passage.getAgentListe().add(clone);
-				System.out.println("Un agent a emprunté le portail "+id 
-									+ " en (" + x + "," + y + ") menant au " + passage.getNom());
+				
+				if(passage.getNom().equals("DarkWorld"))
+					System.out.println("Un agent s'est fait aspiré par le portail noir en (" + x + "," + y + ") menant au " + passage.getNom()+", paix à son âme");
+				else
+					System.out.println("Un agent a emprunté le portail "+id  + " en (" + x + "," + y + ") menant au " + passage.getNom());
 			}
-
     	}
 	}
 

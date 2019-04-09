@@ -16,14 +16,14 @@ public class WorldOfSand extends World {
 	private static final int POPINI=500;
     protected DesertCA cellularAutomata;
 	
-	private static final int NBMAXPORTAILS=2;
+	private static final int NBMAXPORTAILS=3;
 	private static final int NBMAXTELEPORTEUR = 5;
 	private static final int NOTIFYITERATION = 100; //Used to display messages every number of iteration 
 	
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
 	
-	private World w1,w2;
+	private World w1,w2,w3;
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -84,8 +84,10 @@ public class WorldOfSand extends World {
 			 if(w1 != null && w2 != null){ 
 				if(port==0)
 					LObjects.add(new Portail(xportrand,yportrand,this,w1));
-				 else
+				else if(port==1)
 					LObjects.add(new Portail(xportrand,yportrand,this,w2));
+				else
+					LObjects.add(new Portail(xportrand,yportrand,this,w3));
 			}
 		}
 		for (int port = 0; port < NBMAXTELEPORTEUR; port++) {
@@ -183,6 +185,16 @@ public class WorldOfSand extends World {
 	public void setW1(World w1) 
 	{
 		this.w1=w1;
+	}
+
+	@Override
+	public World getW3() {
+		return w3;
+	}
+
+	@Override
+	public void setW3(World w3) {
+		this.w3=w3;
 	}
 
 }

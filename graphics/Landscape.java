@@ -230,7 +230,8 @@ public class Landscape implements GLEventListener{
 		final String wp1 = "WorldOfTrees";
 		final String wp2 = "WorldOfSand";
 		final String wp3 = "WorldOfSnow";
-		String comboBoxItems[] = { wp1, wp2, wp3 };
+		final String wp4 = "DarkWorld";
+		String comboBoxItems[] = { wp1, wp2, wp3, wp4 };
 		
         JComboBox cb = new JComboBox(comboBoxItems);
         cb.setEditable(false);
@@ -277,6 +278,7 @@ public class Landscape implements GLEventListener{
 				case 0: mainPanel.add("WorldOfTrees",worldPanel); break;
 				case 1: mainPanel.add("WorldOfSand",worldPanel); break;
 				case 2: mainPanel.add("WorldOfSnow",worldPanel); break;
+				case 3 : mainPanel.add("DarkWorld",worldPanel); break;
 			}
 		}
 		
@@ -333,6 +335,7 @@ public class Landscape implements GLEventListener{
 				case 0: tabbedPane.add("WorldOfTrees",worldPanel); break;
 				case 1: tabbedPane.add("WorldOfSand",worldPanel); break;
 				case 2: tabbedPane.add("WorldOfSnow",worldPanel); break;
+				case 3: tabbedPane.add("DarkWorld",worldPanel); break;
 			}	
 		}
 		mainPanel.add(tabbedPane);

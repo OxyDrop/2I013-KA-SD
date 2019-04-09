@@ -135,7 +135,7 @@ public class Sapin extends UniqueObject implements Eliminable {
 
 		float height = Math.max(0, (float) myWorld.getCellHeight(x, y));
 
-		gl.glColor3f(0.4f, 0.3f - (float) (0.2 * Math.random()), 0.0f);
+		gl.glColor3f(0.5f, 0.1f - (float) (0.2 * Math.random()), 1.0f);
 		/* Tronc de l'arbre */
 		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
 		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 8.f);
@@ -163,7 +163,7 @@ public class Sapin extends UniqueObject implements Eliminable {
 		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 8.f);
 
 		/* Feuillage de l'arbre */
-		gl.glColor3f(0.5f, 0.9f - (float) (0.1 * Math.random()), 1f);
+		gl.glColor3f(0.5f, 0.2f - (float) (0.1 * Math.random()), 0.9f);
 		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 8.f);
 		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 16.f);
 		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 16.f);
