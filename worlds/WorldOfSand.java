@@ -60,11 +60,8 @@ public class WorldOfSand extends World {
 	        	float height = (float) this.getCellHeight(x, y);
 		    	
 		        if ( height >= 0 )
-				{	/* snowy mountain
-		        	color[0] = 1f;//height / (float)this.getMaxEverHeight();
-					color[1] = 1f;//height / (float)this.getMaxEverHeight();
-					color[2] = 1f;//height / (float)this.getMaxEverHeight();
-					*/ 
+				{
+					
 					//yellow mountain
 		        	
 		        	color[0] = 0.9f + 0.1f * height / ( (float)this.getMaxEverHeight() );

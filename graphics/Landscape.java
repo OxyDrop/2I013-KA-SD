@@ -49,19 +49,38 @@ public class Landscape implements GLEventListener{
 
 	private World myWorld;
 	
+	/*****************************************************
+	 * Static context
+	 **************************************************/
 	private static GLCapabilities caps;  // GO FAST ???
 	static Animator animator;
-
 	static boolean MY_LIGHT_RENDERING = false; // true: nicer but slower
 	final static boolean SMOOTH_AT_BORDER = true; // nicer (but wrong) rendering at border (smooth altitudes)
 	//final static double landscapeAltitudeRatio = 0.6; // 0.5: half mountain, half water ; 0.3: fewer water
 	static boolean VIEW_FROM_ABOVE = false; // also desactivate altitudes
 	static boolean DISPLAY_OBJECTS = true; // useful to deactivate if view_from_above
 	final static boolean DISPLAY_FPS = true; // on-screen display
-
+	static boolean SKYBOX = false; //ACTIVE OU DESACTIVE LA SKYBOX
+	static boolean MOON = true;
+	static final String PATH3 = "/res/blueSky.png"; //A CHANGER POUR L'APPLICATION DES TEXTURES;
+	static final String PATH2 = "/res/moon.png";
+	static final String PATH1 = "/res/portal.png";
+	static final int FRAMESIZEX=1080;
+	static final float OFFSET = -240f;
+	static final int FRAMESIZEY=780; //Modifie taille JFrame
+	static final float FZ = 350f;
+	static final float R =0.7f;
+	static final float G=0.9f;
+	static final float B=1f;
+	static final float A=1f;
+	static final float HEIGHTFACTOR = 32.0f; //64.0f; // was: 32.0f;
+	static final double HEIGHTBOOSTER = 6.0; // default: 2.0 // 6.0 makes nice high mountains.
 	private float rotateX = 0.0f;
 	private float rotationVelocity = 0f; // 0.2f
 	
+	/*****************************************************
+	 * Class variables
+	 **************************************************/
 	int it = 0;
 	int movingIt = 0;
 	int dxView;
@@ -72,31 +91,26 @@ public class Landscape implements GLEventListener{
 	int lastFpsValue = 0;
 	public static int lastItStamp = 0;
 	public static long lastTimeStamp = 0;
-
+	float smoothFactor[];
+	int smoothingDistanceThreshold;
 	// visualization parameters
 	float heightFactor; //64.0f; // was: 32.0f;
 	double heightBooster; // applied to landscape values. increase heights.
 	// -- NOTE that this could also be achieved using heighFactor but is decomposed to enable further pre-calc of height values
 	// heightFactor deals with visualization
 	// heigBooster will impact landscape array content 
-
 	float offset;
 	float stepX;
 	float stepY;
 	float lenX;
 	float lenY;
-
-	float smoothFactor[];
-	int smoothingDistanceThreshold;
-
 	int movingX = 0;
 	int movingY = 0;
-	
 	float moduleAltitude;
 	float moduleDepth;
 	
 	double time = 0;
-	//SKYBOX
+	//////SKYBOX//////////////
 	private int skyblueid , moonid, portalid;
 	private Texture skybluetexture, moontexture, portaltexture;
 	float fx;
@@ -104,7 +118,7 @@ public class Landscape implements GLEventListener{
 	float fz;
 	float r,g,b,a;
 	boolean daynight = true;
-	//ASTRE
+	////////ASTRE//////////////
 	static float angle=0.0f;
 	static boolean moonsun=false;
 	static float xastre=-260f;
@@ -115,12 +129,6 @@ public class Landscape implements GLEventListener{
 	static float rastre = 1f;
 	private GLU glu = new GLU();
 	
-	static final boolean SKYBOX = false; //ACTIVE OU DESACTIVE LA SKYBOX
-	static final boolean MOON = true;
-	static final String PATH3 = "/res/blueSky.png"; //A CHANGER POUR L'APPLICATION DES TEXTURES;
-	static final String PATH2 = "/res/moon.png";
-	static final String PATH1 = "/res/portal.png";
-		
 	/**
 	 * Initialise landscape à partir du bruit 
 	 */
@@ -147,20 +155,19 @@ public class Landscape implements GLEventListener{
 		dyView = landscape[0].length;
 		fx=(float)dxView*(float)2;
 		fy=(float)dyView*(float)2;
-		fz = 350f;
-		r=0.7f;
-		g=0.9f;
-		b=1f;
-		a=1f;
+		fz = FZ;
+		r=R;
+		g=G;
+		b=B;
+		a=A;
 
 		System.out.println("Landscape contains " + dxView * dyView + " tiles. (" + dxView + "x" + dyView + ")");
-
 		myWorld.init(dxView - 1, dyView - 1, landscape);
 
-		heightFactor = 32.0f; //64.0f; // was: 32.0f;
-		heightBooster = 6.0; // default: 2.0 // 6.0 makes nice high mountains.
+		heightFactor = HEIGHTFACTOR; //64.0f; // was: 32.0f;
+		heightBooster = HEIGHTBOOSTER; // default: 2.0 // 6.0 makes nice high mountains.
 
-		offset = -260.0f; // was: -40.
+		offset = OFFSET; // was: -40.
 		stepX = (-offset * 2.0f) / dxView;
 		stepY = (-offset * 2.0f) / dxView;
 		lenX = stepX / 2f;
@@ -173,8 +180,7 @@ public class Landscape implements GLEventListener{
 
 		smoothingDistanceThreshold = 30; //30;
 		moduleAltitude = -44f;
-		moduleDepth = -130f;
-		
+		moduleDepth = -130f;	
 	}
 
 	/**
@@ -201,7 +207,7 @@ public class Landscape implements GLEventListener{
 		canvas.addMouseWheelListener(play);
 		frame.add(canvas);
 		
-		frame.setSize(1024, 768);
+		frame.setSize(FRAMESIZEX,FRAMESIZEY);
 		frame.setResizable(false);
 		
 		frame.addWindowListener(new WindowAdapter() {
@@ -290,7 +296,7 @@ public class Landscape implements GLEventListener{
 		frame.getContentPane().add(mainPanel,BorderLayout.CENTER);
 		frame.getContentPane().add(comboBoxPane, BorderLayout.SOUTH);
 		
-		frame.setSize(1024, 768);
+		frame.setSize(FRAMESIZEX,FRAMESIZEY);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 		frame.setVisible(true);
@@ -343,7 +349,7 @@ public class Landscape implements GLEventListener{
 		final JFrame frame = new JFrame("World Of Cells");
 		frame.getContentPane().add(mainPanel);
 		
-		frame.setSize(1024, 768);
+		frame.setSize(FRAMESIZEX,FRAMESIZEY);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -958,5 +964,30 @@ public class Landscape implements GLEventListener{
 	public void setModuleDepth(float moduleDepth) {
 		this.moduleDepth = moduleDepth;
 	}
+
+	public static boolean isSKYBOX() {
+		return SKYBOX;
+	}
+
+	public static void setSKYBOX(boolean SKYBOX) {
+		Landscape.SKYBOX = SKYBOX;
+	}
+
+	public static boolean isMOON() {
+		return MOON;
+	}
+
+	public static void setMOON(boolean MOON) {
+		Landscape.MOON = MOON;
+	}
+
+	public double getTime() {
+		return time;
+	}
+
+	public void setTime(double time) {
+		this.time = time;
+	}
+	
 }
 

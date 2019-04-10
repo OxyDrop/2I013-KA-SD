@@ -11,6 +11,7 @@ import java.nio.ByteBuffer;
 import javax.imageio.ImageIO;
 import javax.media.opengl.GLException;
 import javax.swing.ImageIcon;
+import jogamp.opengl.glu.mipmap.Image;
  
 public class ImageResources {
      
@@ -36,12 +37,6 @@ public class ImageResources {
         return buffer;
     }
 	
-	public Texture CreateTexture(String path)
-	{
-		//Texture res = new Texture(Toolkit.getDefaultToolkit().getClass().getResource(path));
-		return null;
-	}
-	
 	public static BufferedImage createBuffImage(String path)
 	{
 		BufferedImage img = null;
@@ -65,6 +60,7 @@ public class ImageResources {
 		} catch (IOException | GLException ex) {}
 		return res;
 	}
+
 	
 	public static URL getURL(String path)
 	{

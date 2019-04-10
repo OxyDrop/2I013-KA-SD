@@ -31,8 +31,19 @@ public class CellularAutomataDouble extends CellularAutomata {
 		double value;
 
 		if ( buffering == false )
-	
-			value = Buffer0[x][y];
+		{
+			try
+			{
+			value = Buffer0[x][y];	
+			}
+			catch(Exception e)
+			{
+				value = Buffer0[x][y];
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+				System.exit(-1);
+			}
+		}
 		else
 		{
 			if ( activeIndex == 1 ) // read old buffer

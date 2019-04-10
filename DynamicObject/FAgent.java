@@ -350,7 +350,8 @@ public class FAgent extends UniqueDynamicObject {
 	}
 
 	public void GOnaissance() {
-		if (enceinte) {
+		if (enceinte) 
+		{
 
 			Goto(120, 120);
 			if (x == 120 && y == 120) {

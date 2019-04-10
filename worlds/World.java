@@ -205,7 +205,16 @@ public abstract class World {
     
     public double getCellHeight(int x, int y) // used by the visualization code to set correct height values
     {
-    	return HeightVal.getCellState(x%dx,y%dy);
+		double h=0;
+		try
+		{
+			h = HeightVal.getCellState(x%dx,y%dy);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		return h;
     }
     
     // ---- 

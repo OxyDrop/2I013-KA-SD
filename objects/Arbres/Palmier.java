@@ -4,6 +4,7 @@ package objects.Arbres;
 import Interfaces.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 import objects.Consommables.Coco;
@@ -148,11 +149,9 @@ public class Palmier extends UniqueObject implements Eliminable
 		
     	int cellState = myWorld.getCellValue(x, y);
    
-		//for(Coco p : coco)
-		//	p.displayUniqueObject(myWorld, gl, x2, y2, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+		gl.glVertex3f(lenX, lenY, lenY);
 		
 		gl.glColor3f(0.4f,0.4f,0.1f);
-		gl.glBegin(GL2.GL_TRIANGLE_FAN);
 		/* Feuillage de l'arbre */
 		for(int i=0;i<2;i++)
 		{
@@ -168,30 +167,12 @@ public class Palmier extends UniqueObject implements Eliminable
 			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + 2 * altmod); // Left
 
 			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + 2 * altmod); // Right
-
-			//left
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY + lenY * 8.f, height * normalizeHeight + altmod); // Top
-
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + 2 * altmod); // Left 
-
-			gl.glVertex3f(offset + x2 * stepX - lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + altmod); // Right 
-
-			//top
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY + lenY * 8.f, height * normalizeHeight + altmod); // Top
-
-			gl.glVertex3f(offset + x2 * stepX - lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + 2 * altmod); // Left
-
-			gl.glVertex3f(offset + x2 * stepX - lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + 2 * altmod); // Right
-
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY + lenY * 8.f, height * normalizeHeight + altmod); // Top
-
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY + lenY * 8.f, height * normalizeHeight + 2 * altmod); // Top
-
+			
 			altmod += 8f;
 			lenmod += 4f;
 		}
 		gl.glFlush();
 		gl.glEnd();
-
+		
     }
 }

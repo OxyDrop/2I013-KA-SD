@@ -34,9 +34,15 @@ public class MAgent extends UniqueDynamicObject {
 	public boolean eat = false;
 	public boolean swim = false;
 	public boolean burn = false;
-	private final int dx=world.getWidth();
-	private final int dy=world.getHeight();
-
+	private final int dx;
+	private final int dy;
+	public MAgent(int x, int y, World world) 
+	{
+		super(x, y, world);
+		dx=world.getWidth()-1;
+		dy=world.getHeight()-1;
+		
+	}
 	public void step() {
 		UdpadeAtck();
 
@@ -169,9 +175,6 @@ public class MAgent extends UniqueDynamicObject {
 		}
 	}
 
-	public MAgent(int x, int y, World world) {
-		super(x, y, world);
-	}
 
 	public void UdpadeAtck() {
 

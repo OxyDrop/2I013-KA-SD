@@ -28,10 +28,12 @@ public class BebeAgent extends UniqueDynamicObject {
 	public boolean stop = false;
 	public int boost = 3;
 	public boolean boostb = false;
-	int it = world.getIteration();
+	int it;
 	boolean hide = false;
 	public boolean var = false;
 	int move;
+	private int dx;
+	private int dy;
 
 	CellularAutomata c;
 
@@ -42,6 +44,9 @@ public class BebeAgent extends UniqueDynamicObject {
 
 	public BebeAgent(int x, int y, World world) {
 		super(x, y, world);
+		dx=world.getWidth()-1;
+		dy=world.getHeight()-1;
+		it=world.getIteration();
 	}
 
 	public void type() {
@@ -113,7 +118,8 @@ public class BebeAgent extends UniqueDynamicObject {
 
 	public void grandit() {
 
-		if (this.it + 500 == world.getIteration() && world.getbebeAgentListe().size() > 0) {
+		if (this.it + 500 == world.getIteration() && world.getbebeAgentListe().size() > 0) 
+		{
 			world.getbebeAgentListe().remove(this);
 			if (type == 1) {
 				world.getMAgentListe().add(new MAgent(this.getX(), this.getY(), world));
@@ -137,45 +143,45 @@ public class BebeAgent extends UniqueDynamicObject {
 
 		if (i > this.x && j > this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 		if (i == this.x && j > this.y) {
-			this.y = (this.y + 1) % world.getHeight();
+			this.y = (this.y + 1) % dy;
 		}
 		if (i > this.x && j == this.y) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		}
 		if (i < this.x && j > this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 		if (i < this.x && j == this.y) {
-			this.x = (this.x - 1) % this.world.getWidth();
+			this.x = (this.x - 1) % dx;
 		}
 		if (i < this.x && j < this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 		}
 		if (i == this.x && j < this.y) {
-			this.y = (this.y - 1) % world.getHeight();
+			this.y = (this.y - 1) % dy;
 		}
 		if (i > this.x && j < this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 
 		}
@@ -238,45 +244,45 @@ public class BebeAgent extends UniqueDynamicObject {
 		//enfuite=true;
 		if (i > this.x && j > this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 		}
 		if (i == this.x && j > this.y) {
-			this.y = (this.y - 1) % world.getHeight();
+			this.y = (this.y - 1) % dy;
 		}
 		if (i > this.x && j == this.y) {
-			this.x = (this.x - 1) % this.world.getWidth();
+			this.x = (this.x - 1) % dx;
 		}
 		if (i < this.x && j > this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
-				this.y = (this.y - 1) % world.getHeight();
+				this.y = (this.y - 1) % dy;
 			}
 		}
 		if (i < this.x && j == this.y) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		}
 		if (i < this.x && j < this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x + 1) % this.world.getWidth();
+				this.x = (this.x + 1) % dx;
 
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 		}
 		if (i == this.x && j < this.y) {
-			this.y = (this.y + 1) % world.getHeight();
+			this.y = (this.y + 1) % dy;
 		}
 		if (i > this.x && j < this.y) {
 			if (Math.random() < 0.4) {
-				this.x = (this.x - 1) % this.world.getWidth();
+				this.x = (this.x - 1) % dx;
 
 			} else {
-				this.y = (this.y + 1) % world.getHeight();
+				this.y = (this.y + 1) % dy;
 			}
 
 		}
@@ -322,13 +328,13 @@ public class BebeAgent extends UniqueDynamicObject {
 
 		double dice = Math.random();
 		if (dice < 0.25) {
-			this.x = (this.x + 1) % this.world.getWidth();
+			this.x = (this.x + 1) % dx;
 		} else if (dice < 0.5) {
-			this.x = (this.x - 1 + this.world.getWidth()) % this.world.getWidth();
+			this.x = (this.x - 1 + dx) % dx;
 		} else if (dice < 0.75) {
-			this.y = (this.y + 1) % this.world.getHeight();
+			this.y = (this.y + 1) % dy;
 		} else {
-			this.y = (this.y - 1 + this.world.getHeight()) % this.world.getHeight();
+			this.y = (this.y - 1 + dy) % dy;
 		}
 	}
 
@@ -337,80 +343,88 @@ public class BebeAgent extends UniqueDynamicObject {
 
 		// display a monolith
 		//gl.glColor3f(0.f+(float)(0.5*Math.random()),0.f+(float)(0.5*Math.random()),0.f+(float)(0.5*Math.random()));
-		int x2 = (x - (offsetCA_x % myWorld.getWidth()));
+		int x2 = (x - (offsetCA_x % dx));
 		if (x2 < 0) {
-			x2 += myWorld.getWidth();
+			x2 += dx;
 		}
-		int y2 = (y - (offsetCA_y % myWorld.getHeight()));
+		int y2 = (y - (offsetCA_y % dy));
 		if (y2 < 0) {
-			y2 += myWorld.getHeight();
+			y2 += dy;
 		}
 
-		float height = Math.max(0, (float) myWorld.getCellHeight(x, y));
-		float altitude = (float) height * normalizeHeight; // test, a enlever apres
+		try
+		{
+			float height = Math.max(0, (float) myWorld.getCellHeight(x, y));
+			float altitude = (float) height * normalizeHeight; // test, a enlever apres
 
-		if (type == 1) {
-			gl.glColor3f(0.0f, 1.0f, 1.0f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+			if (type == 1) {
+				gl.glColor3f(0.0f, 1.0f, 1.0f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
 
-			gl.glColor3f(0.0f, 1.0f, 1.0f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+				gl.glColor3f(0.0f, 1.0f, 1.0f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
 
-			gl.glColor3f(0.0f, 1.0f, 1.0f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+				gl.glColor3f(0.0f, 1.0f, 1.0f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
 
-			gl.glColor3f(0.0f, 1.0f, 1.0f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+				gl.glColor3f(0.0f, 1.0f, 1.0f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
 
-			gl.glColor3f(0.0f, 1.0f, 1.0f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glColor3f(0.0f, 1.0f, 1.0f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
 
-		} else {
-			gl.glColor3f(1.0f, 0.75f, 0.75f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+			} else {
+				gl.glColor3f(1.0f, 0.75f, 0.75f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
 
-			gl.glColor3f(1.0f, 0.75f, 0.75f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+				gl.glColor3f(1.0f, 0.75f, 0.75f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
 
-			gl.glColor3f(1.0f, 0.75f, 0.75f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+				gl.glColor3f(1.0f, 0.75f, 0.75f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
 
-			gl.glColor3f(1.0f, 0.75f, 0.75f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+				gl.glColor3f(1.0f, 0.75f, 0.75f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
 
-			gl.glColor3f(1.0f, 0.f, 1.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
-			gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
-
+				gl.glColor3f(1.0f, 0.f, 1.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 2.f);
+				gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 2.f);
+			}
+		} 
+		catch (Exception e)
+		{
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 
