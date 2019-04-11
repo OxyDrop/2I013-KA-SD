@@ -67,7 +67,7 @@ public class DialogAppli extends JDialog implements ActionListener
 		
 	}
 		
-	public void LanceDialog(Transfert info)
+	public synchronized void LanceDialog(Transfert info)
 	{
 		setVisible(true);
 		requestFocus();

@@ -117,7 +117,7 @@ public class MyEcosystem {
 				break;
 				
 			case 3: 
-				Landscape.run(new Landscape(wDark,200,200,ALTITUDE,WATERLVL)); 
+				Landscape.run(new Landscape(wTree,200,200,ALTITUDE,WATERLVL)); 
 				break;
 				
 			case 4: //Works only in debug mode
