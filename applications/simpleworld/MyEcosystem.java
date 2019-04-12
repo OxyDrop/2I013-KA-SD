@@ -17,7 +17,7 @@ import worlds.*;
 public class MyEcosystem {
 	
 	static ImageIcon imIc;
-	private final static float ALTITUDE= 0.3f;
+	private final static float ALTITUDE= 0.5f;
 	private final static float WATERLVL = 0.3f;
 	
 	

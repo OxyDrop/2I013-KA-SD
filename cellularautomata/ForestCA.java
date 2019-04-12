@@ -28,26 +28,27 @@ public class ForestCA extends CellularAutomataInteger {
 	
 	public void init()
 	{
-		for ( int x = 0 ; x != dx ; x++ )
-    		for ( int y = 0 ; y != dy ; y++ )
-    		{
-    			if ( HeightVal.getCellState(x,y) >= 0 )
-    			{
-    				if ( Math.random() < DENSITY_TREES ) // was: 0.71
-    					this.setCellState(x, y, 1); // tree
-					else if(x<40 || x>dx-40 && y<40 || y>dy-40) //sable
-						this.setCellState(x,y,4);
+		for (int x = 0; x != dx; x++) {
+			for (int y = 0; y != dy; y++) {
+				if (HeightVal.getCellState(x, y) >= 0) 
+				{
+					if (HeightVal.getCellState(x, y) <= 0.05) //SABLE
+					{
+						this.setCellState(x, y, 4);
+					}
 					else
-						
-    					this.setCellState(x, y, 0); // empty
-    			}
-    			else
-    			{
-    				this.setCellState(x, y, -1); // water (ignore)
-    			}
-    		}
+					{
+						if ( Math.random() < DENSITY_TREES ) // was: 0.71
+							this.setCellState(x, y, 1); // tree
+						else 
+							this.setCellState(x, y, 0); // empty
+					}
+				} else {
+					this.setCellState(x, y, -1); // water (ignore)
+				}
+			}
+		}
     	this.swapBuffer();
-
 	}
         
         /* Incendie et màj couleurs */
@@ -56,6 +57,7 @@ public class ForestCA extends CellularAutomataInteger {
     	for ( int i = 0 ; i != dx ; i++ )
     		for ( int j = 0 ; j != dy ; j++ )
     		{
+				//////////----------FEU DE FORET---------------------//////////////
 				int current = this.getCellState(i, j);
 				double height = this.HeightVal.getCellState(i, j);
     			if ((current == 0 && height>0) || current == 1 || current == 2 || current == 3 || current==4 )
@@ -84,7 +86,8 @@ public class ForestCA extends CellularAutomataInteger {
 							
 					else if(current == 3)
 						this.setCellState(i,j,0); 
-					
+				
+				//////////----------MAJ COULEURS---------------------//////////////
 	    		float color[] = new float[3];
 	    		switch (current)
 	    		{
@@ -110,9 +113,18 @@ public class ForestCA extends CellularAutomataInteger {
 						color[2] = 0.f; //0
 						break;
 					case 4 :  //Sable ne propage pas le feu
-						color[0] = 1f;
-						color[1] = 1f;
-						color[2] = 0.8f;
+						if(Math.random()<0.5 && this.HeightVal.getCellState(i, j)<0.006) //EAU dynamique
+						{
+							color[0]= 0.1f;
+							color[1]= 0.1f;
+							color[2]= 0.5f;		
+						}
+						else
+						{
+							color[0] = 1f;
+							color[1] = 1f;
+							color[2] = 0.8f;
+						}
 						break;
 					default:
 						color[0] = 0.5f; //127

@@ -63,10 +63,10 @@ public class Landscape implements GLEventListener{
 	static boolean SKYBOX = false; //ACTIVE OU DESACTIVE LA SKYBOX
 	static boolean MOON = true;
 	static final String PATH3 = "/res/blueSky.png"; //A CHANGER POUR L'APPLICATION DES TEXTURES;
-	static final String PATH2 = "/res/moon.png";
-	static final String PATH1 = "/res/portal.png";
+	static final String PATH2 = "/res/blueSky.png"; //A CHANGER POUR L'APPLICATION DES TEXTURES;
+	static final String PATH1 = "/res/blueSky.png"; //A CHANGER POUR L'APPLICATION DES TEXTURES;
 	static final int FRAMESIZEX=1020;
-	static final float OFFSET = -270f;
+	static final float OFFSET = -260f;
 	static final int FRAMESIZEY=780; //Modifie taille JFrame
 	static final float FZ = 350f;
 	static final float R =0.3f;
@@ -111,8 +111,8 @@ public class Landscape implements GLEventListener{
 	
 	double time = 0;
 	//////SKYBOX//////////////
-	private int skyblueid , moonid, portalid;
-	private Texture skybluetexture, moontexture, portaltexture;
+	private int skyfrontid, skyrightid, skyleftid; 
+	private Texture skyfronttexture, skyrighttexture, skylefttexture;
 	float fx;
 	float fy;
 	float fz;
@@ -131,6 +131,11 @@ public class Landscape implements GLEventListener{
 	
 	/**
 	 * Initialise landscape à partir du bruit 
+	 * @param myWorld
+	 * @param dx
+	 * @param dy
+	 * @param altitudeRatio
+	 * @param scaling
 	 */
 	public Landscape(World myWorld, int dx, int dy, double scaling, double altitudeRatio) {
 		
@@ -374,34 +379,30 @@ public class Landscape implements GLEventListener{
 		gl.glDepthFunc(GL2.GL_LEQUAL);
 		gl.glHint(GL2.GL_PERSPECTIVE_CORRECTION_HINT, GL2.GL_NICEST);	
 		
+		// Culling - display only triangles facing the screen
+		gl.glCullFace(GL2.GL_FRONT);
+		gl.glEnable(GL2.GL_CULL_FACE);
+		gl.glEnable(GL2.GL_DITHER);
+		
 		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP,GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
 		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP,GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
 		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
 		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
 		gl.glTexParameteri(GL2.GL_TEXTURE_CUBE_MAP, GL2.GL_TEXTURE_WRAP_R, GL2.GL_CLAMP_TO_EDGE); 
-		// Culling - display only triangles facing the screen
-		gl.glCullFace(GL2.GL_FRONT);
-		gl.glEnable(GL2.GL_CULL_FACE);
-		gl.glEnable(GL2.GL_DITHER);
-	
 		//portaltexture=ImageResources.createTexture(PATH3);
-		if(MOON)
-		{
-			gl.glPushMatrix();
-			moontexture=ImageResources.createTexture(PATH2);
-			moontexture.bind(gl);
-			moontexture.enable(gl);
-			moonid=moontexture.getTextureObject(gl);
-			gl.glPopMatrix();
-		}
 		if(SKYBOX)
 		{
-			gl.glPushMatrix();
-			skybluetexture=ImageResources.createTexture(PATH3);
-			//skybluetexture.enable(gl);
-			//skybluetexture.bind(gl);
-			skyblueid=skybluetexture.getTextureObject(gl);
-			gl.glPopMatrix();
+			//gl.glPushMatrix();
+			gl.glEnable(GL2.GL_TEXTURE_2D);
+			
+			skyfronttexture=ImageResources.createTexture(PATH3);
+			skyrighttexture =ImageResources.createTexture(PATH2);
+			skylefttexture =ImageResources.createTexture(PATH1);
+	
+			skyfrontid=skyfronttexture.getTextureObject(gl);
+			skyleftid=skylefttexture.getTextureObject(gl);
+			skyrightid=skyrighttexture.getTextureObject(gl);
+			//gl.glPopMatrix();
 		}
 		
 	}
@@ -589,17 +590,15 @@ public class Landscape implements GLEventListener{
 		}
 		///////////////FIN GESTION TEMPS////////////////
 		//------------------SKYBOX------------------------//
-		if(SKYBOX)
-		{
-			gl.glEnable(GL2.GL_TEXTURE_2D);
-			gl.glBindTexture(GL2.GL_TEXTURE_2D, skyblueid);
-		}
+
 		gl.glPushMatrix();
 		gl.glTranslatef(0f, 0f, 0f);
 		gl.glColor4f(r,g,b,a);
 		
 		gl.glBegin(GL2.GL_QUADS);
 		
+		if(SKYBOX)
+			gl.glBindTexture(GL2.GL_TEXTURE_2D, skyfrontid);
 		// Front Face
 		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
 		 gl.glVertex3f(-fx, -fy, fz);
@@ -610,7 +609,7 @@ public class Landscape implements GLEventListener{
 		if(SKYBOX) gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(-fx, fy, fz);
 
-		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyblueid);
+		
 		// Back Face
 		if(SKYBOX) gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(-fx, -fy, -fz);
@@ -621,7 +620,7 @@ public class Landscape implements GLEventListener{
 		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(fx, -fy, -fz);
 		
-		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyblueid);
+	
 		// Top Face
 		if(SKYBOX) gl.glTexCoord2f(0.0f, 1.0f);
 		gl.glVertex3f(-fx, fy, -fz);
@@ -632,7 +631,7 @@ public class Landscape implements GLEventListener{
 		if(SKYBOX) gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(fx, fy, -fz);
 		
-		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT3);
+		
 		// Bottom Face
 		if(SKYBOX) gl.glTexCoord2f(1.0f, 1.0f);
 		gl.glVertex3f(-fx, -fy, -fz);
@@ -643,7 +642,7 @@ public class Landscape implements GLEventListener{
 		if(SKYBOX) gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(-fx, -fy, fz);
 
-		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
+		if(SKYBOX) gl.glBindTexture(GL2.GL_TEXTURE_2D, skyrightid);
 		// Right face
 		if(SKYBOX) gl.glTexCoord2f(1.0f, 0.0f);
 		gl.glVertex3f(fx, -fy, -fz);
@@ -654,7 +653,7 @@ public class Landscape implements GLEventListener{
 		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(fx, -fy, fz);
 
-		//gl.glBindTexture(GL2.GL_TEXTURE_2D, skyboxT2);
+		if(SKYBOX) gl.glBindTexture(GL2.GL_TEXTURE_2D, skyleftid);
 		// Left Face
 		if(SKYBOX) gl.glTexCoord2f(0.0f, 0.0f);
 		gl.glVertex3f(-fx, -fy, -fz);
@@ -712,7 +711,7 @@ public class Landscape implements GLEventListener{
 			gl.glPopMatrix();
 			//change the speeds here
 			angle += .15f;
-			;
+			
 		}
 		//////////////////////////////////////////////////////////
 		

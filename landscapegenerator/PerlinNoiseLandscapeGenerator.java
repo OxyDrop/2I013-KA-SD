@@ -103,7 +103,7 @@ public class PerlinNoiseLandscapeGenerator {
     	double[] minMax = GenerateAltitude(dx, dy, landscape);
 		double minValue = minMax[0];
 		double maxValue = minMax[1];
-		double normalizeFactor = 1.0 / (maxValue - minValue);
+		double normalizeFactor = 1 / (maxValue - minValue);
 		
 		for (int x = 0; x < dx; x++)
 			for (int y = 0; y < dy; y++)

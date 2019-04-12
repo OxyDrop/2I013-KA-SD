@@ -55,9 +55,15 @@ public class ImageResources {
 	public static Texture createTexture(String path)
 	{
 		Texture res = null;
-		try {
+		try 
+		{
 			res = TextureIO.newTexture(getURL(path), true, "png");
-		} catch (IOException | GLException ex) {}
+		} 
+		catch (IOException | GLException ex)
+		{
+			ex.printStackTrace();
+			System.err.println("Error, couldn't load texture > "+ex.getMessage());
+		}
 		return res;
 	}
 

@@ -34,7 +34,7 @@ public abstract class CellularAutomata {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage()+" "+e.getCause());
+			System.out.println(e.getMessage());
 			e.printStackTrace();
 			System.exit(-1);
 		}

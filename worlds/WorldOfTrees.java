@@ -134,7 +134,17 @@ public class WorldOfTrees extends World {
 			 else if(port==1)
 				LObjects.add(new Portail(xportrand,yportrand,this,w2));
 			 else
+			 {
 				LObjects.add(new Portail(xportrand,yportrand,this,w3));
+				
+				DarkArbre da1=new DarkArbre(xportrand-5, yportrand-5, this);
+				DarkArbre da2=new DarkArbre(xportrand-5, yportrand+5, this);
+				DarkArbre da3=new DarkArbre(xportrand+5, yportrand-5, this);
+				DarkArbre da4=new DarkArbre(xportrand+5, yportrand+5, this);
+				da1.init(); da2.init(); da3.init(); da4.init();
+				LObjects.add(da1); LObjects.add(da2); LObjects.add(da3); LObjects.add(da4);
+				
+			 }
 			}
 		 }
 		 ///////////////TELEPORTEURS/////////////////////
