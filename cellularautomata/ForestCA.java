@@ -16,6 +16,7 @@ public class ForestCA extends CellularAutomataInteger {
 	private final static double DENSITY_TREES = 0.55;
 	private static double burnP = 0.000001;
 	private static double growP = 0.0003;
+	private static double heightSable = 0.05;
 	
 	public ForestCA ( World world, int dx , int dy, CellularAutomataDouble HeightVal )
 	{
@@ -32,7 +33,7 @@ public class ForestCA extends CellularAutomataInteger {
 			for (int y = 0; y != dy; y++) {
 				if (HeightVal.getCellState(x, y) >= 0) 
 				{
-					if (HeightVal.getCellState(x, y) <= 0.05) //SABLE
+					if (HeightVal.getCellState(x, y) <= heightSable) //SABLE
 					{
 						this.setCellState(x, y, 4);
 					}
@@ -135,7 +136,7 @@ public class ForestCA extends CellularAutomataInteger {
 	    		}	   
 	    		this.world.ColorVal.setCellState(i, j, color);
 			}	
-			if(current == 0 && height>0 && Math.random()<growP) //Repousse d'arbre
+			if(current == 0 && height>heightSable && Math.random()<growP) //Repousse d'arbre
 				this.setCellState(i, j, 1);	
 			
 		}
