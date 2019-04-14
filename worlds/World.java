@@ -201,7 +201,7 @@ public abstract class World {
 		double h=0;
 		try
 		{
-			h = HeightVal.getCellState(x%dx,y%dy);
+			h = HeightVal.getCellState((x+dx)%dx,(y+dy)%dy);
 		}catch(ArrayIndexOutOfBoundsException e){
 			System.out.println(e.getMessage());
 			e.printStackTrace();

@@ -126,21 +126,19 @@ public class MyEcosystem {
 				DialogAppli dialog = new DialogAppli();
 				Transfert info = new Transfert();
 				dialog.LanceDialog(info);
-				
-				if(info.file)
-				{ 
+
+				if (info.file) {
 					System.out.println("okfile");
 					Landscape myLandscape = new Landscape(info.choosen, "landscape_default-200.png", info.altitude, info.waterlevel);
 					Landscape.run(myLandscape);
+					
+				} else if (info.random) {
+					System.out.println("okrand");
+					Landscape.run(new Landscape(info.choosen, DX, DY, info.altitude, info.waterlevel));
 				}
 				
-				else if(info.random)
-				{
-					System.out.println("okrand");
-					Landscape.run(new Landscape(info.choosen,DX,DY, info.altitude, info.waterlevel));
-				}
 				break;
-			
+				
 			case 5:
 				wTree.setW1(wSand);
 				wTree.setW2(wSnow);

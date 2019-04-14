@@ -193,7 +193,7 @@ public class Landscape implements GLEventListener{
 	 * @param landscape
 	 * @return landscape
 	 */
-	public static Landscape run(Landscape landscape) {
+	public static synchronized Landscape run(Landscape landscape) {
 		
 		PlayerInput play = new PlayerInput(landscape);
 		
@@ -268,7 +268,7 @@ public class Landscape implements GLEventListener{
 			caps.setDoubleBuffered(true);  //!n
 
 			final GLJPanel canvas = new GLJPanel(caps); // original
-			final JPanel worldPanel = new JPanel(new BorderLayout());
+			
 			
 			animator = new Animator(canvas);
 			
@@ -286,13 +286,13 @@ public class Landscape implements GLEventListener{
 			//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK? 
 			canvas.getAnimator().start();
 			
-			worldPanel.add(canvas);
+			
 			switch(i)
 			{
-				case 0: mainPanel.add("WorldOfTrees",worldPanel); break;
-				case 1: mainPanel.add("WorldOfSand",worldPanel); break;
-				case 2: mainPanel.add("WorldOfSnow",worldPanel); break;
-				case 3 : mainPanel.add("DarkWorld",worldPanel); break;
+				case 0: mainPanel.add("WorldOfTrees",canvas); break;
+				case 1: mainPanel.add("WorldOfSand",canvas); break;
+				case 2: mainPanel.add("WorldOfSnow",canvas); break;
+				case 3 : mainPanel.add("DarkWorld",canvas); break;
 			}
 		}
 		

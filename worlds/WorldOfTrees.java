@@ -28,7 +28,7 @@ public class WorldOfTrees extends World {
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
 	private boolean switchabrsapin=false;
-	private World w1,w2,w3;
+	
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -131,10 +131,10 @@ public class WorldOfTrees extends World {
 			 {
 				LObjects.add(new Portail(xportrand,yportrand,this,w3));
 				
-				DarkArbre da1=new DarkArbre(xportrand-10, yportrand, this);
-				DarkArbre da2=new DarkArbre(xportrand+10, yportrand, this);
+				DarkArbre da1=new DarkArbre(xportrand-10, yportrand+10, this);
+				DarkArbre da2=new DarkArbre(xportrand+10, yportrand-10, this);
 				DarkArbre da3=new DarkArbre(xportrand+10, yportrand+10, this);
-				DarkArbre da4=new DarkArbre(xportrand-10, yportrand+10, this);
+				DarkArbre da4=new DarkArbre(xportrand-10, yportrand-10, this);
 				da1.init(); da2.init(); da3.init(); da4.init();
 				LObjects.add(da1); LObjects.add(da2); LObjects.add(da3); LObjects.add(da4);
 				

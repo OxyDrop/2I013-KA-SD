@@ -37,7 +37,6 @@ public class WorldOfSnow extends World {
 	private int xabrand, yabrand;
 	protected SnowyCA cellularAutomata;
 	private boolean switchabrsapin=false;
-	private World w1,w2,w3;
 	
 	//Used to display messages every number of iteration 
 	

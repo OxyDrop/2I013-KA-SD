@@ -6,7 +6,7 @@ public class DarkCA extends CellularAutomataInteger {
             
 	CellularAutomataDouble HeightVal;
 	private double lavatitude;
-	private final static double LAVATITUDE = 0.3;
+	private final static double LAVATITUDE = 0.31;
 	
 	World world;
 	

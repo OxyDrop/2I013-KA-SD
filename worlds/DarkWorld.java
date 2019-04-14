@@ -6,7 +6,6 @@ package worlds;
 
 import DynamicObject.Agent;
 import DynamicObject.FAgent;
-import DynamicObject.Home;
 import DynamicObject.MAgent;
 import DynamicObject.Zombie;
 import cellularautomata.DarkCA;
@@ -30,7 +29,6 @@ public class DarkWorld extends World {
 	private int xabrand, yabrand;
 	protected DarkCA cellularAutomata;
 	private boolean switchabrsapin=false;
-	private World w1,w2,w3;
 	
 	//Used to display messages every number of iteration 
 	
@@ -137,11 +135,6 @@ public class DarkWorld extends World {
 		}
 		/////////////////CONSTRUCTION//////////////////////
 		  
-		 Home.add(new Home(115,122,this));
-		 LObjects.add(new Mur4(134, 120, this));
-         LObjects.add(new Mur1(122, 128, this));
-         LObjects.add(new Mur3(122, 112, this));
-         LObjects.add(new Mur2(110, 120, this));
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }
     
