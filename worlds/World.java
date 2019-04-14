@@ -96,7 +96,7 @@ public abstract class World {
     				this.minEver = minHeightValue; //nouveau minimum
     			
     			HeightAmpli.setCellState(x,y,maxHeightValue-minHeightValue); //Initialisation Amplitude
-    			HeightVal.setCellState(x,y,(minHeightValue+maxHeightValue)/2.0); //Initialisation Valeur altitude
+    			HeightVal.setCellState(x,y,(minHeightValue+maxHeightValue)/2); //Initialisation Valeur altitude
 
     			// TODO! Default coloring
     	    	// init color information

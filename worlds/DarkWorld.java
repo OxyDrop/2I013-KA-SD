@@ -149,6 +149,7 @@ public class DarkWorld extends World {
     {
     	if ( iteration%10 == 0 )
     		cellularAutomata.step();
+		
 		for(UniqueObject abr : LObjects) //Met a jour les arbres
 			if(abr instanceof DarkArbre)
 				((DarkArbre)abr).step();
