@@ -6,6 +6,7 @@ package worlds;
 
 import DynamicObject.Agent;
 import DynamicObject.FAgent;
+import DynamicObject.Home;
 import DynamicObject.MAgent;
 import DynamicObject.Zombie;
 import cellularautomata.DarkCA;
@@ -42,12 +43,6 @@ public class DarkWorld extends World {
 	*/
 	public DarkWorld(){}
 	
-	public DarkWorld(World w1, World w2, World w3)
-	{
-		this.w1=w1;
-		this.w2=w2;
-		this.w3=w3;
-	}
     public void init ( int dxCA, int dyCA, double[][] landscape )
     {
     	super.init(dxCA, dyCA, landscape);
@@ -60,7 +55,7 @@ public class DarkWorld extends World {
 
 	        	float height = (float) this.getCellHeight(x, y);
 		    	
-		        if ( height >= 0 )
+		        if (getCellValue(x, y)==0)
 				{	
 		        	color[0] = 0.1f;//height / (float)this.getMaxEverHeight();
 					color[1] = 0f;//height / (float)this.getMaxEverHeight();
@@ -90,21 +85,18 @@ public class DarkWorld extends World {
 		for(int i=0;i<POPINI;i++) 
 				agentListe.add(new Agent( (int)(Math.random()*dxCA), (int)(Math.random()*dyCA), this ));
 		
-		for (int d = 97; d < 147; d++) 
+		for (int v = 0; v < POPINI/8; v++) 
 		{
-			for (int j = 112; j < 128; j++) 
-			{
-				cellState = this.getCellValue(d, j);
-				if (cellState == 1) 
-				{
-					if (Math.random() < 0.04) 
-					{
-						fagent.add(new FAgent(d, j, this));
-					}
-				}
-			}
+			int dxRand = 0;
+			int dyRand = 0;
+			do {
+				dxRand = (int) (Math.random() * dxCA);
+				dyRand = (int) (Math.random() * dyCA);
+			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+
+		fagent.add(new FAgent(dxRand, dyRand, this));
 		}
-		for (int v = 0; v < POPINI; v++) 
+		for (int v = 0; v < POPINI/2; v++) 
 		{
 			int dxRand = 0;
 			int dyRand = 0;
@@ -115,7 +107,7 @@ public class DarkWorld extends World {
 
 		agentM.add(new MAgent(dxRand, dyRand, this));
 		}
-		for (int i = 0; i < POPINI; i++) 
+		for (int i = 0; i < POPINI/2; i++) 
 		{
 			int dxRand = 0;
 			int dyRand = 0;
@@ -128,21 +120,30 @@ public class DarkWorld extends World {
 		}
 		////////////////////////ARBRES//////////////////////////////////
 		
-    	for (int i = 0 ; i < dxCA ; i++)
+    	for (int i = 0 ; i < dxCA ; i++){
     		for (int j = 0 ; j < dyCA ; j++)
     		{
     			cellState = this.getCellValue(i, j);
-    			if (cellState == 1)
+    			if (cellState == 0)
 				{
-					if(Math.random()<0.05){
+					if(Math.random()<0.0005)
+					{
 						DarkArbre da = new DarkArbre(i,j,this);
 						da.init();
     					LObjects.add(da);
+					}
 				}
-    		}
+			}
+		}
+		/////////////////CONSTRUCTION//////////////////////
+		  
+		 Home.add(new Home(115,122,this));
+		 LObjects.add(new Mur4(134, 120, this));
+         LObjects.add(new Mur1(122, 128, this));
+         LObjects.add(new Mur3(122, 112, this));
+         LObjects.add(new Mur2(110, 120, this));
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }
-	}
     
     protected void initCellularAutomata(int dx, int dy, double[][] landscape)
     {

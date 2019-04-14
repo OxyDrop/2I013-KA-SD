@@ -7,7 +7,7 @@ public class DesertCA extends CellularAutomataInteger {
 	CellularAutomataDouble HeightVal;
 	
 	World world;
-	private final static double DENSITY_TREES = 0.001;
+	private final static double DENSITY_TREES = 0.00;
 	
 	public DesertCA ( World world, int dx , int dy, CellularAutomataDouble HeightVal )
 	{

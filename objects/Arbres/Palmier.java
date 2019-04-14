@@ -127,6 +127,7 @@ public class Palmier extends UniqueObject implements Eliminable
 		this.health=health;
 	}
 	
+	@Override
 	public void displayUniqueObject(World myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, float offset, float stepX, float stepY, float lenX, float lenY, float normalizeHeight)
     {
 
@@ -141,38 +142,62 @@ public class Palmier extends UniqueObject implements Eliminable
 
     	float height = Math.max ( 0 , (float)myWorld.getCellHeight(x, y) );
     	
-    	float altitude = (float)height * normalizeHeight ; 
-    	//gl.glColor3f(1.f,1.f,0.f);
-		
-    	float lenmod = 0f;
-		float altmod = -0.1f;
-		
-    	int cellState = myWorld.getCellValue(x, y);
-   
-		gl.glVertex3f(lenX, lenY, lenY);
-		
-		gl.glColor3f(0.4f,0.4f,0.1f);
+    	float altitude = (float)height * normalizeHeight ;
+
+		gl.glColor3f(1f,0.5f,0.2f);
+        		/* Tronc de l'arbre */
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+		/*Cote */
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+		/*Cote */
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+		/*Cote */
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight);
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight);
+		/*Chapeau*/
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY + lenY, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX, offset + y2 * stepY - lenY, height * normalizeHeight + 8.f);
+
 		/* Feuillage de l'arbre */
-		for(int i=0;i<2;i++)
-		{
-			//front
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY + lenY * 8.f, height * normalizeHeight + altmod); // Top
-
-			gl.glVertex3f(offset + x2 * stepX - lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + 2 * altmod); // Left
-
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + altmod); // Right)
-
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY + lenY * 8.f, height * normalizeHeight + altmod); // Top
-
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + 2 * altmod); // Left
-
-			gl.glVertex3f(offset + x2 * stepX + lenX * lenmod, offset + y2 * stepY - lenY * lenmod, height * normalizeHeight + 2 * altmod); // Right
-			
-			altmod += 8f;
-			lenmod += 4f;
-		}
-		gl.glFlush();
-		gl.glEnd();
+		gl.glColor3f(0.6f, 1.f, 0.3f);
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 8.f);
+		/*Cote */
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 8.f);
+		/*Cote */
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 8.f);
+		/*Cote */
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 8.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 8.f);
+		/*Chapeau*/
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX - lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY + lenY * 4.f, height * normalizeHeight + 16.f);
+		gl.glVertex3f(offset + x2 * stepX + lenX * 4.f, offset + y2 * stepY - lenY * 4.f, height * normalizeHeight + 16.f);
+	
 		
     }
 }

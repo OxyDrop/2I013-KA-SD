@@ -246,6 +246,7 @@ public class Landscape implements GLEventListener{
 		
         JComboBox cb = new JComboBox(comboBoxItems);
         cb.setEditable(false);
+		cb.setFocusable(false);
 		cb.setBackground(Color.black);
 		cb.setForeground(Color.lightGray);
         cb.addItemListener((ItemEvent ie) -> {
@@ -253,6 +254,7 @@ public class Landscape implements GLEventListener{
 			cl.show(mainPanel, (String)ie.getItem());
 		});
 		comboBoxPane.setBackground(Color.black);
+		comboBoxPane.setFocusable(false);
         comboBoxPane.add(cb);
 		
 	   	final JFrame frame = new JFrame("World Of Cells");
@@ -276,8 +278,7 @@ public class Landscape implements GLEventListener{
 			canvas.addMouseWheelListener(play);
 			
 			//REACTIVE ININTOTIONNELEMENT LE PLAYERINPUT POUR LES TOUCHES, NE FONCTIONNE PAS UNE FOIS LE CHANGEMENT DE FENETRE
-			canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT,0),"Left"); 
-			canvas.getActionMap().put("Left", new LeftAction(landscape[i]));
+			PlayerInput.setKeyBindings(canvas, landscape[i]);
 			
 			canvas.requestFocus();
 					
@@ -318,7 +319,7 @@ public class Landscape implements GLEventListener{
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		JPanel mainPanel = new JPanel(new BorderLayout());
-	
+		final JFrame frame = new JFrame("World Of Cells");
 		for(int i=0;i<landscape.length;i++)
 		{
 			PlayerInput play = new PlayerInput(landscape[i]);
@@ -327,7 +328,6 @@ public class Landscape implements GLEventListener{
 			caps.setDoubleBuffered(true);  //!n
 
 			final GLJPanel canvas = new GLJPanel(caps); // original
-			final JPanel worldPanel = new JPanel(new BorderLayout());
 			
 			animator = new Animator(canvas);
 
@@ -335,29 +335,28 @@ public class Landscape implements GLEventListener{
 			canvas.addMouseListener(play);// register mouse callback functions
 			canvas.addKeyListener(play);// register keyboard callback functions
 			canvas.addMouseWheelListener(play);
+			canvas.setFocusTraversalKeysEnabled(true);
+			PlayerInput.setKeyBindings(canvas, landscape[i]);
 			
 			canvas.setAnimator(animator);
 			//animator.setRunAsFastAsPossible(true); // GO FAST!  --- DOES It WORK
 			canvas.getAnimator().start();
-			worldPanel.add(canvas);
-			
+
 			switch(i)
 			{
-				case 0: tabbedPane.add("WorldOfTrees",worldPanel); break;
-				case 1: tabbedPane.add("WorldOfSand",worldPanel); break;
-				case 2: tabbedPane.add("WorldOfSnow",worldPanel); break;
-				case 3: tabbedPane.add("DarkWorld",worldPanel); break;
+				case 0: tabbedPane.add("WorldOfTrees",canvas); break;
+				case 1: tabbedPane.add("WorldOfSand",canvas); break;
+				case 2: tabbedPane.add("WorldOfSnow",canvas); break;
+				case 3: tabbedPane.add("DarkWorld",canvas); break;
 			}	
 		}
+		tabbedPane.setFocusable(false); 
 		mainPanel.add(tabbedPane);
-		
-		final JFrame frame = new JFrame("World Of Cells");
 		frame.getContentPane().add(mainPanel);
 		
 		frame.setSize(FRAMESIZEX,FRAMESIZEY);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		frame.setVisible(true);
 	
 		return landscape;

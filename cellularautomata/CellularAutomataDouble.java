@@ -28,7 +28,7 @@ public class CellularAutomataDouble extends CellularAutomata {
 	{
 		checkBounds (x,y);
 		
-		double value;
+		double value=0;
 
 		if ( buffering == false )
 		{
@@ -36,9 +36,8 @@ public class CellularAutomataDouble extends CellularAutomata {
 			{
 			value = Buffer0[x][y];	
 			}
-			catch(Exception e)
+			catch(ArrayIndexOutOfBoundsException e)
 			{
-				value = Buffer0[x][y];
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 				System.exit(-1);

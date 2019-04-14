@@ -6,6 +6,7 @@ package worlds;
 
 import DynamicObject.Agent;
 import DynamicObject.FAgent;
+import DynamicObject.Home;
 import DynamicObject.MAgent;
 import DynamicObject.Zombie;
 import cellularautomata.SnowyCA;
@@ -13,6 +14,10 @@ import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Arbres.GrandArbre;
 import objects.Arbres.Sapin;
+import objects.Architect.Mur1;
+import objects.Architect.Mur2;
+import objects.Architect.Mur3;
+import objects.Architect.Mur4;
 import objects.Architect.Portail;
 import objects.Architect.Teleporteur;
 import objects.UniqueObject;
@@ -45,11 +50,6 @@ public class WorldOfSnow extends World {
 	*/
 	public WorldOfSnow(){}
 	
-	public WorldOfSnow(World w1, World w2)
-	{
-		this.w1=w1;
-		this.w2=w2;
-	}
     public void init ( int dxCA, int dyCA, double[][] landscape )
     {
     	super.init(dxCA, dyCA, landscape);
@@ -114,9 +114,9 @@ public class WorldOfSnow extends World {
 			for (int j = 112; j < 128; j++) 
 			{
 				cellState = this.getCellValue(d, j);
-				if (cellState == 1) 
+				if (cellState == 0) 
 				{
-					if (Math.random() < 0.04) 
+					if (Math.random() < 0.03) 
 					{
 						fagent.add(new FAgent(d, j, this));
 					}
@@ -153,18 +153,23 @@ public class WorldOfSnow extends World {
     			cellState = this.getCellValue(i, j);
     			if (cellState == 1)
 				{
-					if(Math.random()<0.05){
+					if(Math.random()<0.1){
 						Sapin sa = new Sapin(i,j,this);
 						sa.init();
     					LObjects.add(sa);
 					}
-					else if(Math.random()<0.05){
+					else if(Math.random()<0.005){
 						GrandArbre ga = new GrandArbre(i,j,this);
 						ga.init();
     					LObjects.add(ga);
 					}
 				}
     		}
+		 Home.add(new Home(115,122,this));
+		 LObjects.add(new Mur4(134, 120, this));
+         LObjects.add(new Mur1(122, 128, this));
+         LObjects.add(new Mur3(122, 112, this));
+         LObjects.add(new Mur2(110, 120, this));
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
     }
     
@@ -179,6 +184,7 @@ public class WorldOfSnow extends World {
     {
     	if ( iteration%10 == 0 )
     		cellularAutomata.step();
+		
 		for(UniqueObject abr : LObjects) //Met a jour les arbres
 			if(abr instanceof Sapin)
 				((Sapin)abr).step();

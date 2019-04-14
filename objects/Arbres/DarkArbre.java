@@ -136,7 +136,7 @@ public class DarkArbre extends UniqueObject implements Eliminable
     	if ( x2 < 0) x2+=myWorld.getWidth();
     	int y2 = (y-(offsetCA_y%myWorld.getHeight()));
     	if ( y2 < 0) y2+=myWorld.getHeight();
-
+		try{
     	float height = Math.max ( 0 , (float)myWorld.getCellHeight(x, y) );
     	
     	float altitude = (float)height * normalizeHeight ; 
@@ -300,7 +300,7 @@ public class DarkArbre extends UniqueObject implements Eliminable
         		break;
         		/**/
         }
-    	
+	}catch(Exception e){e.printStackTrace();System.out.println(e.getMessage());}
     	
     }
 }

@@ -2,6 +2,9 @@ package input;
 
 import graphics.Landscape;
 import java.awt.event.*;
+import javax.media.opengl.awt.GLJPanel;
+import javax.swing.AbstractAction;
+import javax.swing.KeyStroke;
 
 public class PlayerInput implements KeyListener, MouseListener, MouseWheelListener { //Ajouter les actions de landscape ici
 
@@ -198,5 +201,50 @@ public class PlayerInput implements KeyListener, MouseListener, MouseWheelListen
 		else
 			land.setModuleAltitude(land.getModuleAltitude()+5*notches); //Modifie l'altitude
 
+	}
+	public static void setKeyBindings(GLJPanel canvas, Landscape landscape)
+	{
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "Left");
+		canvas.getActionMap().put(canvas, new LeftAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "Right");
+		canvas.getActionMap().put(canvas, new RightAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("UP"), "Up");
+		canvas.getActionMap().put(canvas, new UpAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "Down");
+		canvas.getActionMap().put(canvas, new DownAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("1"), "HeightIncrease");
+		canvas.getActionMap().put(canvas, new HeightIncreaseAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("2"), "HeightDecrease");
+		canvas.getActionMap().put(canvas, new HeightDecreaseAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("Z"), "AltitudeIncrease");
+		canvas.getActionMap().put(canvas, new AltitudeIncreaseAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("S"), "AltitudeDecrease");
+		canvas.getActionMap().put(canvas, new AltitudeDecreaseAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_Z,InputEvent.CTRL_DOWN_MASK),"FoVDecrease");
+		canvas.getActionMap().put(canvas, new FoVDecreaseAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,InputEvent.CTRL_DOWN_MASK), "FoVIncrease");
+		canvas.getActionMap().put(canvas, new FoVIncreaseAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("Q"), "RotateLeft");
+		canvas.getActionMap().put(canvas, new RotateLeftAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("D"), "RotateRight");
+		canvas.getActionMap().put(canvas, new FoVDecreaseAction(landscape));
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("V"), "ViewFromAbove");
+		canvas.getActionMap().put(canvas, new ViewFromAboveAction());
+		
+		canvas.getInputMap().put(KeyStroke.getKeyStroke("D"), "PrintHelp");
+		canvas.getActionMap().put(canvas, new PrintHelpAction());		
+		
 	}
 }

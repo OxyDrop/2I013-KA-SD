@@ -139,9 +139,9 @@ public class Portail extends UniqueObject{ //Lie deux mondes entre eux;
 					it.remove();
 
 					if (passage.getNom().equals("DarkWorld")) {
-						System.out.println("Un Magent s'est fait aspiré par le portail noir en (" + x + "," + y + ") menant au " + passage.getNom() + ", paix à son âme");
+						System.out.println("Un Fagent s'est fait aspiré par le portail noir en (" + x + "," + y + ") menant au " + passage.getNom() + ", paix à son âme");
 					} else {
-						System.out.println("Un Magent a emprunté le portail " + id + " en (" + x + "," + y + ") menant au " + passage.getNom());
+						System.out.println("Un Fagent a emprunté le portail " + id + " en (" + x + "," + y + ") menant au " + passage.getNom());
 					}
 				}
 			}

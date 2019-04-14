@@ -65,13 +65,6 @@ public abstract class World {
     	// ... cf. init() for initialization
     }
 	
-	public World(World w1, World w2)
-	{
-		this.w1=w1;
-		this.w2=w2;
-	}
-	
-   
 	//Initialise le monde à partir des dimensions et d'une matrice de double
     public void init( int dx, int dy, double[][] landscape )
     { 
@@ -209,7 +202,7 @@ public abstract class World {
 		try
 		{
 			h = HeightVal.getCellState(x%dx,y%dy);
-		}catch(Exception e){
+		}catch(ArrayIndexOutOfBoundsException e){
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 			System.exit(-1);
@@ -263,39 +256,56 @@ public abstract class World {
 	public void displayUniqueObjects(World _myWorld, GL2 gl, int offsetCA_x, int offsetCA_y, float offset,
 			float stepX, float stepY, float lenX, float lenY, float normalizeHeight) 
 	{
-    	for ( int i = 0 ; i < LObjects.size(); i++ )
-    		LObjects.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-		
-    	for ( int i = 0 ; i < LDynamicObjects.size(); i++ )
-    		LDynamicObjects.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-		
-		for ( int i = 0 ; i < agentListe.size(); i++ )
-    		agentListe.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-		
-		for ( int i = 0 ; i < alimentListe.size(); i++ )
-			alimentListe.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-	
-		for ( int i = 0 ; i < zombie.size(); i++ )
-    		zombie.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-			
-		for ( int i = 0 ; i < agentM.size(); i++ )
-    		agentM.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-		
-		for ( int i = 0 ; i < bebe.size(); i++ )
-    		bebe.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-		
-		for ( int i = 0 ; i < fagent.size(); i++ )
-    		fagent.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-		
-		for ( int i = 0 ; i < buisson.size(); i++ )
-    		buisson.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-		
-		for ( int i = 0 ; i < arbreList.size(); i++ )
-    		arbreList.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-		
-		for ( int i = 0 ; i < Home.size(); i++ )
-    		Home.get(i).displayUniqueObject(_myWorld,gl,offsetCA_x,offsetCA_y,offset,stepX,stepY,lenX,lenY,normalizeHeight);
-	
+		try
+		{
+			for (int i = 0; i < LObjects.size(); i++) {
+				LObjects.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < LDynamicObjects.size(); i++) {
+				LDynamicObjects.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < agentListe.size(); i++) {
+				agentListe.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < alimentListe.size(); i++) {
+				alimentListe.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < zombie.size(); i++) {
+				zombie.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < agentM.size(); i++) {
+				agentM.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < bebe.size(); i++) {
+				bebe.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < fagent.size(); i++) {
+				fagent.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < buisson.size(); i++) {
+				buisson.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < arbreList.size(); i++) {
+				arbreList.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+			for (int i = 0; i < Home.size(); i++) {
+				Home.get(i).displayUniqueObject(_myWorld, gl, offsetCA_x, offsetCA_y, offset, stepX, stepY, lenX, lenY, normalizeHeight);
+			}
+
+		}catch(ArrayIndexOutOfBoundsException e){
+			e.printStackTrace();
+			System.out.println("Error displaying object : "+e.getMessage());
+		}
 	}
     
 	public int getWidth() { return dx; }

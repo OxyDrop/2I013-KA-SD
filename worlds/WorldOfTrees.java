@@ -41,11 +41,6 @@ public class WorldOfTrees extends World {
 	
 	public WorldOfTrees(){}
 	
-	public WorldOfTrees(World w1, World w2)
-	{
-		this.w1=w1;
-		this.w2=w2;
-	}
     public void init ( int dxCA, int dyCA, double[][] landscape )
     {
     	super.init(dxCA, dyCA, landscape);
@@ -112,7 +107,6 @@ public class WorldOfTrees extends World {
 		 }
 		  /////////////////CONSTRUCTION//////////////////////
 		  
-		 LObjects.add(new Monolith(120,120,this));
 		 Home.add(new Home(115,122,this));
 		 LObjects.add(new Mur4(134, 120, this));
          LObjects.add(new Mur1(122, 128, this));
@@ -137,10 +131,10 @@ public class WorldOfTrees extends World {
 			 {
 				LObjects.add(new Portail(xportrand,yportrand,this,w3));
 				
-				DarkArbre da1=new DarkArbre(xportrand-5, yportrand-5, this);
-				DarkArbre da2=new DarkArbre(xportrand-5, yportrand+5, this);
-				DarkArbre da3=new DarkArbre(xportrand+5, yportrand-5, this);
-				DarkArbre da4=new DarkArbre(xportrand+5, yportrand+5, this);
+				DarkArbre da1=new DarkArbre(xportrand-10, yportrand, this);
+				DarkArbre da2=new DarkArbre(xportrand+10, yportrand, this);
+				DarkArbre da3=new DarkArbre(xportrand+10, yportrand+10, this);
+				DarkArbre da4=new DarkArbre(xportrand-10, yportrand+10, this);
 				da1.init(); da2.init(); da3.init(); da4.init();
 				LObjects.add(da1); LObjects.add(da2); LObjects.add(da3); LObjects.add(da4);
 				
@@ -159,7 +153,7 @@ public class WorldOfTrees extends World {
 		}
 		/*------------------AJOUTS AGENTS ----------------------*/	
 		
-		for (int i = 0; i < POPINI*6; i++) 
+		for (int i = 0; i < POPINI; i++) 
 		{
 			int dxRand = 0;
 			int dyRand = 0;
@@ -178,7 +172,7 @@ public class WorldOfTrees extends World {
 				cellState = this.getCellValue(d, j);
 				if (cellState == 1) 
 				{
-					if (Math.random() < 0.04) 
+					if (Math.random() < 0.03) 
 					{
 						fagent.add(new FAgent(d, j, this));
 					}

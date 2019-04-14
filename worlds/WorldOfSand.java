@@ -6,12 +6,17 @@ package worlds;
 
 import DynamicObject.Agent;
 import DynamicObject.FAgent;
+import DynamicObject.Home;
 import DynamicObject.MAgent;
 import DynamicObject.Zombie;
 import cellularautomata.DesertCA;
 import java.util.Iterator;
 import javax.media.opengl.GL2;
 import objects.Arbres.Palmier;
+import objects.Architect.Mur1;
+import objects.Architect.Mur2;
+import objects.Architect.Mur3;
+import objects.Architect.Mur4;
 import objects.Architect.Portail;
 import objects.Architect.Teleporteur;
 import objects.UniqueObject;
@@ -27,8 +32,7 @@ public class WorldOfSand extends World {
 	
 	private int xportrand, yportrand;
 	private int xteleprand, yteleprand;
-	
-	private World w1,w2,w3;
+
 	/*
 	protected int iteration = 0;
 	indexCA;
@@ -42,17 +46,12 @@ public class WorldOfSand extends World {
 	
 	public WorldOfSand(){}
 	
-	public WorldOfSand(World w1, World w2)
-	{
-		this.w1=w1;
-		this.w2=w2;
-	}
     public void init ( int dxCA, int dyCA, double[][] landscape )
     {
     	super.init(dxCA, dyCA, landscape);
     	int cellState;
     	/*-----------------COULEURS-----------------------------*/
-    	for ( int x = 0 ; x < dxCA ; x++ )
+    	for ( int x = 0 ; x < dxCA ; x++ ){
     		for ( int y = 0 ; y < dyCA ; y++ )
     		{
 	        	float color[] = new float[3];
@@ -67,7 +66,7 @@ public class WorldOfSand extends World {
 		        	color[0] = 0.9f + 0.1f * height / ( (float)this.getMaxEverHeight() );
 					color[1] = 0.9f + 0.1f * height / ( (float)this.getMaxEverHeight() );
 					color[2] = height / ( (float)this.getMaxEverHeight() );
-					//
+				
 		        }
 		        else
 		        {	// water
@@ -77,6 +76,7 @@ public class WorldOfSand extends World {
 		        }
 		        this.ColorVal.setCellState(x, y, color);
     		}
+		}
 		/*-------------------FIN COULEUR--------------------*/
     	/*-----------------AJOUT OBJETS--------------------*/
 		 for(int port = 0 ; port <NBMAXPORTAILS ; port++)
@@ -112,9 +112,9 @@ public class WorldOfSand extends World {
 			for (int j = 112; j < 128; j++) 
 			{
 				cellState = this.getCellValue(d, j);
-				if (cellState == 1) 
+				if (cellState == 0) 
 				{
-					if (Math.random() < 0.04) 
+					if (Math.random() < 0.02) 
 					{
 						fagent.add(new FAgent(d, j, this));
 					}
@@ -128,7 +128,7 @@ public class WorldOfSand extends World {
 			do {
 				dxRand = (int) (Math.random() * dxCA);
 				dyRand = (int) (Math.random() * dyCA);
-			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+			} while (this.getCellHeight(dxRand, dyRand) < 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
 
 		agentM.add(new MAgent(dxRand, dyRand, this));
 		}
@@ -139,18 +139,18 @@ public class WorldOfSand extends World {
 			do {
 				dxRand = (int) (Math.random() * dxCA);
 				dyRand = (int) (Math.random() * dyCA);
-			} while (this.getCellHeight(dxRand, dyRand) <= 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
+			} while (this.getCellHeight(dxRand, dyRand) < 0); //On s'assure que les agentListes ne soient pas generés sur l'eau
 
 		zombie.add(new Zombie(dxRand, dyRand, this));
 		}
 		///////////////////AJOUTS ARBRES//////////////////
-    	for (int i = 0 ; i < dxCA ; i++)
+    	for (int i = 0 ; i < dxCA ; i++){
     		for (int j = 0 ; j < dyCA ; j++)
     		{
     			cellState = this.getCellValue(i, j);
-    			if (cellState == 1)
+    			if (cellState == 0)
 				{
-					if(Math.random()<0.9)
+					if(Math.random()<0.001)
 					{
 						Palmier pa = new Palmier(i,j,this);
 						pa.init();
@@ -158,7 +158,14 @@ public class WorldOfSand extends World {
 					}
 				}
 			}
+		}
+		 Home.add(new Home(115,122,this));
+		 LObjects.add(new Mur4(134, 120, this));
+         LObjects.add(new Mur1(122, 128, this));
+         LObjects.add(new Mur3(122, 112, this));
+         LObjects.add(new Mur2(110, 120, this));
 	 }
+	
 	/*---------------------------FIN AJOUT OBJETS--------------------------------------*/
    
     
@@ -185,7 +192,7 @@ public class WorldOfSand extends World {
 			if(arbre instanceof Palmier && ((Palmier) arbre).die())
 			{
 				it.remove();
-				System.out.println("Un palmier est s'est effrité :sob:");
+				System.out.println("Un palmier s'est effrité :sob:");
 			}
 		}
 		
