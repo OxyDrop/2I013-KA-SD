@@ -63,7 +63,7 @@ public class DarkWorld extends World {
 		        else
 		        {	//lava
 					color[0] = 1f;
-					color[1] = 0.5f;
+					color[1] = 0.7f;
 					color[2] = 0f;
 		        }
 		        this.ColorVal.setCellState(x, y, color);
